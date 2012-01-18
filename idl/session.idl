@@ -1,0 +1,121 @@
+/**
+ * \mainpage Documentação da IDL
+ */
+#ifndef __TECGRAF_OPENBUS_CORE_CREDENTIAL_IDL__
+#define __TECGRAF_OPENBUS_CORE_CREDENTIAL_IDL__
+
+#include "scs.idl"
+#include "core.idl"
+
+/**
+ * \brief Módulo dos sistemas e aplicações do Tecgraf.
+ */
+module tecgraf {
+
+/**
+ * \brief Módulo do \e middleware OpenBus.
+ */
+module openbus {
+
+/**
+ * \brief Módulo de definições de serviços do OpenBus.
+ */
+module services {
+
+/**
+ * \brief Módulo de definições do serviço de sessão do OpenBus.
+ */
+module session {
+
+/**
+ * \brief Módulo de versionamento dos Serviços Básicos do OpenBus.
+ */
+module v2_00 {
+
+/**
+ * \brief Módulo com definições de credenciais usadas para autenticação.
+ */
+const string SessionServiceName = "SessionService";
+const string SessionRegistryFacet = "SessionRegistry";
+const string SessionObserverFacet = "SessionObserver";
+
+typedef long Cookie;
+typedef string Identifier;
+
+exception NameInUse { Identifier name; };
+
+interface SessionObserver {
+	
+	void memberAdded(in Identifier name, in ::scs::core::IComponent member)
+		raises (core::v2_00::services::ServiceFailure);
+	
+	void memberRemoved(in Identifier name)
+		raises (core::v2_00::services::ServiceFailure);
+	
+	void destroyed()
+		raises (core::v2_00::services::ServiceFailure);
+	
+};
+
+interface EventConsumer {
+	void push(in any event)
+		raises (core::v2_00::services::ServiceFailure);
+};
+
+interface EventChannel {
+	Cookie subscribe(in EventConsumer consumer)
+		raises (core::v2_00::services::ServiceFailure);
+	boolean unsubscribe(in Cookie ck)
+		raises (core::v2_00::services::ServiceFailure);
+	void push(in any event)
+		raises (core::v2_00::services::ServiceFailure);
+};
+
+/**
+ * addMember, removeMember e destroy notificam no canal os eventos
+ * correspondentes ou o membro possui uma faceta específica
+ * que tem os métodos chamados por cada um.
+ */
+interface SharedSession {
+	
+	readonly attribute EventChannel channel;
+	
+	/** Lança a exceção quando o nome já existe um membro com o mesmo nome. */
+	void addMember(in Identifier name, in ::scs::core::IComponent member)
+		raises (NameInUse, core::v2_00::services::ServiceFailure);
+	
+	/** Retorna false se não existe um membro com o nome informado */
+	boolean removeMember(in Identifier name)
+		raises (core::v2_00::services::ServiceFailure);
+	
+	/** Retorna nulo se não existe um membro com o nome informado */
+	::scs::core::IComponent getMember(in Identifier name)
+		raises (core::v2_00::services::ServiceFailure);
+	
+	void destroy()
+		raises (core::v2_00::services::ServiceFailure);
+	
+	Cookie subscribeObserver(in SessionObserver observer)
+		raises (core::v2_00::services::ServiceFailure);
+	
+	boolean unsubscribeObserver(in Cookie ck)
+		raises (core::v2_00::services::ServiceFailure);
+	
+};
+
+interface SessionRegistry {
+	SharedSession createSession()
+		raises (core::v2_00::services::ServiceFailure);
+};
+
+}; // version
+
+}; // session
+
+}; // services
+
+}; // openbus
+
+}; // tecgraf
+
+#endif
