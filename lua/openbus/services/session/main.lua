@@ -89,7 +89,7 @@ Options:
 	setuplog(oillog, Configs.oilloglevel, Configs.oillogfile)
 
 	-- connect to the bus
-	local conn = openbus.connectByAddress(Configs.bushost, Configs.busport)
+	local conn = openbus.connect(Configs.bushost, Configs.busport)
 
 	-- create SCS component
 	local orb = conn.orb
