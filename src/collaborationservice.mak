@@ -1,4 +1,4 @@
-PROJNAME= sessionservice
+PROJNAME= collaborationservice
 APPNAME= $(PROJNAME)
 
 OPENBUSIDL= ${OPENBUS_HOME}/idl/v2_00
@@ -7,19 +7,19 @@ OPENBUSLIB= ${OPENBUS_HOME}/lib
 
 SRC= \
 	launcher.c \
-	sessionservlibs.c \
+	collaborationservlibs.c \
 	$(PRELOAD_DIR)/$(APPNAME).c
 
 LUADIR= ../lua
 LUASRC= \
-	$(LUADIR)/openbus/services/session/idl/parsed.lua \
-	$(LUADIR)/openbus/services/session/idl.lua \
-	$(LUADIR)/openbus/services/session/main.lua \
-	$(LUADIR)/openbus/services/session/messages.lua \
-	$(LUADIR)/openbus/services/session/SessionRegistry.lua
+	$(LUADIR)/openbus/services/collaboration/idl/parsed.lua \
+	$(LUADIR)/openbus/services/collaboration/idl.lua \
+	$(LUADIR)/openbus/services/collaboration/main.lua \
+	$(LUADIR)/openbus/services/collaboration/messages.lua \
+	$(LUADIR)/openbus/services/collaboration/CollaborationRegistry.lua
 
 IDLDIR= ../idl
-IDL= $(IDLDIR)/session.idl
+IDL= $(IDLDIR)/collaboration.idl
 
 include ${OIL_HOME}/openbus/base.mak
 
@@ -61,7 +61,7 @@ ifeq "$(TEC_SYSNAME)" "SunOS"
 	LIBS += rt
 endif
 
-$(LUADIR)/openbus/services/session/idl/parsed.lua: $(IDL2LUA) $(IDL)
+$(LUADIR)/openbus/services/collaboration/idl/parsed.lua: $(IDL2LUA) $(IDL)
 	$(OILBIN) $(IDL2LUA) -I $(OPENBUSIDL) -o $@ $(IDL)
 
 $(PRELOAD_DIR)/$(APPNAME).c $(PRELOAD_DIR)/$(APPNAME).h: $(LUAPRELOADER) $(LUASRC)
@@ -71,4 +71,4 @@ $(PRELOAD_DIR)/$(APPNAME).c $(PRELOAD_DIR)/$(APPNAME).h: $(LUAPRELOADER) $(LUASR
 	                           -o $(APPNAME).c \
 	                           $(LUASRC)
 
-sessionservlibs.c: $(PRELOAD_DIR)/$(APPNAME).h
+collaborationservlibs.c: $(PRELOAD_DIR)/$(APPNAME).h

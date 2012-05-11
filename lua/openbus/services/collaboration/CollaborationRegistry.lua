@@ -28,16 +28,16 @@ local idl = require "openbus.core.idl"
 local InvalidLoginMinorCode = idl.const.services.access_control.InvalidLoginCode
 local InvalidLoginsRepId = idl.types.services.access_control.InvalidLogins
 
-local msg = require "openbus.services.session.messages"
-local idl = require "openbus.services.session.idl"
+local msg = require "openbus.services.collaboration.messages"
+local idl = require "openbus.services.collaboration.idl"
 local NameInUseException = idl.throw.NameInUse
-local SharedSessionInterface = idl.types.SharedSession
+local CollaborationSessionInterface = idl.types.CollaborationSession
 local EventChannelInterface = idl.types.EventChannel
-local SessionObserverInterface = idl.types.SessionObserver
+local CollaborationObserverInterface = idl.types.CollaborationObserver
 local EventConsumerInterface = idl.types.EventConsumer
-local SessionRegistryInterface = idl.types.SessionRegistry
-local SessionRegistryFacetName = idl.const.SessionRegistryFacet
-local SessionServiceName = idl.const.SessionServiceName
+local CollaborationRegistryInterface = idl.types.CollaborationRegistry
+local CollaborationRegistryFacetName = idl.const.CollaborationRegistryFacet
+local CollaborationServiceName = idl.const.CollaborationServiceName
 
 local function callerId(conn)
 	local callers = conn:getCallerChain().callers
@@ -61,7 +61,7 @@ local function asyncGroupCall(entries, opname, ...)
 end
 
 ------------------------------------------------------------------------------
--- Faceta SessionRegistry
+-- Faceta CollaborationRegistry
 ------------------------------------------------------------------------------
 
 local EventChannel = class{ __type = EventChannelInterface }
@@ -85,18 +85,18 @@ end
 
 
 
-local SharedSession = class{ __type = SharedSessionInterface }
+local CollaborationSession = class{ __type = CollaborationSessionInterface }
 
 -- local operations
 
-function SharedSession:__init()
+function CollaborationSession:__init()
 	if self.members == nil then self.members = {} end
 	if self.observers == nil then self.observers = {} end
 	if self.consumers == nil then self.consumers = {} end
 	self.channel = EventChannel(self.channel)
 end
 
-function SharedSession:checkAutoDestroy()
+function CollaborationSession:checkAutoDestroy()
 	if next(self.members) == nil
 	and next(self.observers) == nil
 	and next(self.consumers) == nil
@@ -106,7 +106,7 @@ function SharedSession:checkAutoDestroy()
 	end
 end
 
-function SharedSession:addEntry(group, key, objref)
+function CollaborationSession:addEntry(group, key, objref)
 	local registry = self.registry
 	local login = callerId(registry.connection)
 	local entry = {
@@ -132,7 +132,7 @@ function SharedSession:addEntry(group, key, objref)
 	end
 end
 
-function SharedSession:removeEntry(group, key, cancelforget)
+function CollaborationSession:removeEntry(group, key, cancelforget)
 	local entries = self[group]
 	local entry = entries[key]
 	if entry ~= nil then
@@ -161,7 +161,7 @@ end
 
 -- IDL operations
 
-function SharedSession:destroy()
+function CollaborationSession:destroy()
 	local id = self.__objkey
 	local registry = self.registry
 	registry.members:removeentry(id)
@@ -174,7 +174,7 @@ function SharedSession:destroy()
 	asyncGroupCall(self.observers, "destroyed")
 end
 
-function SharedSession:addMember(name, member)
+function CollaborationSession:addMember(name, member)
 	if member == nil then
 		BAD_PARAM{}
 	end
@@ -185,13 +185,13 @@ function SharedSession:addMember(name, member)
 	asyncGroupCall(self.observers, "memberAdded", name, member)
 end
 
-function SharedSession:removeMember(name)
+function CollaborationSession:removeMember(name)
 	local success = self:removeEntry("members", name)
 	asyncGroupCall(self.observers, "memberRemoved", name)
 	return success
 end
 
-function SharedSession:getMember(name)
+function CollaborationSession:getMember(name)
 	local entry = self.members[name]
 	if entry ~= nil then
 		return entry.objref
@@ -200,7 +200,7 @@ end
 
 
 
-function SharedSession:subscribeObserver(observer)
+function CollaborationSession:subscribeObserver(observer)
 	if observer == nil then
 		BAD_PARAM{}
 	end
@@ -209,7 +209,7 @@ function SharedSession:subscribeObserver(observer)
 	return cookie
 end
 
-function SharedSession:unsubscribeObserver(cookie)
+function CollaborationSession:unsubscribeObserver(cookie)
 	return self:removeEntry("observers", cookie)
 end
 
@@ -217,27 +217,27 @@ end
 
 local Group2Interface = {
 	members = "::scs::core::IComponent",
-	observers = SessionObserverInterface,
+	observers = CollaborationObserverInterface,
 	consumers = EventConsumerInterface,
 }
 
 
 
-local SessionObserver = {
+local CollaborationObserver = {
 	
 }
 
 
 
 
-local SessionRegistry = {
-	__type = SessionRegistryInterface,
-	__objkey = SessionRegistryFacetName,
+local CollaborationRegistry = {
+	__type = CollaborationRegistryInterface,
+	__objkey = CollaborationRegistryFacetName,
 }
 
 -- local operations
 
-function SessionRegistry:__init(data)
+function CollaborationRegistry:__init(data)
 	local conn = data.connection
 	local database = data.database
 	local prvkey = data.privateKey
@@ -273,7 +273,7 @@ function SessionRegistry:__init(data)
 	}
 	
 	function conn.onInvalidLogin()
-		conn:loginByCertificate(SessionServiceName, prvkey)
+		conn:loginByCertificate(CollaborationServiceName, prvkey)
 		local subscription = conn.logins:subscribeObserver(observer)
 		local logins = {}
 		for login in pairs(self.login2Session) do
@@ -301,7 +301,7 @@ function SessionRegistry:__init(data)
 	local orb = conn.orb
 	for id, members in assert(membersDB:ientries()) do
 		local creator = creatorDB:getentry(id)
-		local session = SharedSession{
+		local session = CollaborationSession{
 			registry = self,
 			__objkey = id,
 			members = members,
@@ -329,14 +329,14 @@ end
 
 -- IDL operations
 
-function SessionRegistry:createSession()
+function CollaborationRegistry:createCollaborationSession()
 	local creator = callerId(self.connection)
 	local id = newid("new")
 	self.members:setentry(id, {})
 	self.observers:setentry(id, {})
 	self.consumers:setentry(id, {})
 	self.creators:setentry(id, creator)
-	return SharedSession{
+	return CollaborationSession{
 		registry = self,
 		__objkey = id,
 		creator = creator,
@@ -346,5 +346,5 @@ end
 
 
 return {
-	SessionRegistry = SessionRegistry,
+	CollaborationRegistry = CollaborationRegistry,
 }

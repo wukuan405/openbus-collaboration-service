@@ -24,11 +24,11 @@ local readprivatekey = server.readprivatekey
 
 local openbus = require "openbus"
 
-local msg = require "openbus.services.session.messages"
-local idl = require "openbus.services.session.idl"
-local SessionServiceName = idl.const.SessionServiceName
+local msg = require "openbus.services.collaboration.messages"
+local idl = require "openbus.services.collaboration.idl"
+local CollaborationServiceName = idl.const.CollaborationServiceName
 local loadidl = idl.loadto
-local SessionRegistry = require "openbus.services.session.SessionRegistry"
+local CollaborationRegistry = require "openbus.services.collaboration.CollaborationRegistry"
 
 return function(...)
 	-- configuration parameters parser
@@ -39,8 +39,8 @@ return function(...)
 		bushost = "localhost",
 		busport = 2089,
 	
-		database = "session.db",
-		privatekey = "session.key",
+		database = "collab.db",
+		privatekey = "collab.key",
 	
 		loglevel = 3,
 		logfile = "",
@@ -49,7 +49,7 @@ return function(...)
 	}
 
 	-- parse configuration file
-	Configs:configs("configs", getenv("OPENBUS_SESSION_CONFIG") or "session.cfg")
+	Configs:configs("configs", getenv("OPENBUS_SESSION_CONFIG") or "collab.cfg")
 
 	-- parse command line parameters
 	do
@@ -63,21 +63,21 @@ return function(...)
 Usage:  ]],OPENBUS_PROGNAME,[[ [options]
 Options:
 
-  -host <address>            endereço de rede usado pelo serviço de sessão
-  -port <number>             número da porta usada pelo serviço de sessão
+  -host <address>            endereço de rede usado pelo serviço de colaboração
+  -port <number>             número da porta usada pelo serviço de colaboração
 
   -bushost <address>         endereço de rede de acesso ao barramento
   -busport <number>          número da porta de acesso ao barramento
 
-  -database <path>           arquivo de dados do serviço de sessão
-  -privatekey <path>         arquivo com chave privada do serviço de sessão
+  -database <path>           arquivo de dados do serviço de colaboração
+  -privatekey <path>         arquivo com chave privada do serviço de colaboração
 
-  -loglevel <number>         nível de log gerado pelo serviço de sessão
-  -logfile <path>            arquivo de log gerado pelo serviço de sessão
+  -loglevel <number>         nível de log gerado pelo serviço de colaboração
+  -logfile <path>            arquivo de log gerado pelo serviço de colaboração
   -oilloglevel <number>      nível de log gerado pelo OiL (debug)
   -oillogfile <path>         arquivo de log gerado pelo OiL (debug)
 
-  -configs <path>            arquivo de configurações do serviço de sessão
+  -configs <path>            arquivo de configurações do serviço de colaboração
 
 ]])
 			return 1 -- program's exit code
@@ -96,11 +96,11 @@ Options:
 	loadidl(orb)
 	newSCS{
 		orb = orb,
-		objkey = SessionServiceName,
-		name = SessionServiceName,
-		facets = SessionRegistry,
+		objkey = CollaborationServiceName,
+		name = CollaborationServiceName,
+		facets = CollaborationRegistry,
 		init = function()
-			SessionRegistry.SessionRegistry:__init({
+			CollaborationRegistry.CollaborationRegistry:__init({
 				connection = conn,
 				database = assert(opendb(Configs.database)),
 				privateKey = assert(readprivatekey(Configs.privatekey)),

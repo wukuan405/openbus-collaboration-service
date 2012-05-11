@@ -1,0 +1,26 @@
+Category {
+  id = "OpenBusService",
+  name = "Serviços do OpenBus",
+}
+
+Entity {
+  id = "CollaborationService",
+  category = "OpenBusService",
+  name = "Serviço de Colaboração",
+}
+
+Certificate {
+  id = "CollaborationService",
+  certificate = "collab.crt",
+}
+
+Interface {
+  id = "IDL:tecgraf/openbus/services/collaboration/v2_00/CollaborationRegistry:1.0"
+}
+
+Grant {
+  id = "CollaborationService",
+  interfaces = {
+    "IDL:tecgraf/openbus/services/collaboration/v2_00/CollaborationRegistry:1.0",
+  }
+}

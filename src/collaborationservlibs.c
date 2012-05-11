@@ -18,9 +18,9 @@
 #include "oil.h"
 #include "luascs.h"
 #include "luaopenbus.h"
-#include "sessionservice.h"
+#include "collaborationservice.h"
 
-const char const* OPENBUS_MAIN = "openbus.services.session.main";
+const char const* OPENBUS_MAIN = "openbus.services.collaboration.main";
 const char const* OPENBUS_PROGNAME = TECMAKE_APPNAME;
 
 void luapreload_extralibraries(lua_State *L)
@@ -45,5 +45,5 @@ void luapreload_extralibraries(lua_State *L)
 	luapreload_oil(L);
 	luapreload_luascs(L);
 	luapreload_luaopenbus(L);
-	luapreload_sessionservice(L);
+	luapreload_collaborationservice(L);
 }

@@ -1,5 +1,5 @@
 /**
- * \mainpage DocumentaÃ§Ã£o da IDL
+ * \mainpage Documentação da IDL
  */
 #ifndef __TECGRAF_OPENBUS_CORE_CREDENTIAL_IDL__
 #define __TECGRAF_OPENBUS_CORE_CREDENTIAL_IDL__
@@ -8,43 +8,43 @@
 #include "core.idl"
 
 /**
- * \brief MÃ³dulo dos sistemas e aplicaÃ§Ãµes do Tecgraf.
+ * \brief Módulo dos sistemas e aplicações do Tecgraf.
  */
 module tecgraf {
 
 /**
- * \brief MÃ³dulo do \e middleware OpenBus.
+ * \brief Módulo do \e middleware OpenBus.
  */
 module openbus {
 
 /**
- * \brief MÃ³dulo de definiÃ§Ãµes de serviÃ§os do OpenBus.
+ * \brief Módulo de definições de serviços do OpenBus.
  */
 module services {
 
 /**
- * \brief MÃ³dulo de definiÃ§Ãµes do serviÃ§o de sessÃ£o do OpenBus.
+ * \brief Módulo de definições do serviço de colaboração do OpenBus.
  */
-module session {
+module collaboration {
 
 /**
- * \brief MÃ³dulo de versionamento dos ServiÃ§os BÃ¡sicos do OpenBus.
+ * \brief Módulo de versionamento dos Serviços Básicos do OpenBus.
  */
 module v2_00 {
 
 /**
- * \brief MÃ³dulo com definiÃ§Ãµes de credenciais usadas para autenticaÃ§Ã£o.
+ * \brief Módulo com definições de credenciais usadas para autenticação.
  */
-const string SessionServiceName = "SessionService";
-const string SessionRegistryFacet = "SessionRegistry";
-const string SessionObserverFacet = "SessionObserver";
+const string CollaborationServiceName = "CollaborationService";
+const string CollaborationRegistryFacet = "CollaborationRegistry";
+const string CollaborationObserverFacet = "CollaborationObserver";
 
 typedef long Cookie;
 typedef string Identifier;
 
 exception NameInUse { Identifier name; };
 
-interface SessionObserver {
+interface CollaborationObserver {
 	
 	void memberAdded(in Identifier name, in ::scs::core::IComponent member)
 		raises (core::v2_00::services::ServiceFailure);
@@ -73,29 +73,31 @@ interface EventChannel {
 
 /**
  * addMember, removeMember e destroy notificam no canal os eventos
- * correspondentes ou o membro possui uma faceta especÃ­fica
- * que tem os mÃ©todos chamados por cada um.
+ * correspondentes ou o membro possui uma faceta específica
+ * que tem os métodos chamados por cada um.
  */
-interface SharedSession {
+interface CollaborationSession {
 	
 	readonly attribute EventChannel channel;
 	
-	/** LanÃ§a a exceÃ§Ã£o quando o nome jÃ¡ existe um membro com o mesmo nome. */
+	/** Lança a exceção quando o nome já existe um membro com o mesmo nome. */
 	void addMember(in Identifier name, in ::scs::core::IComponent member)
 		raises (NameInUse, core::v2_00::services::ServiceFailure);
 	
-	/** Retorna false se nÃ£o existe um membro com o nome informado */
+	/** Retorna false se não existe um membro com o nome informado */
 	boolean removeMember(in Identifier name)
 		raises (core::v2_00::services::ServiceFailure);
 	
-	/** Retorna nulo se nÃ£o existe um membro com o nome informado */
+	/** Retorna nulo se não existe um membro com o nome informado */
 	::scs::core::IComponent getMember(in Identifier name)
 		raises (core::v2_00::services::ServiceFailure);
+	
+	//MembersList getMembers()
 	
 	void destroy()
 		raises (core::v2_00::services::ServiceFailure);
 	
-	Cookie subscribeObserver(in SessionObserver observer)
+	Cookie subscribeObserver(in CollaborationObserver observer)
 		raises (core::v2_00::services::ServiceFailure);
 	
 	boolean unsubscribeObserver(in Cookie ck)
@@ -103,14 +105,14 @@ interface SharedSession {
 	
 };
 
-interface SessionRegistry {
-	SharedSession createSession()
+interface CollaborationRegistry {
+	CollaborationSession createCollaborationSession()
 		raises (core::v2_00::services::ServiceFailure);
 };
 
 }; // version
 
-}; // session
+}; // collaboration
 
 }; // services
 

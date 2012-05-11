@@ -6,7 +6,7 @@ local array = require "table"
 local unpack = array.unpack or _G.unpack
 
 local makeaux = require "openbus.core.idl.makeaux"
-local parsed = require "openbus.services.session.idl.parsed"
+local parsed = require "openbus.services.collaboration.idl.parsed"
 
 
 
@@ -18,9 +18,9 @@ for _, parsed in ipairs(parsed) do
 end
 
 local idl = {
-	types = types.tecgraf.openbus.services.session.v2_00,
-	const = const.tecgraf.openbus.services.session.v2_00,
-	throw = throw.tecgraf.openbus.services.session.v2_00,
+	types = types.tecgraf.openbus.services.collaboration.v2_00,
+	const = const.tecgraf.openbus.services.collaboration.v2_00,
+	throw = throw.tecgraf.openbus.services.collaboration.v2_00,
 }
 
 function idl.loadto(orb)

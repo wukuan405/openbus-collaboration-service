@@ -6,7 +6,7 @@ local stderr = io.stderr
 local luaidl = require "luaidl"
 local parse = luaidl.parse
 
-local idlspec = [[#include "session.idl"]]
+local idlspec = [[#include "collaboration.idl"]]
 
 local idlpath = os.getenv("OPENBUS_IDLPATH")
 if idlpath == nil then
