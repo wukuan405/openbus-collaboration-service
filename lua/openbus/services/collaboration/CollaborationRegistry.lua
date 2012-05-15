@@ -296,7 +296,7 @@ function CollaborationRegistry:__init(data)
 		for login in pairs(self.login2Session) do
 			logins[#logins+1] = login
 		end
-		local ok, res = pcall(subscription.watchLogins, subscription, logins)
+		ok, res = pcall(subscription.watchLogins, subscription, logins)
 		if not ok then
 			if res._repid ~= InvalidLoginsRepId then
 				ServiceFailure{
