@@ -13,7 +13,7 @@
 module tecgraf {
 
 /**
- * \brief Módulo do \e middleware OpenBus.
+ * \brief Módulo do middleware OpenBus.
  */
 module openbus {
 
@@ -28,84 +28,197 @@ module services {
 module collaboration {
 
 /**
- * \brief Módulo de versionamento dos Serviços Básicos do OpenBus.
+ * \brief Módulo de versionamento do serviço de colaboração.
  */
-module v2_00 {
+module v1_00 {
 
-/**
- * \brief Módulo com definições de credenciais usadas para autenticação.
- */
+/** \brief Nome do serviço de colaboração. */
 const string CollaborationServiceName = "CollaborationService";
+/** \brief Nome da faceta de registro de colaboração. */
 const string CollaborationRegistryFacet = "CollaborationRegistry";
+/** \brief Nome da faceta de observação de colaboração. */
 const string CollaborationObserverFacet = "CollaborationObserver";
 
+/** \brief Identificador da inscrição de um observador. */
 typedef long Cookie;
+/** \brief Identificador de um membro. */
 typedef string Identifier;
 
+/**
+ * \brief Indica que o nome de membro já esta em uso na sessão de colaboração.
+ */
 exception NameInUse { Identifier name; };
 
+/**
+ * \brief Representa um observador de uma colaboração.
+ */
 interface CollaborationObserver {
 	
+	/**
+	 * \brief Notifica que uma membro foi incluído na colaboração.
+	 *
+	 * \param name nome do membro incluído.
+	 * \param member o membro incluído.
+	 */
 	void memberAdded(in Identifier name, in ::scs::core::IComponent member)
 		raises (core::v2_00::services::ServiceFailure);
 	
+	/**
+	 * \brief Notifica que uma membro foi removido na colaboração.
+	 *
+	 * \param name nome do membro removido.
+	 */
 	void memberRemoved(in Identifier name)
 		raises (core::v2_00::services::ServiceFailure);
 	
+	/**
+	 * \brief Notifica que colaboração foi finalizada.
+	 */
 	void destroyed()
 		raises (core::v2_00::services::ServiceFailure);
 	
 };
 
+/**
+ * \brief Representa um consumidor de eventos.
+ */
 interface EventConsumer {
-	void push(in any event)
-		raises (core::v2_00::services::ServiceFailure);
-};
-
-interface EventChannel {
-	Cookie subscribe(in EventConsumer consumer)
-		raises (core::v2_00::services::ServiceFailure);
-	boolean unsubscribe(in Cookie ck)
-		raises (core::v2_00::services::ServiceFailure);
+	/**
+	 * \brief Recebe um evento
+	 *
+	 * \param event o evento enviado.
+	 */
 	void push(in any event)
 		raises (core::v2_00::services::ServiceFailure);
 };
 
 /**
- * addMember, removeMember e destroy notificam no canal os eventos
- * correspondentes ou o membro possui uma faceta específica
- * que tem os métodos chamados por cada um.
+ * \brief Representa um canal de eventos.
+ */
+interface EventChannel {
+	/**
+	 * \brief Registra um consumidor para consumir eventos deste canal.
+	 *
+	 * \param cosumer o consumidor de eventos.
+	 * \return identificador do registro do consumidor.
+	 */
+	Cookie subscribe(in EventConsumer consumer)
+		raises (core::v2_00::services::ServiceFailure);
+	/**
+	 * \brief Descadastra um consumidor de eventos deste canal.
+	 *
+	 * \param ck o identificador do registro do consumidor de eventos.
+	 * \return \c true, caso o descadastramento foi realizado com sucesso, ou 
+	 * \c false, caso contrário.
+	 */
+	boolean unsubscribe(in Cookie ck)
+		raises (core::v2_00::services::ServiceFailure);
+	/**
+	 * \brief Publica um evento no canal.
+	 *
+	 * \param event o evento.
+	 */
+	void push(in any event)
+		raises (core::v2_00::services::ServiceFailure);
+};
+
+/** \brief Representa um membro de uma sessão de colaboração */
+struct CollaborationMember {
+	/** \brief Identificador do membro. */
+	Identifier name;
+	/** \brief Componente do membro */
+	::scs::core::IComponent member;
+};
+
+/** \brief Sequência de membros. */
+typedef sequence<CollaborationMember> CollaborationMemberSeq;
+
+
+/**
+ * \brief Representa uma sessão de colaboração.
  */
 interface CollaborationSession {
 	
+	/** \brief Canal de eventos associado à sessão de colaboração. */
 	readonly attribute EventChannel channel;
 	
-	/** Lança a exceção quando o nome já existe um membro com o mesmo nome. */
+	/**
+	 * \brief Registra um membro à sessão de colaboração
+	 *
+	 * \param name nome do membro.
+	 * \param member o membro.
+	 *
+	 * \exception NameInUse Já existe um membro com o mesmo nome.
+	 */
 	void addMember(in Identifier name, in ::scs::core::IComponent member)
 		raises (NameInUse, core::v2_00::services::ServiceFailure);
 	
-	/** Retorna false se não existe um membro com o nome informado */
+	/**
+	 * \brief Descadastra um membro da sessão de colaboração
+	 *
+	 * \param name nome do membro.
+	 * \return \c true, caso o descadastramento foi realizado com sucesso, ou 
+	 * \c false, caso contrário.
+	 */
 	boolean removeMember(in Identifier name)
 		raises (core::v2_00::services::ServiceFailure);
 	
-	/** Retorna nulo se não existe um membro com o nome informado */
+	/**
+	 * \brief Recupera o componente de um membro da colaboração, ou nulo caso não 
+	 * exista um membro com o nome especificado.
+	 *
+	 * \param name nome do membro.
+	 * \return o componente do membro.
+	 */
 	::scs::core::IComponent getMember(in Identifier name)
 		raises (core::v2_00::services::ServiceFailure);
 	
-	//MembersList getMembers()
+	/**
+	 * \brief Recupera a lista dos membros cadastrados na sessão de colaboração.
+	 *
+	 * \return A lista com os membros cadastrados.
+	 */
+	CollaborationMemberSeq getMembers() 
+		raises (core::v2_00::services::ServiceFailure);
 	
+	/**
+	 * \brief Termina a sessão de colaboração.
+	 */
 	void destroy()
 		raises (core::v2_00::services::ServiceFailure);
 	
+	/**
+	 * \brief Cadastra um observador para essa colaboração.
+	 *
+	 * \param observer o observador a ser cadastrado.
+	 * \return um identificador do cadastro do observador.
+	 */
 	Cookie subscribeObserver(in CollaborationObserver observer)
 		raises (core::v2_00::services::ServiceFailure);
 	
+	/**
+	 * \brief Descadastra o observador da colaboração
+	 *
+	 * \param ck identificador do cadastro do observador.
+	 *
+	 * \return \c true, caso o descadastramento foi realizado com sucesso, ou 
+	 * \c false, caso contrário.
+	 */
 	boolean unsubscribeObserver(in Cookie ck)
 		raises (core::v2_00::services::ServiceFailure);
 	
 };
 
+/**
+ * \brief Interface para criação de sessões de colaboração.
+ */
 interface CollaborationRegistry {
+	/**
+	 * \brief Cria uma sessão de colaboração.
+	 *
+	 * \return \c true, caso o descadastramento foi realizado com sucesso, ou 
+	 * \c false, caso contrário.
+	 */
 	CollaborationSession createCollaborationSession()
 		raises (core::v2_00::services::ServiceFailure);
 };

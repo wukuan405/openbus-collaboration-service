@@ -91,10 +91,12 @@ Options:
 	-- connect to the bus
 	local conn = openbus.connect(Configs.bushost, Configs.busport)
 
-	-- create SCS component
 	local orb = conn.orb
 	loadidl(orb)
-	newSCS{
+	oil.newthread(orb.run, orb)
+	
+	-- create SCS component
+	local comp = newSCS{
 		orb = orb,
 		objkey = CollaborationServiceName,
 		name = CollaborationServiceName,
@@ -110,5 +112,4 @@ Options:
 
 	-- start ORB
 	log:uptime(msg.ServiceSuccessfullyStarted)
-	orb:run()
 end

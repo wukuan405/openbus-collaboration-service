@@ -15,12 +15,12 @@ Certificate {
 }
 
 Interface {
-  id = "IDL:tecgraf/openbus/services/collaboration/v2_00/CollaborationRegistry:1.0"
+  id = "IDL:tecgraf/openbus/services/collaboration/v1_00/CollaborationRegistry:1.0"
 }
 
 Grant {
   id = "CollaborationService",
   interfaces = {
-    "IDL:tecgraf/openbus/services/collaboration/v2_00/CollaborationRegistry:1.0",
+    "IDL:tecgraf/openbus/services/collaboration/v1_00/CollaborationRegistry:1.0",
   }
 }

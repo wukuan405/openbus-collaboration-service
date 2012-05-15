@@ -198,6 +198,16 @@ function CollaborationSession:getMember(name)
 	end
 end
 
+function CollaborationSession:getMembers()
+	local seq = {}
+	for name, entry in pairs(self.members) do
+		seq[#seq+1] = {
+			name = name,
+			member = entry.objref,
+		}
+	end
+	return seq
+end
 
 
 function CollaborationSession:subscribeObserver(observer)
@@ -274,6 +284,13 @@ function CollaborationRegistry:__init(data)
 	
 	function conn.onInvalidLogin()
 		conn:loginByCertificate(CollaborationServiceName, prvkey)
+		local ok, res = pcall(conn.offers.registerService, conn.offers, self.context.IComponent, {})
+		if not ok then
+			ServiceFailure{
+				message = msg.UnableToRegisterService:tag{ error = res },
+			}
+			return false
+		end
 		local subscription = conn.logins:subscribeObserver(observer)
 		local logins = {}
 		for login in pairs(self.login2Session) do
