@@ -18,9 +18,9 @@ for _, parsed in ipairs(parsed) do
 end
 
 local idl = {
-	types = types.tecgraf.openbus.services.collaboration.v1_00,
-	const = const.tecgraf.openbus.services.collaboration.v1_00,
-	throw = throw.tecgraf.openbus.services.collaboration.v1_00,
+	types = types.tecgraf.openbus.services.collaboration.v1_0,
+	const = const.tecgraf.openbus.services.collaboration.v1_0,
+	throw = throw.tecgraf.openbus.services.collaboration.v1_0,
 }
 
 function idl.loadto(orb)

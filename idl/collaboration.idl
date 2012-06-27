@@ -30,7 +30,7 @@ module collaboration {
 /**
  * \brief Módulo de versionamento do serviço de colaboração.
  */
-module v1_00 {
+module v1_0 {
 
 /** \brief Nome do serviço de colaboração. */
 const string CollaborationServiceName = "CollaborationService";
@@ -61,7 +61,7 @@ interface CollaborationObserver {
 	 * \param member o membro incluído.
 	 */
 	void memberAdded(in Identifier name, in ::scs::core::IComponent member)
-		raises (core::v2_00::services::ServiceFailure);
+		raises (core::v2_0::services::ServiceFailure);
 	
 	/**
 	 * \brief Notifica que uma membro foi removido na colaboração.
@@ -69,13 +69,13 @@ interface CollaborationObserver {
 	 * \param name nome do membro removido.
 	 */
 	void memberRemoved(in Identifier name)
-		raises (core::v2_00::services::ServiceFailure);
+		raises (core::v2_0::services::ServiceFailure);
 	
 	/**
 	 * \brief Notifica que colaboração foi finalizada.
 	 */
 	void destroyed()
-		raises (core::v2_00::services::ServiceFailure);
+		raises (core::v2_0::services::ServiceFailure);
 	
 };
 
@@ -89,7 +89,7 @@ interface EventConsumer {
 	 * \param event o evento enviado.
 	 */
 	void push(in any event)
-		raises (core::v2_00::services::ServiceFailure);
+		raises (core::v2_0::services::ServiceFailure);
 };
 
 /**
@@ -103,7 +103,7 @@ interface EventChannel {
 	 * \return identificador do registro do consumidor.
 	 */
 	Cookie subscribe(in EventConsumer consumer)
-		raises (core::v2_00::services::ServiceFailure);
+		raises (core::v2_0::services::ServiceFailure);
 	/**
 	 * \brief Descadastra um consumidor de eventos deste canal.
 	 *
@@ -112,14 +112,14 @@ interface EventChannel {
 	 * \c false, caso contrário.
 	 */
 	boolean unsubscribe(in Cookie ck)
-		raises (core::v2_00::services::ServiceFailure);
+		raises (core::v2_0::services::ServiceFailure);
 	/**
 	 * \brief Publica um evento no canal.
 	 *
 	 * \param event o evento.
 	 */
 	void push(in any event)
-		raises (core::v2_00::services::ServiceFailure);
+		raises (core::v2_0::services::ServiceFailure);
 };
 
 /** \brief Representa um membro de uma sessão de colaboração */
@@ -151,7 +151,7 @@ interface CollaborationSession {
 	 * \exception NameInUse Já existe um membro com o mesmo nome.
 	 */
 	void addMember(in Identifier name, in ::scs::core::IComponent member)
-		raises (NameInUse, core::v2_00::services::ServiceFailure);
+		raises (NameInUse, core::v2_0::services::ServiceFailure);
 	
 	/**
 	 * \brief Descadastra um membro da sessão de colaboração
@@ -161,7 +161,7 @@ interface CollaborationSession {
 	 * \c false, caso contrário.
 	 */
 	boolean removeMember(in Identifier name)
-		raises (core::v2_00::services::ServiceFailure);
+		raises (core::v2_0::services::ServiceFailure);
 	
 	/**
 	 * \brief Recupera o componente de um membro da colaboração, ou nulo caso não 
@@ -171,7 +171,7 @@ interface CollaborationSession {
 	 * \return o componente do membro.
 	 */
 	::scs::core::IComponent getMember(in Identifier name)
-		raises (core::v2_00::services::ServiceFailure);
+		raises (core::v2_0::services::ServiceFailure);
 	
 	/**
 	 * \brief Recupera a lista dos membros cadastrados na sessão de colaboração.
@@ -179,13 +179,13 @@ interface CollaborationSession {
 	 * \return A lista com os membros cadastrados.
 	 */
 	CollaborationMemberSeq getMembers() 
-		raises (core::v2_00::services::ServiceFailure);
+		raises (core::v2_0::services::ServiceFailure);
 	
 	/**
 	 * \brief Termina a sessão de colaboração.
 	 */
 	void destroy()
-		raises (core::v2_00::services::ServiceFailure);
+		raises (core::v2_0::services::ServiceFailure);
 	
 	/**
 	 * \brief Cadastra um observador para essa colaboração.
@@ -194,7 +194,7 @@ interface CollaborationSession {
 	 * \return um identificador do cadastro do observador.
 	 */
 	Cookie subscribeObserver(in CollaborationObserver observer)
-		raises (core::v2_00::services::ServiceFailure);
+		raises (core::v2_0::services::ServiceFailure);
 	
 	/**
 	 * \brief Descadastra o observador da colaboração
@@ -205,7 +205,7 @@ interface CollaborationSession {
 	 * \c false, caso contrário.
 	 */
 	boolean unsubscribeObserver(in Cookie ck)
-		raises (core::v2_00::services::ServiceFailure);
+		raises (core::v2_0::services::ServiceFailure);
 	
 };
 
@@ -220,7 +220,7 @@ interface CollaborationRegistry {
 	 * \c false, caso contrário.
 	 */
 	CollaborationSession createCollaborationSession()
-		raises (core::v2_00::services::ServiceFailure);
+		raises (core::v2_0::services::ServiceFailure);
 };
 
 }; // version
