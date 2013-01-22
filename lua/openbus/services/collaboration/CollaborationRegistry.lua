@@ -6,6 +6,7 @@ local pairs = _G.pairs
 local rawset = _G.rawset
 
 local cothread = require "cothread"
+cothread.plugin(require "cothread.plugin.socket")
 local time = cothread.now
 
 local uuid = require "uuid"
