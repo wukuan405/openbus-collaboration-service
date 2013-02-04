@@ -1,12 +1,12 @@
 Category {
   id = "OpenBusService",
-  name = "Serviços do OpenBus",
+  name = "Servicos do OpenBus",
 }
 
 Entity {
   id = "CollaborationService",
   category = "OpenBusService",
-  name = "Serviço de Colaboração",
+  name = "Servico de Colaboracao",
 }
 
 Certificate {

@@ -1,3 +1,5 @@
+-- -*- coding: iso-8859-1-unix -*-
+
 local _G = require "_G"
 local error = _G.error
 local ipairs = _G.ipairs
@@ -7,8 +9,6 @@ local unpack = array.unpack or _G.unpack
 
 local makeaux = require "openbus.core.idl.makeaux"
 local parsed = require "openbus.services.collaboration.idl.parsed"
-
-
 
 local types, const, throw = {}, {}, {}
 for _, parsed in ipairs(parsed) do

@@ -1,3 +1,5 @@
+-- -*- coding: iso-8859-1-unix -*-
+
 local msg = require "openbus.util.messages"
 
 msg.ServiceVersion = "2.0"
