@@ -1,5 +1,5 @@
--- $Id$
 -- -*- coding: iso-8859-1-unix -*-
+-- $Id$
 
 local _G = require "_G"
 local assert = _G.assert
@@ -89,9 +89,9 @@ Options:
 	setuplog(log, Configs.loglevel, Configs.logfile)
 	setuplog(oillog, Configs.oilloglevel, Configs.oillogfile)
 
-  local ctx = openbus.initORB().OpenBusContext
+	local ctx = openbus.initORB().OpenBusContext
 	local conn = ctx:createConnection(Configs.bushost, Configs.busport)
-  ctx:setDefaultConnection(conn)
+	ctx:setDefaultConnection(conn)
 
 	local orb = conn.orb
 	loadidl(orb)

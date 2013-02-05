@@ -1,5 +1,5 @@
--- $Id$
 -- -*- coding: iso-8859-1-unix -*-
+-- $Id$
 
 local _G = require "_G"
 local ipairs = _G.ipairs
@@ -286,7 +286,7 @@ function CollaborationRegistry:__init(data)
 	
 	function conn.onInvalidLogin()
 		conn:loginByCertificate(CollaborationServiceName, prvkey)
-    local rgs = conn.orb.OpenBusContext:getOfferRegistry();
+		local rgs = conn.orb.OpenBusContext:getOfferRegistry();
 		local ok, res = pcall(rgs.registerService, rgs, self.context.IComponent, {})
 		if not ok then
 			ServiceFailure{
@@ -295,7 +295,7 @@ function CollaborationRegistry:__init(data)
 			return false
 		end
 		local subscription = conn.orb.OpenBusContext:getLoginRegistry()
-      :subscribeObserver(observer)
+			:subscribeObserver(observer)
 		local logins = {}
 		for login in pairs(self.login2Session) do
 			logins[#logins+1] = login
