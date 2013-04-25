@@ -1,0 +1,89 @@
+
+### !Altere os caminhos desta secao se necessario! ###
+#[TODO] jah definida em project-config.jam
+putsInstall = /home/rcosme/puts/install ;
+putsBuild   = /home/rcosme/puts/build ;
+###-###-###-###-###-###-###-###-###-###-###-###-###-##
+
+lua = $(putsInstall)/bin/lua5.1 ;
+openbusIDL   = $(putsInstall)/idl/v2_0 ;
+loopBuild    = $(putsBuild)/loop-3.0beta ;
+oilBuild     = $(putsBuild)/oil-source-0.6beta ;
+idl2lua_lua  = $(oilBuild)/lua/idl2lua.lua ;
+luaPreLoader = $(loopBuild)/lua/preloader.lua ;
+
+project collaborationService
+;
+
+collaborationIDL = idl/collaboration.idl ;
+parsedLua = lua/openbus/services/collaboration/idl/parsed.lua ;
+luaPath = $(loopBuild)/lua/?.lua;$(oilBuild)/lua/?.lua ;
+luaSRC = lua/openbus/services/collaboration/idl/parsed.lua 
+  lua/openbus/services/collaboration/idl.lua 
+  lua/openbus/services/collaboration/main.lua
+  lua/openbus/services/collaboration/messages.lua
+  lua/openbus/services/collaboration/Async.lua
+  lua/openbus/services/collaboration/DBSession.lua
+  lua/openbus/services/collaboration/EventChannel.lua
+  lua/openbus/services/collaboration/CollaborationRegistry.lua
+  lua/openbus/services/collaboration/CollaborationSession.lua ;
+
+make $(parsedLua)
+  : $(collaborationIDL)
+  : @idl2lua
+;
+
+actions idl2lua
+{
+  $(lua) -e "package.path=package.path..';$(luaPath)'" \
+    $(idl2lua_lua) \
+    -I $(openbusIDL) \
+    -o $(parsedLua) \
+    $(collaborationIDL)
+}
+
+make collaborationService.c
+  : $(luaSRC)
+  : @preLoader
+;
+
+actions preLoader
+{
+  $(lua) -e "package.path=package.path..';$(luaPath)'" \
+    $(luaPreLoader) \
+    -l "lua/?.lua" \
+    -d $(<:D) \
+    -h collaborationService.h \
+    -o collaborationService.c \
+    $(luaSRC)
+}
+
+make collaborationService.h
+  : collaborationService.c
+  : @dummy
+;
+
+actions dummy
+{
+  #does nothing
+}
+
+exe collaborationService
+  : collaborationService.c
+    src/collaborationservlibs.c
+    src/launcher.c
+    /dl//dl 
+    /lua//lua 
+    /luuid//luuid 
+    /lce//lce 
+    /luafilesystem//lfs 
+    /luastruct//luastruct 
+    /loop//luatuple /loop//luacoroutine /loop//luacothread /loop//luainspector 
+    /loop//loop 
+    /luavararg//luavararg
+    /oil//luaidl /oil//oil
+    /luasocket//luasocket2 
+    /luascs//luascs
+    /luaopenbus//luaopenbus
+  : <include>src <implicit-dependency>collaborationService.h
+;
