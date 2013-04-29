@@ -1,0 +1,15 @@
+
+rule init ( path )
+{
+  .path = $(path) ;
+}
+
+rule path ( )
+{
+  return $(.path) ;
+}
+
+rule preloader-path ( )
+{
+  return $(.path)/lua/preloader.lua ;
+}

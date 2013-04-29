@@ -1,0 +1,22 @@
+
+rule init ( path : idl2lua-idl-path )
+{
+  .path = $(path) ;
+  .idl2lua-idl-path = $(idl2lua-idl-path) ;
+}
+
+rule path ( )
+{
+  return $(.path) ;
+}
+
+rule idl2lua-path ( )
+{
+  return $(.path)/lua/idl2lua.lua ;
+}
+
+#[TODO]
+rule idl2lua-idl-path ( )
+{
+  return $(.idl2lua-idl-path) ;
+}

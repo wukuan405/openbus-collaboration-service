@@ -1,0 +1,10 @@
+
+rule init ( path )
+{
+  .path = $(path) ;
+}
+
+rule path ( )
+{
+  return $(.path) ;
+}

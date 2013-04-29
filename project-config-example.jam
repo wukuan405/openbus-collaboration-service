@@ -1,5 +1,25 @@
 
 putsInstall = /home/rcosme/puts/install ;
+putsBuild   = /home/rcosme/puts/build ;
+
+import modules ;
+
+local searchPath = [ modules.peek : BOOST_BUILD_PATH ] ;
+searchPath += tools ;
+modules.poke : BOOST_BUILD_PATH : $(searchPath) ;
+
+using lua 
+  : $(putsInstall)/bin/lua5.1 
+;
+
+using oil 
+  : $(putsBuild)/oil-source-0.6beta 
+  : $(putsInstall)/idl/v2_0
+;
+
+using loop
+  : $(putsBuild)/loop-3.0beta
+;
 
 project dl 
 ;

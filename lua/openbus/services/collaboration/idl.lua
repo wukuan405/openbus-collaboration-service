@@ -8,7 +8,7 @@ local array = require "table"
 local unpack = array.unpack or _G.unpack
 
 local makeaux = require "openbus.core.idl.makeaux"
-local parsed = require "openbus.services.collaboration.idl.parsed"
+local parsed = require "parsed"
 
 local types, const, throw = {}, {}, {}
 for _, parsed in ipairs(parsed) do

@@ -1,34 +1,23 @@
 
-### !Altere os caminhos desta secao se necessario! ###
-#[TODO] jah definida em project-config.jam
-putsInstall = /home/rcosme/puts/install ;
-putsBuild   = /home/rcosme/puts/build ;
-###-###-###-###-###-###-###-###-###-###-###-###-###-##
+import modules ;
+import lua ;
+import loop ;
+import oil ;
 
-lua = $(putsInstall)/bin/lua5.1 ;
-openbusIDL   = $(putsInstall)/idl/v2_0 ;
-loopBuild    = $(putsBuild)/loop-3.0beta ;
-oilBuild     = $(putsBuild)/oil-source-0.6beta ;
-idl2lua_lua  = $(oilBuild)/lua/idl2lua.lua ;
-luaPreLoader = $(loopBuild)/lua/preloader.lua ;
+lua          = [ lua.path ] ;
+oil-path     = [ oil.path ] ;
+idl2lua      = [ oil.idl2lua-path ] ;
+idl2lua-idl  = [ oil.idl2lua-idl-path ] ;
+loop-path    = [ loop.path ] ;
+preloader    = [ loop.preloader-path ] ;
 
 project collaborationService
 ;
 
 collaborationIDL = idl/collaboration.idl ;
-parsedLua = lua/openbus/services/collaboration/idl/parsed.lua ;
-luaPath = $(loopBuild)/lua/?.lua;$(oilBuild)/lua/?.lua ;
-luaSRC = lua/openbus/services/collaboration/idl/parsed.lua 
-  lua/openbus/services/collaboration/idl.lua 
-  lua/openbus/services/collaboration/main.lua
-  lua/openbus/services/collaboration/messages.lua
-  lua/openbus/services/collaboration/Async.lua
-  lua/openbus/services/collaboration/DBSession.lua
-  lua/openbus/services/collaboration/EventChannel.lua
-  lua/openbus/services/collaboration/CollaborationRegistry.lua
-  lua/openbus/services/collaboration/CollaborationSession.lua ;
+luaPath = $(loop-path)/lua/?.lua;$(oil-path)/lua/?.lua ;
 
-make $(parsedLua)
+make parsed.lua
   : $(collaborationIDL)
   : @idl2lua
 ;
@@ -36,26 +25,27 @@ make $(parsedLua)
 actions idl2lua
 {
   $(lua) -e "package.path=package.path..';$(luaPath)'" \
-    $(idl2lua_lua) \
-    -I $(openbusIDL) \
-    -o $(parsedLua) \
-    $(collaborationIDL)
+    $(idl2lua) \
+    -I $(idl2lua-idl) \
+    -o $(<) \
+    $(>)
 }
 
 make collaborationService.c
-  : $(luaSRC)
+  : [ glob-tree *.lua : test *.luad ]
+    parsed.lua
   : @preLoader
 ;
 
 actions preLoader
 {
   $(lua) -e "package.path=package.path..';$(luaPath)'" \
-    $(luaPreLoader) \
-    -l "lua/?.lua" \
+    $(preloader) \
+    -l "lua/?.lua;$(<:D)/?.lua" \
     -d $(<:D) \
     -h collaborationService.h \
     -o collaborationService.c \
-    $(luaSRC)
+    $(>)
 }
 
 make collaborationService.h
@@ -70,7 +60,7 @@ actions dummy
 
 exe collaborationService
   : collaborationService.c
-    src/collaborationservlibs.c
+    src/collaborationservlibs.c 
     src/launcher.c
     /dl//dl 
     /lua//lua 
