@@ -9,16 +9,16 @@ searchPath += tools ;
 modules.poke : BOOST_BUILD_PATH : $(searchPath) ;
 
 using lua 
-  : $(putsInstall)/bin/lua5.1 
+  : $(putsInstall)/bin/lua5.1
+;
+
+using loop
+  : $(putsBuild)/loop-3.0beta
 ;
 
 using oil 
   : $(putsBuild)/oil-source-0.6beta 
   : $(putsInstall)/idl/v2_0
-;
-
-using loop
-  : $(putsBuild)/loop-3.0beta
 ;
 
 project dl 
