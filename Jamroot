@@ -1,62 +1,20 @@
 
 import modules ;
-import lua ;
 import loop ;
 import oil ;
 
-lua          = [ lua.path ] ;
-oil-path     = [ oil.path ] ;
-idl2lua      = [ oil.idl2lua-path ] ;
-idl2lua-idl  = [ oil.idl2lua-idl-path ] ;
-loop-path    = [ loop.path ] ;
-preloader    = [ loop.preloader-path ] ;
-
 project collaborationService
+  : build-dir build
 ;
 
-collaborationIDL = idl/collaboration.idl ;
-luaPath = $(loop-path)/lua/?.lua;$(oil-path)/lua/?.lua ;
-
-make parsed.lua
-  : $(collaborationIDL)
-  : @idl2lua
+oil.idl2lua parsed.lua 
+  : idl/collaboration.idl 
 ;
 
-actions idl2lua
-{
-  $(lua) -e "package.path=package.path..';$(luaPath)'" \
-    $(idl2lua) \
-    -I $(idl2lua-idl) \
-    -o $(<) \
-    $(>)
-}
-
-make collaborationService.c
-  : [ glob-tree *.lua : test *.luad ]
+loop.pre-compile collaborationService.c
+  : [ glob-tree *.lua : test *.luad ] 
     parsed.lua
-  : @preLoader
 ;
-
-actions preLoader
-{
-  $(lua) -e "package.path=package.path..';$(luaPath)'" \
-    $(preloader) \
-    -l "lua/?.lua;$(<:D)/?.lua" \
-    -d $(<:D) \
-    -h collaborationService.h \
-    -o collaborationService.c \
-    $(>)
-}
-
-make collaborationService.h
-  : collaborationService.c
-  : @dummy
-;
-
-actions dummy
-{
-  #does nothing
-}
 
 exe collaborationService
   : collaborationService.c

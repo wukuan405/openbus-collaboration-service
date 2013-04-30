@@ -1,10 +1,10 @@
 
-rule init ( path )
+rule init ( console )
 {
-  .path = $(path) ;
+  .console = $(console) ;
 }
 
-rule path ( )
+rule console ( )
 {
-  return $(.path) ;
+  return $(.console) ;
 }

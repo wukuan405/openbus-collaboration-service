@@ -1,7 +1,11 @@
 
+import lua ;
+
 rule init ( path )
 {
+  lua = [ lua.console ] ;
   .path = $(path) ;
+  .lua-path = "$(.path)/lua/?.lua" ;
 }
 
 rule path ( )
@@ -9,7 +13,32 @@ rule path ( )
   return $(.path) ;
 }
 
-rule preloader-path ( )
+rule pre-compile ( target : sources + )
 {
-  return $(.path)/lua/preloader.lua ;
+  make $(target)
+    : $(sources)
+    : loop.action-pre-compile
+  ;
+
+  make collaborationService.h
+    : collaborationService.c
+    : loop.dummy
+  ;
+
+}
+
+actions action-pre-compile
+{
+  $(lua) -e "package.path=package.path..';$(.lua-path)'" \
+    $(.path)/lua/preloader.lua \
+    -l "lua/?.lua;$(<:D)/?.lua" \
+    -d $(<:D) \
+    -h collaborationService.h \
+    -o collaborationService.c \
+    $(>)
+}
+
+actions dummy
+{
+  #does nothing
 }

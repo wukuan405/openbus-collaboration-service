@@ -1,22 +1,31 @@
 
+import lua ;
+import loop ;
+
+
 rule init ( path : idl2lua-idl-path )
 {
+  lua-console = [ lua.console ] ;
+  # loop-path = [ loop.path ] ;
+  # ??
+  loop-path = /home/rcosme/puts/build/loop-3.0beta ;
   .path = $(path) ;
   .idl2lua-idl-path = $(idl2lua-idl-path) ;
+  .lua-path = "$(loop-path)/lua/?.lua;$(path)/lua/?.lua" ;
 }
 
-rule path ( )
+rule idl2lua ( target : sources + )
 {
-  return $(.path) ;
+  make $(target)
+    : $(sources)
+    : oil.action-idl2lua
+  ;
 }
-
-rule idl2lua-path ( )
+actions action-idl2lua
 {
-  return $(.path)/lua/idl2lua.lua ;
-}
-
-#[TODO]
-rule idl2lua-idl-path ( )
-{
-  return $(.idl2lua-idl-path) ;
+  $(lua-console) -e "package.path=package.path..';$(.lua-path)'" \
+    $(.path)/lua/idl2lua.lua \
+    -I $(.idl2lua-idl-path) \
+    -o $(<) \
+    $(>)
 }
