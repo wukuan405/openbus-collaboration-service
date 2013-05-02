@@ -2,7 +2,6 @@
 import lua ;
 import loop ;
 
-
 rule init ( path : idl2lua-idl-path )
 {
   lua-console = [ lua.console ] ;

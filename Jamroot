@@ -3,7 +3,7 @@ import modules ;
 import loop ;
 import oil ;
 
-project collaborationService
+project collaboration-service
   : build-dir build
 ;
 
@@ -16,7 +16,7 @@ loop.pre-compile collaborationService.c
     parsed.lua
 ;
 
-exe collaborationService
+exe collaboration-service
   : collaborationService.c
     src/collaborationservlibs.c 
     src/launcher.c

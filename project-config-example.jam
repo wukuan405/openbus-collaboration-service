@@ -1,12 +1,15 @@
 
-putsInstall = /home/rcosme/puts/install ;
-putsBuild   = /home/rcosme/puts/build ;
-
+import os ;
 import modules ;
 
-local searchPath = [ modules.peek : BOOST_BUILD_PATH ] ;
-searchPath += tools ;
-modules.poke : BOOST_BUILD_PATH : $(searchPath) ;
+local home = [ os.environ HOME ] ;
+
+putsInstall = $(home)/puts/install ;
+putsBuild   = $(home)/puts/build ;
+
+local search-path = [ modules.peek : BOOST_BUILD_PATH ] ;
+search-path += tools ;
+modules.poke : BOOST_BUILD_PATH : $(search-path) ;
 
 using lua 
   : $(putsInstall)/bin/lua5.1
