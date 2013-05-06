@@ -1,0 +1,157 @@
+
+import os ;
+
+local puts_install = [ os.environ PUTS_INSTALL ] ;
+local puts_build = [ os.environ PUTS_BUILD ] ;
+local loop_build = [ os.environ LOOP_BUILD ] ;
+local oil_build = [ os.environ OIL_BUILD ] ;
+
+using lua 
+  : $(puts_install)/bin/lua5.1
+;
+
+using loop
+  : $(loop_build)
+;
+
+using oil 
+  : $(oil_build)
+  : $(puts_install)/idl/v2_0
+;
+
+project dl 
+;
+
+lib dl 
+  : 
+  : <name>dl
+;
+
+project lua
+  : requirements <include>$(puts_install)/include/lua5.1.3
+    <search>$(puts_install)/lib
+;
+
+lib lua
+  :
+  : <name>lua5.1
+;
+
+project luuid
+  : requirements <include>$(puts_install)/include/luuid
+    <search>$(puts_install)/lib
+;
+
+lib luuid
+  :
+  : <name>luuid
+;
+
+project lce
+  : requirements <include>$(puts_install)/include/lce
+    <search>$(puts_install)/lib
+;
+
+lib lce
+  :
+  : <name>lce
+;
+
+project luafilesystem
+  : requirements <include>$(puts_install)/include/luafilesystem
+    <search>$(puts_install)/lib
+;
+
+lib lfs
+  :
+  : <name>lfs
+;
+
+project luavararg
+  : requirements <include>$(puts_install)/include/luavararg
+    <search>$(puts_install)/lib
+;
+
+lib luavararg
+  :
+  : <name>luavararg
+;
+
+project luastruct
+  : requirements <include>$(puts_install)/include/luastruct
+;
+
+lib luastruct
+  :
+  : <name>luastruct
+;
+
+project luasocket
+  : requirements <include>$(puts_install)/include/luasocket2
+;
+
+lib luasocket2
+  :
+  : <name>luasocket
+;
+
+project loop
+  : requirements <include>$(puts_install)/include/loop
+;
+
+lib loop
+  :
+  : <name>loop
+;
+
+lib luacoroutine
+  :
+  : <name>luacoroutine
+;
+
+lib luacothread
+  :
+  : <name>luacothread
+;
+
+lib luainspector
+  :
+  : <name>luainspector
+;
+
+lib luatuple
+  :
+  : <name>luatuple
+;
+
+project oil
+  : requirements <include>$(puts_install)/include/oil
+;
+
+lib luaidl
+  :
+  : <name>luaidl
+;
+
+lib oil
+  :
+  : <name>oil
+;
+
+project luascs
+  : requirements <include>$(puts_install)/include/scs/lua
+;
+
+lib luascs
+  :
+  : <name>luascs
+;
+
+project luaopenbus
+  : requirements <include>$(puts_install)/include/openbus/lua
+;
+
+lib luaopenbus
+  :
+  : <name>luaopenbus
+;

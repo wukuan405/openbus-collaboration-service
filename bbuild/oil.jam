@@ -1,0 +1,28 @@
+
+import lua ;
+import loop ;
+
+rule init ( path : idl2lua-idl-path )
+{
+  lua-console = [ lua.console ] ;
+  loop-path = [ loop.path ] ;
+  .path = $(path) ;
+  .idl2lua-idl-path = $(idl2lua-idl-path) ;
+  .lua-path = "$(loop-path)/lua/?.lua;$(path)/lua/?.lua" ;
+}
+
+rule idl2lua ( target : sources + )
+{
+  make $(target)
+    : $(sources)
+    : oil.action-idl2lua
+  ;
+}
+actions action-idl2lua
+{
+  $(lua-console) -e "package.path=package.path..';$(.lua-path)'" \
+    $(.path)/lua/idl2lua.lua \
+    -I $(.idl2lua-idl-path) \
+    -o $(<) \
+    $(>)
+}

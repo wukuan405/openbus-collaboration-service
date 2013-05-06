@@ -1,0 +1,10 @@
+
+rule init ( console )
+{
+  .console = $(console) ;
+}
+
+rule console ( )
+{
+  return $(.console) ;
+}

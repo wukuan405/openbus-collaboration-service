@@ -35,3 +35,7 @@ exe collaboration-service
     /luaopenbus//luaopenbus
   : <include>src <implicit-dependency>collaborationService.h
 ;
+
+install dist
+  : collaboration-service
+;
