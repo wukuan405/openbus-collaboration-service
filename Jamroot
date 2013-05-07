@@ -33,6 +33,7 @@ exe collaboration-service
     /luasocket//luasocket2 
     /luascs//luascs
     /luaopenbus//luaopenbus
+    /luasqlite//lsqlite3
   : <include>src <implicit-dependency>collaborationService.h
 ;
 

@@ -155,3 +155,12 @@ lib luaopenbus
   :
   : <name>luaopenbus
 ;
+
+project luasqlite
+  : requirements <include>$(puts_install)/include/lsqlite3
+;
+
+lib lsqlite3
+  : 
+  : <name>lsqlite3
+;
