@@ -24,7 +24,7 @@ project dl
 
 lib dl 
   : 
-  : <name>dl
+  : <link>shared
 ;
 
 project lua
@@ -37,6 +37,16 @@ lib lua
   : <name>lua5.1
 ;
 
+project e2fsprogs
+  : requirements <include>$(puts_install)/include/e2fsprogs-1.40.8/uuid
+    <search>$(puts_install)/lib
+;
+
+lib uuid
+;
+
+alias e2fsprogs : uuid ; 
+
 project luuid
   : requirements <include>$(puts_install)/include/luuid
     <search>$(puts_install)/lib
@@ -46,6 +56,16 @@ lib luuid
   :
   : <name>luuid
 ;
+
+project openssl
+  : requirements <include>$(puts_install)/include
+    <search>$(puts_install)/lib
+;
+
+lib crypto 
+;
+
+alias openssl : crypto ;
 
 project lce
   : requirements <include>$(puts_install)/include/lce
@@ -79,6 +99,7 @@ lib luavararg
 
 project luastruct
   : requirements <include>$(puts_install)/include/luastruct
+    <search>$(puts_install)/lib
 ;
 
 lib luastruct
@@ -88,6 +109,7 @@ lib luastruct
 
 project luasocket
   : requirements <include>$(puts_install)/include/luasocket2
+    <search>$(puts_install)/lib
 ;
 
 lib luasocket2
@@ -126,6 +148,7 @@ lib luatuple
 
 project oil
   : requirements <include>$(puts_install)/include/oil
+    <search>$(puts_install)/lib
 ;
 
 lib luaidl
@@ -140,6 +163,7 @@ lib oil
 
 project luascs
   : requirements <include>$(puts_install)/include/scs/lua
+    <search>$(puts_install)/lib
 ;
 
 lib luascs
@@ -149,6 +173,7 @@ lib luascs
 
 project luaopenbus
   : requirements <include>$(puts_install)/include/openbus/lua
+    <search>$(puts_install)/lib
 ;
 
 lib luaopenbus
@@ -156,8 +181,19 @@ lib luaopenbus
   : <name>luaopenbus
 ;
 
+project sqlite
+  : requirements <include>$(puts_install)/include/sqlite3
+    <search>$(puts_install)/lib
+;
+
+lib sqlite3
+  : 
+  : <name>sqlite3
+;
+
 project luasqlite
   : requirements <include>$(puts_install)/include/lsqlite3
+    <search>$(puts_install)/lib
 ;
 
 lib lsqlite3

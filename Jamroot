@@ -22,7 +22,9 @@ exe collaboration-service
     src/launcher.c
     /dl//dl 
     /lua//lua 
+    /e2fsprogs//uuid
     /luuid//luuid 
+    /openssl//openssl
     /lce//lce 
     /luafilesystem//lfs 
     /luastruct//luastruct 
@@ -33,6 +35,7 @@ exe collaboration-service
     /luasocket//luasocket2 
     /luascs//luascs
     /luaopenbus//luaopenbus
+    /sqlite//sqlite3
     /luasqlite//lsqlite3
   : <include>src <implicit-dependency>collaborationService.h
 ;
