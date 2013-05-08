@@ -53,7 +53,6 @@ exception NameInUse { Identifier name; };
  * \brief Representa um observador de uma colaboração.
  */
 interface CollaborationObserver {
-	
 	/**
 	 * \brief Notifica que uma membro foi incluído na colaboração.
 	 *
@@ -75,8 +74,7 @@ interface CollaborationObserver {
 	 * \brief Notifica que colaboração foi finalizada.
 	 */
 	void destroyed()
-		raises (core::v2_0::services::ServiceFailure);
-	
+		raises (core::v2_0::services::ServiceFailure);	
 };
 
 /**
@@ -133,12 +131,10 @@ struct CollaborationMember {
 /** \brief Sequência de membros. */
 typedef sequence<CollaborationMember> CollaborationMemberSeq;
 
-
 /**
  * \brief Representa uma sessão de colaboração.
  */
-interface CollaborationSession {
-	
+interface CollaborationSession {	
 	/** \brief Canal de eventos associado à sessão de colaboração. */
 	readonly attribute EventChannel channel;
 	
@@ -205,8 +201,7 @@ interface CollaborationSession {
 	 * \c false, caso contrário.
 	 */
 	boolean unsubscribeObserver(in Cookie ck)
-		raises (core::v2_0::services::ServiceFailure);
-	
+		raises (core::v2_0::services::ServiceFailure);	
 };
 
 /**
@@ -216,8 +211,7 @@ interface CollaborationRegistry {
 	/**
 	 * \brief Cria uma sessão de colaboração.
 	 *
-	 * \return \c true, caso o descadastramento foi realizado com sucesso, ou 
-	 * \c false, caso contrário.
+	 * \return a sessão criada.
 	 */
 	CollaborationSession createCollaborationSession()
 		raises (core::v2_0::services::ServiceFailure);
