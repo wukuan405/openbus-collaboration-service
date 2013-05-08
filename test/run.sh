@@ -1,11 +1,12 @@
 #!/bin/bash
 
-openbusTestLuaPath="$HOME/puts/build/openbus-lua-2.0.0.0/test/?.lua"
-lsqlite3LuaCPath="$HOME/build/lsqlite3_svn08/?.so"
-console=$HOME/puts/install/bin/busconsole
+putsInstall="$HOME/puts/install"
+putsBuild="$HOME/puts/build"
+console=$putsInstall/bin/busconsole
+openbusTestLuaPath="$putsBuild/openbus-lua-2.0.0.0/test/?.lua"
 
 LUA_PATH="?.lua;../lua/?.lua;$openbusTestLuaPath"
-LUA_CPATH="$lsqlite3LuaCPath"
+LUA_CPATH="$putsInstall/lib/lib?.so"
 
 cases="interface persistence observer"
 
