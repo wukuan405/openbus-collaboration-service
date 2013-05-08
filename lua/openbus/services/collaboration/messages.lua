@@ -31,9 +31,12 @@ Options:
   -configs <path>            arquivo de configurações do serviço de colaboração
 ]]
 
-msg.createCollaborationSession = "criacao da sessao {$sessionId} pelo login {$creator}"
-msg.recoverySession = "recuperacao da sessao {$sessionId} criada pelo login {$creator}"
-msg.recoveryMember = "recuperacao do membro {$name} registrado na sessao {$sessionId} pelo login {$owner}"
+msg.createCollaborationSession = "criacao da sessao {$sessionId} pelo login "
+  .."{$creator}"
+msg.recoverySession = "recuperacao da sessao {$sessionId} criada pelo login "
+  .."{$creator}"
+msg.recoveryMember = "recuperacao do membro {$name} registrado na sessao "
+  .."{$sessionId} pelo login {$owner}"
 msg.recoveryMemberIOR = "membro {$name} com IOR=$ior"
 msg.recoveryConsumer = "recuperacao do consumidor {cookie=$cookie, ior=$ior} "..
   "registrado na sessao {$sessionId}"
@@ -41,15 +44,18 @@ msg.recoveryObserver = "recuperacao do observador {cookie=$cookie, ior=$ior} "..
   "registrado na sessao {$sessionId}"
 
 msg.delMember = "remocao do membro {$name} registrado na sessao {$sessionId}"
-msg.addMember = "registro do membro {$name} na sessao {$sessionId} pelo login {$owner}"
+msg.addMember = "registro do membro {$name} na sessao {$sessionId} pelo login "
+  .."{$owner}"
 msg.getMember = "retorno do membro {$name} registrado na sessao {$sessionId}"
 msg.addSession = "registro da sessao {$objkey} criada pelo login {$creator}"
 msg.delSession = "destruicao da sessao {$sessionId}"
 
 msg.subscribeObserver = "registro do observador {$ior} da sessao {$sessionId}"
-msg.unsubscribeObserver = "remocao do observador {cookie=$cookie} da sessao {$sessionId}"
+msg.unsubscribeObserver = "remocao do observador {cookie=$cookie} da sessao "
+ .."{$sessionId}"
 msg.subscribeConsumer = "registro do consumidor {$ior} na sessao {$sessionId}"
-msg.unsubscribeConsumer = "remocao do consumidor {cookie=$cookie} da sessao {$sessionId}"
+msg.unsubscribeConsumer = "remocao do consumidor {cookie=$cookie} da sessao "
+ .."{$sessionId}"
 
 msg.openDB = "sqlite.open($filename): errCode=$errCode"
 msg.prepareDB = "sqlite_conn.prepare($sql): errCode=$errCode"
