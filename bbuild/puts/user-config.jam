@@ -19,8 +19,7 @@ using oil
   : $(puts_install)/idl/v2_0
 ;
 
-project dl 
-;
+project dl ;
 
 lib dl 
   : 
@@ -32,18 +31,14 @@ project lua
     <search>$(puts_install)/lib
 ;
 
-lib lua
-  :
-  : <name>lua5.1
-;
+lib lua ;
 
 project e2fsprogs
   : requirements <include>$(puts_install)/include/e2fsprogs-1.40.8/uuid
     <search>$(puts_install)/lib
 ;
 
-lib uuid
-;
+lib uuid ;
 
 alias e2fsprogs : uuid ; 
 
@@ -52,18 +47,14 @@ project luuid
     <search>$(puts_install)/lib
 ;
 
-lib luuid
-  :
-  : <name>luuid
-;
+lib luuid ;
 
 project openssl
   : requirements <include>$(puts_install)/include
     <search>$(puts_install)/lib
 ;
 
-lib crypto 
-;
+lib crypto ;
 
 alias openssl : crypto ;
 
@@ -72,47 +63,35 @@ project lce
     <search>$(puts_install)/lib
 ;
 
-lib lce
-  :
-  : <name>lce
-;
+lib lce ;
 
 project luafilesystem
   : requirements <include>$(puts_install)/include/luafilesystem
     <search>$(puts_install)/lib
 ;
 
-lib lfs
-  :
-  : <name>lfs
-;
+lib lfs ;
 
 project luavararg
   : requirements <include>$(puts_install)/include/luavararg
     <search>$(puts_install)/lib
 ;
 
-lib luavararg
-  :
-  : <name>luavararg
-;
+lib luavararg ;
 
 project luastruct
   : requirements <include>$(puts_install)/include/luastruct
     <search>$(puts_install)/lib
 ;
 
-lib luastruct
-  :
-  : <name>luastruct
-;
+lib luastruct ;
 
 project luasocket
   : requirements <include>$(puts_install)/include/luasocket2
     <search>$(puts_install)/lib
 ;
 
-lib luasocket2
+lib luasocket2 
   :
   : <name>luasocket
 ;
@@ -121,82 +100,49 @@ project loop
   : requirements <include>$(puts_install)/include/loop
 ;
 
-lib loop
-  :
-  : <name>loop
-;
+lib loop ;
 
-lib luacoroutine
-  :
-  : <name>luacoroutine
-;
+lib luacoroutine ;
 
-lib luacothread
-  :
-  : <name>luacothread
-;
+lib luacothread ;
 
-lib luainspector
-  :
-  : <name>luainspector
-;
+lib luainspector ;
 
-lib luatuple
-  :
-  : <name>luatuple
-;
+lib luatuple ;
 
 project oil
   : requirements <include>$(puts_install)/include/oil
     <search>$(puts_install)/lib
 ;
 
-lib luaidl
-  :
-  : <name>luaidl
-;
+lib luaidl ;
 
-lib oil
-  :
-  : <name>oil
-;
+lib oil ;
 
 project luascs
   : requirements <include>$(puts_install)/include/scs/lua
     <search>$(puts_install)/lib
 ;
 
-lib luascs
-  :
-  : <name>luascs
-;
+lib luascs ;
 
 project luaopenbus
   : requirements <include>$(puts_install)/include/openbus/lua
     <search>$(puts_install)/lib
 ;
 
-lib luaopenbus
-  :
-  : <name>luaopenbus
-;
+lib luaopenbus ;
 
 project sqlite
   : requirements <include>$(puts_install)/include/sqlite3
     <search>$(puts_install)/lib
 ;
 
-lib sqlite3
-  : 
-  : <name>sqlite3
-;
+lib sqlite3 ;
 
 project luasqlite
   : requirements <include>$(puts_install)/include/lsqlite3
     <search>$(puts_install)/lib
 ;
 
-lib lsqlite3
-  : 
-  : <name>lsqlite3
-;
+lib lsqlite3 ;
