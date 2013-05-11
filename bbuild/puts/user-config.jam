@@ -31,7 +31,7 @@ project lua
     <search>$(puts_install)/lib
 ;
 
-lib lua ;
+lib lua5.1 ;
 
 project e2fsprogs
   : requirements <include>$(puts_install)/include/e2fsprogs-1.40.8/uuid

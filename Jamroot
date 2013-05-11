@@ -21,7 +21,7 @@ exe collaboration-service
     src/collaborationservlibs.c 
     src/launcher.c
     /dl//dl 
-    /lua//lua 
+    /lua//lua5.1
     /e2fsprogs//uuid
     /luuid//luuid 
     /openssl//openssl
