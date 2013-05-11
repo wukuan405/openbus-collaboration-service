@@ -37,10 +37,7 @@ project lua
     <search>$(putsInstall)/lib
 ;
 
-lib lua
-  :
-  : <name>lua5.1
-;
+lib lua5.1 ;
 
 project luuid
   : requirements <include>$(putsInstall)/include/luuid
