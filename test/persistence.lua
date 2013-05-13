@@ -32,7 +32,7 @@ env.rgs:registerService(component.IComponent, {
   }
 })
 
-local dbFilename = "../db.sqlite3"
+local dbFilename = os.getenv("DB_SQLITE3")
 local db = sqlite.open(dbFilename)
 assert(db)
 
