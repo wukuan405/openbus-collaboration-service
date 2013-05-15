@@ -1,0 +1,21 @@
+Category {
+  id = "CollaborationServiceTests",
+  name = "Testes do serviço de colaboracao",
+}
+
+Entity {
+  id = "testuser",
+  category = "CollaborationServiceTests",
+  name = "Usuario para execucao dos testes",
+}
+
+Interface {
+  id = "IDL:Hello:1.0"
+}
+
+Grant {
+  id = "testuser",
+  interfaces = {
+    "IDL:Hello:1.0",
+  }
+}
