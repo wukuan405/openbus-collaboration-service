@@ -1,16 +1,20 @@
 #!/bin/bash
 
-putsInstall="$HOME/puts/install"
-putsBuild="$HOME/puts/build"
-console=$putsInstall/bin/busconsole
-openbusTestLuaPath="$putsBuild/openbus-lua-2.0.0.0/test/?.lua"
+collaboration_service_pkg="collaboration-service-1.0snapshot"
+openbus_lua_pkg="openbus-lua-2.0.0.0"
 
-LUA_PATH="?.lua;../lua/?.lua;$openbusTestLuaPath"
-LUA_CPATH="$putsInstall/lib/lib?.so"
+puts_install="${PUTS}/install"
+puts_build="${PUTS}/build"
+console=${puts_install}/bin/busconsole
+collaboration_service=${puts_build}/${collaboration_service_pkg}
+openbus_lua=${puts_build}/${openbus_lua_pkg}
+lua_path="?.lua;${openbus_lua}/test/?.lua;"\
+"${collaboration_service}/lua/?.lua;${collaboration_service}/dist/?.lua"
+lua_cpath="${puts_install}/lib/lib?.so"
 
 cases="interface persistence observer"
 
 for case in $cases
 do
-  LUA_PATH=$LUA_PATH LUA_CPATH=$LUA_CPATH $console $case.lua
+  LUA_PATH=$lua_path LUA_CPATH=$lua_cpath $console $case.lua
 done

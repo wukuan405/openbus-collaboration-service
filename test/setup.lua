@@ -5,10 +5,11 @@ local ComponentContext = require "scs.core.ComponentContext"
 local openbus = require "openbus"
 local idl = require "openbus.services.collaboration.idl"
 local CollaborationRegistryFacet = idl.const.CollaborationRegistryFacet
+local putsInstall = os.getenv("PUTS").."/install"
 
 function setup()
   local orb = openbus:initORB()
-  orb:loadidlfile("../idl/collaboration.idl")
+  orb:loadidlfile(putsInstall.."/idl/collaboration-service-1.0/collaboration.idl")
   local busCtx = orb.OpenBusContext
   local conn = busCtx:createConnection(bushost, busport)
   conn:loginByPassword(user, password)
