@@ -1,6 +1,6 @@
 #!/bin/bash
 
-collaboration_service_pkg="collaboration-service-1.0snapshot"
+collaboration_service_pkg="collaboration-service-1.0.0_0"
 openbus_lua_pkg="openbus-lua-2.0.0.0"
 
 puts_install="${PUTS}/install"
