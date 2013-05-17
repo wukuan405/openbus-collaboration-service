@@ -42,4 +42,5 @@ exe collaboration-service
 
 install dist
   : collaboration-service
+    parsed.lua
 ;
