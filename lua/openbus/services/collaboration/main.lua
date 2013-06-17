@@ -18,8 +18,8 @@ local function defaultConfig()
     host = "*",
     port = 2090,
     
-    busHost = "localhost",
-    busPort = 2089,
+    bushost = "localhost",
+    busport = 2089,
   
     database = "db.sqlite3",
     privatekey = "collab.key",
@@ -66,7 +66,7 @@ return function(...)
     host = config.host, 
     port = config.port,
   }).OpenBusContext
-  local conn = ctx:createConnection(config.busHost, config.busPort)
+  local conn = ctx:createConnection(config.bushost, config.busport)
   ctx:setDefaultConnection(conn)
   
   local orb = conn.orb
