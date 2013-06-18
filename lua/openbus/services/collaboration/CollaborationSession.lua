@@ -29,7 +29,7 @@ function CollaborationSession:__init()
   registry.sessions[self] = true
   if (self.persist) then
     dbSession:addSession(self.id, self.creator)
-    self.registry:watchLogin(self.creator, self)
+    self.registry:watchLogin(self.creator, self, self.id, "sessions")
   end
 end
 

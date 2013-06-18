@@ -34,6 +34,11 @@ function setup()
     conn = conn,
     rgs = rgs,
     collaborationRegistry = registry,
-    componentCtx = ComponentContext
+    componentCtx = ComponentContext,
+    busCtx = busCtx,
+    bushost = bushost,
+    busport = busport,
+    user = user,
+    password = password
   }
 end

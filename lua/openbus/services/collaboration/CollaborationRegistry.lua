@@ -26,35 +26,39 @@ local CollaborationRegistry = {
 }
 
 local function registerOnInvalidLogin(registry)
-  local login2session = registry.login2session
+  local login2entity = registry.login2entity
   registry.observer = {
     entityLogout = function(_, login)
-      local sessions = login2session[login.id]
-      if (not sessions) then
+      local entities = login2entity[login.id]
+      if (not entities) then
          --[DOUBT] assert?
         log:unexpected(msg.GotUnsolicitedLogoutNotification:tag({
           login = login.id,
           entity = login.entity,
         }))
       else
-        for session, _ in pairs(sessions) do
-          if (registry.sessions[session]) then            
-            for name, _ in pairs(sessions[session].members) do
-              session:removeMember(name)
-            end
-            for cookie, _ in pairs(sessions[session].observers) do
-              session:unsubscribeObserver(cookie)
-            end
-            for cookie, _ in pairs(sessions[session].consumers) do
-              session.channel:unsubscribe(cookie)
-            end
-            sessions[session] = nil
-            if (#session:getMembers() < 1) then
-              session:destroy()
+        for name, entity in pairs(entities) do
+          for key, session in pairs(entity) do
+            if ("members" == name) then
+              session:removeMember(key)
+              if (#session:getMembers() == 0 and 
+                  not login2entity[session.creator]) 
+              then
+                session:destroy()
+              end
+            elseif ("sessions" == name) then
+              if (#session:getMembers() == 0) then
+                session:destroy()
+              end
+            elseif ("observers" == name) then
+              session:unsubscribeObserver(key)              
+            elseif ("consumers" == name) then
+              session.channel:unsubscribe(key)              
             end
           end
+          entities[entity] = nil
         end
-        login2session[login.id] = nil
+        login2entity[login.id] = nil
         local ok, emsg = pcall(registry.subscription.forgetLogin, 
                                registry.subscription, login.id)
         if (not ok) then
@@ -84,7 +88,7 @@ local function registerOnInvalidLogin(registry)
       registry.observer)
     registry.subscription = subscription
     local loginSeq = {}
-    for login, _ in pairs(registry.login2session) do
+    for login, _ in pairs(registry.login2entity) do
       loginSeq[#loginSeq+1] = login
     end
     local ok, emsg = pcall(subscription.watchLogins, subscription, loginSeq)
@@ -106,19 +110,13 @@ local function registerOnInvalidLogin(registry)
   conn.onInvalidLogin()
 end
 
-function CollaborationRegistry:registerLogin(loginId, session, key, group)
-  if (self.login2session[loginId] == nil) then
-    self.login2session[loginId] = {}
+function CollaborationRegistry:registerLogin(loginId, session, key, entity)
+  if (self.login2entity[loginId] == nil) then
+    self.login2entity[loginId] = {}
   end
-  if (self.login2session[loginId][session] == nil) then
-    self.login2session[loginId][session] = {
-      members = {},
-      observers = {},
-      consumers = {}
-    }
-  end
-  if (group ~= nil) then
-    self.login2session[loginId][session][group][key] = true
+  if (self.login2entity[loginId][entity] == nil) then
+    self.login2entity[loginId][entity] = {}
+    self.login2entity[loginId][entity][key] = session
   end
 end
 
@@ -155,7 +153,7 @@ function CollaborationRegistry:__init(o)
   self.dbSession = dbSession({
     dbPath = o.dbPath
   })
-  self.login2session = {}
+  self.login2entity = {}
   self.sessions = {}
 
   for sessionId, creator in pairs(self.dbSession:getSessions()) do
@@ -164,7 +162,7 @@ function CollaborationRegistry:__init(o)
       creator = creator,
       registry = self
     })
-    self:registerLogin(creator, session)
+    self:registerLogin(creator, session, session, "sessions")
     log:admin(msg.recoverySession:tag({
       sessionId = sessionId,
       creator = creator
