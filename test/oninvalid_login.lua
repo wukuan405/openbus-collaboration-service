@@ -44,7 +44,7 @@ local function getRows(entity)
   return rows
 end
 
-local c1 = env.conn
+local sleep_time = 3
 
 do
   local session = env.collaborationRegistry:createCollaborationSession()
@@ -53,13 +53,34 @@ do
   env.busCtx:setDefaultConnection(c2);
   local m1 = session:addMember("m1", component.IComponent);
   c2:logout()
-  oil.sleep(1)
+  oil.sleep(sleep_time)
   assert(#getRows("session") == 1)
   assert(#getRows("member") == 0)
-  env.busCtx:setDefaultConnection(c1);
-  c1:logout()
-  oil.sleep(1)
+  env.busCtx:setDefaultConnection(env.conn);
+  env.conn:logout()
+  oil.sleep(sleep_time)
   assert(#getRows("session") == 0)  
+end
+
+do
+  local c1 = env.busCtx:createConnection(bushost, busport)
+  c1:loginByPassword(env.user, env.password)
+  env.busCtx:setDefaultConnection(c1);
+  local session = env.collaborationRegistry:createCollaborationSession()
+  local c2 = env.busCtx:createConnection(bushost, busport)
+  c2:loginByPassword(env.user, env.password)
+  env.busCtx:setDefaultConnection(c2);
+  local m1 = session:addMember("m1", component.IComponent);
+  env.busCtx:setDefaultConnection(c1)
+  c1:logout()
+  oil.sleep(sleep_time)
+  assert(#getRows("session") == 1)
+  assert(#getRows("member") == 1)
+  env.busCtx:setDefaultConnection(c2)
+  c2:logout()
+  oil.sleep(sleep_time)
+  assert(#getRows("session") == 0)
+  assert(#getRows("member") == 0)
 end
 
 db:close()

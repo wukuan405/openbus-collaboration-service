@@ -47,6 +47,7 @@ function observer:destroyed()
 end
 observer = env.orb:newservant(observer, nil, 
                               env.idl.types.CollaborationObserver)
+local sleep_time = 3
 
 do
   local session = env.collaborationRegistry:createCollaborationSession()
@@ -55,18 +56,18 @@ do
   for _, v in ipairs(members) do 
     session:addMember(v, component.IComponent)
     -- ugly!
-    oil.sleep(1)
+    oil.sleep(sleep_time)
     assert(called["memberAdded"][v])
   end
   for _, v in ipairs(members) do
     session:removeMember(v)
     -- ugly!
-    oil.sleep(1)
+    oil.sleep(sleep_time)
     assert(called["memberRemoved"][v])
   end
   session:destroy()
   -- ugly!
-  oil.sleep(1)
+  oil.sleep(sleep_time)
   assert(called["destroyed"])
 end
 
