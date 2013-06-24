@@ -37,26 +37,26 @@ local function registerOnInvalidLogin(registry)
           entity = login.entity,
         }))
       else
-        for name, entity in pairs(entities) do
-          for key, session in pairs(entity) do
-            if ("members" == name) then
-              session:removeMember(key)
-              if (#session:getMembers() == 0 and 
-                  not login2entity[session.creator]) 
-              then
-                session:destroy()
-              end
-            elseif ("sessions" == name) then
-              if (#session:getMembers() == 0) then
-                session:destroy()
-              end
-            elseif ("observers" == name) then
-              session:unsubscribeObserver(key)              
-            elseif ("consumers" == name) then
-              session.channel:unsubscribe(key)              
-            end
+        for key, session in pairs(entities.consumers) do
+          session.channel:unsubscribe(key)
+        end
+        for key, session in pairs(entities.observers) do
+          session:unsubscribeObserver(key)
+        end
+        for key, session in pairs(entities.members) do
+          session:removeMember(key)
+          if (#session:getMembers() == 0 and 
+             (session.creator==login.id or not login2entity[session.creator]))
+          then
+            session:destroy()
           end
-          entities[entity] = nil
+        end
+        for key, session in pairs(entities.sessions) do
+          if (#session:getMembers() == 0 and 
+             (session.creator==login.id or not login2entity[session.creator]))
+          then
+            session:destroy()
+          end
         end
         login2entity[login.id] = nil
         local ok, emsg = pcall(registry.subscription.forgetLogin, 
@@ -112,12 +112,14 @@ end
 
 function CollaborationRegistry:registerLogin(loginId, session, key, entity)
   if (self.login2entity[loginId] == nil) then
-    self.login2entity[loginId] = {}
+    self.login2entity[loginId] = {
+      sessions = {},
+      members = {},
+      consumers = {},
+      observers = {}      
+    }
   end
-  if (self.login2entity[loginId][entity] == nil) then
-    self.login2entity[loginId][entity] = {}
-    self.login2entity[loginId][entity][key] = session
-  end
+  self.login2entity[loginId][entity][key] = session
 end
 
 function CollaborationRegistry:forgetLogin(logindId)
@@ -131,8 +133,8 @@ function CollaborationRegistry:forgetLogin(logindId)
    end
 end
 
-function CollaborationRegistry:watchLogin(loginId, session, key, group)
-  self:registerLogin(loginId, session, key, group)
+function CollaborationRegistry:watchLogin(loginId, session, key, entity)
+  self:registerLogin(loginId, session, key, entity)
   local ok, emsg = pcall(self.subscription.watchLogin,self.subscription,loginId)
   if (not ok) then
     sysex.NO_PERMISSION({ 
