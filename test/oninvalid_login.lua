@@ -99,6 +99,59 @@ do
   assert(#getRows("member") == 0)
 end
 
+do
+  local c1 = env.busCtx:createConnection(bushost, busport)
+  c1:loginByPassword(env.user, env.password)
+  env.busCtx:setDefaultConnection(c1)
+  local s1 = env.collaborationRegistry:createCollaborationSession()
+  local m1 = s1:addMember("m1", component.IComponent)
+  local c2 = env.busCtx:createConnection(bushost, busport)
+  c2:loginByPassword(env.user, env.password)
+  env.busCtx:setDefaultConnection(c2)
+  local s2 = env.collaborationRegistry:createCollaborationSession()
+  local m2 = s2:addMember("m2", component.IComponent)
+  env.busCtx:setDefaultConnection(c1)
+  c1:logout()
+  oil.sleep(sleep_time)
+  assert(#getRows("session") == 1)
+  assert(#getRows("member") == 1)
+  env.busCtx:setDefaultConnection(c2)
+  c2:logout()
+  oil.sleep(sleep_time)
+  assert(#getRows("session") == 0)
+  assert(#getRows("member") == 0)
+end
+
+local observer = {}
+function observer:memberAdded(name, member)
+end
+function observer:memberRemoved(name)
+end
+function observer:destroyed()
+end
+observer = env.orb:newservant(observer, nil, 
+                              env.idl.types.CollaborationObserver)
+
+do
+  local c1 = env.busCtx:createConnection(bushost, busport)
+  c1:loginByPassword(env.user, env.password)
+  env.busCtx:setDefaultConnection(c1)
+  local s1 = env.collaborationRegistry:createCollaborationSession()
+  s1:subscribeObserver(observer)
+  s1:addMember("m1", component.IComponent)
+  local channel = s1:_get_channel()
+  channel:subscribe({
+    push = function(self, any)
+    end
+  })
+  c1:logout()
+  oil.sleep(sleep_time)
+  assert(#getRows("session") == 0)
+  assert(#getRows("member") == 0)
+  assert(#getRows("observer") == 0)
+  assert(#getRows("consumer") == 0)
+end
+
 env.conn:logout()  
 db:close()
 env.orb:shutdown()
