@@ -25,6 +25,14 @@ local CollaborationRegistry = {
   __objkey = CollaborationRegistryFacetName,
 }
 
+local function tryToDestroySession(login2entity, login, session)
+  if (#session:getMembers() == 0 and 
+     (session.creator==login.id or not login2entity[session.creator]))
+  then
+    session:destroy()
+  end
+end
+
 local function registerOnInvalidLogin(registry)
   local login2entity = registry.login2entity
   registry.observer = {
@@ -45,18 +53,10 @@ local function registerOnInvalidLogin(registry)
         end
         for key, session in pairs(entities.members) do
           session:removeMember(key)
-          if (#session:getMembers() == 0 and 
-             (session.creator==login.id or not login2entity[session.creator]))
-          then
-            session:destroy()
-          end
+          tryToDestroySession(login2entity, login, session)
         end
         for key, session in pairs(entities.sessions) do
-          if (#session:getMembers() == 0 and 
-             (session.creator==login.id or not login2entity[session.creator]))
-          then
-            session:destroy()
-          end
+          tryToDestroySession(login2entity, login, session)
         end
         login2entity[login.id] = nil
         local ok, emsg = pcall(registry.subscription.forgetLogin, 

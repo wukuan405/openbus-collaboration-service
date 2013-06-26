@@ -152,6 +152,48 @@ do
   assert(#getRows("consumer") == 0)
 end
 
+do
+  local c1 = env.busCtx:createConnection(bushost, busport)
+  c1:loginByPassword(env.user, env.password)
+  env.busCtx:setDefaultConnection(c1)
+  local s1 = env.collaborationRegistry:createCollaborationSession()
+  s1:subscribeObserver(observer)
+  s1:subscribeObserver(observer)
+  s1:subscribeObserver(observer)
+  c1:logout()
+  oil.sleep(sleep_time)
+  assert(#getRows("observer") == 0)
+  assert(#getRows("session") == 0)
+end
+
+do
+  local c1 = env.busCtx:createConnection(bushost, busport)
+  c1:loginByPassword(env.user, env.password)
+  env.busCtx:setDefaultConnection(c1)
+  local s1 = env.collaborationRegistry:createCollaborationSession()
+  s1:subscribeObserver(observer)
+  s1:subscribeObserver(observer)
+  local c2 = env.busCtx:createConnection(bushost, busport)
+  c2:loginByPassword(env.user, env.password)
+  env.busCtx:setDefaultConnection(c2)
+  local s2 = env.collaborationRegistry:createCollaborationSession()
+  s2:subscribeObserver(observer)
+  s2:subscribeObserver(observer)
+  s2:subscribeObserver(observer)
+  assert(#getRows("session") == 2)
+  assert(#getRows("observer") == 5)
+  env.busCtx:setDefaultConnection(c1)
+  c1:logout()
+  oil.sleep(sleep_time)
+  assert(#getRows("observer") == 3)
+  assert(#getRows("session") == 1)
+  env.busCtx:setDefaultConnection(c2)
+  c2:logout()
+  oil.sleep(sleep_time)
+  assert(#getRows("observer") == 0)
+  assert(#getRows("session") == 0)
+end
+
 env.conn:logout()  
 db:close()
 env.orb:shutdown()
