@@ -10,20 +10,16 @@ local idl = require "openbus.services.collaboration.idl"
 local CollaborationRegistry = 
   require "openbus.services.collaboration.CollaborationRegistry"
 
-local CollaborationServiceName = idl.const.CollaborationServiceName
-
 local function defaultConfig()
   return server.ConfigArgs(
   {
     host = "*",
-    port = 2090,
-    
+    port = 2090,    
     bushost = "localhost",
-    busport = 2089,
-  
+    busport = 2089,  
     database = "db.sqlite3",
     privatekey = "collab.key",
-  
+    entity = idl.const.CollaborationServiceName,
     loglevel = 4,
     logfile = "",
     oilloglevel = 0,
@@ -76,8 +72,8 @@ return function(...)
   local comp = server.newSCS(
   {
     orb = orb,
-    objkey = CollaborationServiceName,
-    name = CollaborationServiceName,
+    objkey = config.entity,
+    name = config.entity,
     facets = CollaborationRegistry,
     init = function()
       CollaborationRegistry.CollaborationRegistry:__init(
@@ -86,6 +82,7 @@ return function(...)
         busCtx = ctx,
         dbPath = config.database,
         prvKey = assert(server.readprivatekey(config.privatekey)),
+        entity = config.entity,
       })
     end,
   })

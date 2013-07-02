@@ -16,13 +16,11 @@ Options:
 
   -host <address>            endereço de rede usado pelo serviço de colaboração
   -port <number>             número da porta usada pelo serviço de colaboração
-
   -bushost <address>         endereço de rede de acesso ao barramento
   -busport <number>          número da porta de acesso ao barramento
-
   -database <path>           arquivo de dados do serviço de colaboração
   -privatekey <path>         arquivo com chave privada do serviço de colaboração
-
+  -entity <name>             nome da entidade relacionada ao serviço
   -loglevel <number>         nível de log gerado pelo serviço de colaboração
   -logfile <path>            arquivo de log gerado pelo serviço de colaboração
   -oilloglevel <number>      nível de log gerado pelo OiL (debug)

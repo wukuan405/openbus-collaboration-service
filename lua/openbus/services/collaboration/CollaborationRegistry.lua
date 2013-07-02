@@ -17,7 +17,6 @@ local CollaborationObserverInterface = idl.types.CollaborationObserver
 local EventConsumerInterface = idl.types.EventConsumer
 local CollaborationRegistryInterface = idl.types.CollaborationRegistry
 local CollaborationRegistryFacetName = idl.const.CollaborationRegistryFacet
-local CollaborationServiceName = idl.const.CollaborationServiceName
 local InvalidLoginsRepId = busIdl.types.services.access_control.InvalidLogins
 
 local CollaborationRegistry = {
@@ -73,7 +72,7 @@ local function registerOnInvalidLogin(registry)
 
   local conn = registry.conn
   conn.onInvalidLogin = function()
-    conn:loginByCertificate(CollaborationServiceName, registry.prvKey)
+    conn:loginByCertificate(registry.entity, registry.prvKey)
     local rgs = conn.orb.OpenBusContext:getOfferRegistry()
     local ok, emsg = pcall(rgs.registerService, rgs,registry.context.IComponent,
                            {})
@@ -152,6 +151,7 @@ function CollaborationRegistry:__init(o)
   self.conn = o.conn
   self.orb = self.conn.orb
   self.prvKey = o.prvKey
+  self.entity = o.entity
   self.dbSession = dbSession({
     dbPath = o.dbPath
   })
