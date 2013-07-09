@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>tecgraf.openbus.collaboration</groupId>
-  <artifactId>collaboration-service-demo-java</artifactId>
+  <artifactId>openbus-collaboration-demo-java</artifactId>
   <packaging>pom</packaging>
   <version>1.0.0</version>
 
-  <name>OpenBus - Serviço de Colaboração - Demonstrações</name>
+  <name>OpenBus - ServiÃ§o de ColaboraÃ§Ã£o - DemonstraÃ§Ãµes</name>
   <url>http://www.tecgraf.puc-rio.br/openbus</url>
 
   <properties>

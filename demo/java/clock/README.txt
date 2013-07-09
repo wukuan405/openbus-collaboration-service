@@ -1,20 +1,20 @@
-A demo Clock tenta demonstrar um serviÁo de relÛgio que prove a data e hora atuais
-a cada intervalo de tempo a todos os clientes que se conectarem ao serviÁo colaborativo.
-O servidor sÛ funciona apÛs conseguir conectar no barramento, realizar o login,
-encontrar a oferta do serviÁo de colaboraÁ„o, e criar uma sess„o no serviÁo de
-colaboraÁ„o. Caso o login seja perdido, sua callback de login inv·lido tenta
-refazer esse processo por um n˙mero m·ximo de tentativas.
+A demo Clock tenta demonstrar um servi√ßo de rel√≥gio que prove a data e hora atuais
+a cada intervalo de tempo a todos os clientes que se conectarem ao servi√ßo colaborativo.
+O servidor s√≥ funciona ap√≥s conseguir conectar no barramento, realizar o login,
+encontrar a oferta do servi√ßo de colabora√ß√£o, e criar uma sess√£o no servi√ßo de
+colabora√ß√£o. Caso o login seja perdido, sua callback de login inv√°lido tenta
+refazer esse processo por um n√∫mero m√°ximo de tentativas.
 
-O cliente, por sua vez, apÛs conseguir se conectar no barramento, realizar o login,
-e encontrar a oferta do serviÁo de colaboraÁ„o, tenta acessar a sess„o criada pelo
-servidor utilizando um arquivo com o ID da sess„o de colaboraÁ„o. Se n„o conseguir
-apÛs um n˙mero de tentativas, falha com uma mensagem de erro.
+O cliente, por sua vez, ap√≥s conseguir se conectar no barramento, realizar o login,
+e encontrar a oferta do servi√ßo de colabora√ß√£o, tenta acessar a sess√£o criada pelo
+servidor utilizando um arquivo com o ID da sess√£o de colabora√ß√£o. Se n√£o conseguir
+ap√≥s um n√∫mero de tentativas, falha com uma mensagem de erro.
 
 ------------------------------
--------- DEPEND NCIAS---------
+-------- DEPEND√äNCIAS---------
 ------------------------------
 
-As dependÍncias de software s„o fornecidas j· compiladas, em conjunto com a demo:
+As depend√™ncias de software s√£o fornecidas j√° compiladas, em conjunto com a demo:
 
 ant-1.8.2.jar
 ant-launcher-1.8.2.jar
@@ -34,23 +34,23 @@ Servidor
 1) host do barramento
 2) porta do barramento
 3) nome de entidade
-4) senha (opcional - se n„o for fornecida, ser· utilizado o nome de entidade)
-5) arquivo onde ser· gravado o ID da sess„o de colaboraÁ„o (opcional - se n„o for fornecido, ser· utilizado 'clock_session.dat')
-6) tempo de espera entre cada tentativa de acesso ao barramento (em segundos e opcional - se n„o for fornecido, ser· 1)
-7) n˙mero m·ximo de tentativas de acesso ao barramento (opcional - se n„o for fornecido, ser· 10)
+4) senha (opcional - se n√£o for fornecida, ser√° utilizado o nome de entidade)
+5) arquivo onde ser√° gravado o ID da sess√£o de colabora√ß√£o (opcional - se n√£o for fornecido, ser√° utilizado 'clock_session.dat')
+6) tempo de espera entre cada tentativa de acesso ao barramento (em segundos e opcional - se n√£o for fornecido, ser√° 1)
+7) n√∫mero m√°ximo de tentativas de acesso ao barramento (opcional - se n√£o for fornecido, ser√° 10)
 
 Cliente
 1) host do barramento
 2) porta do barramento
 3) nome de entidade
-4) senha (opcional - se n„o for fornecida, ser· usado o nome de entidade)
-5) arquivo contendo o ID da sess„o de colaboraÁ„o (opcional - se n„o for fornecido, ser· utilizado 'clock_session.dat')
-6) tempo de espera entre cada tentativa de acesso ao barramento (em segundos e opcional - se n„o for fornecido, ser· 1)
-7) n˙mero m·ximo de tentativas de acesso ao barramento (opcional - se n„o for fornecido, ser· 10)
+4) senha (opcional - se n√£o for fornecida, ser√° usado o nome de entidade)
+5) arquivo contendo o ID da sess√£o de colabora√ß√£o (opcional - se n√£o for fornecido, ser√° utilizado 'clock_session.dat')
+6) tempo de espera entre cada tentativa de acesso ao barramento (em segundos e opcional - se n√£o for fornecido, ser√° 1)
+7) n√∫mero m√°ximo de tentativas de acesso ao barramento (opcional - se n√£o for fornecido, ser√° 10)
 
 
 ------------------------------
----------- EXECU«√O ----------
+---------- EXECU√á√ÉO ----------
 ------------------------------
 
 A demo deve ser executada na seguinte ordem:
@@ -62,8 +62,8 @@ A demo deve ser executada na seguinte ordem:
 -------------------------------
 ----------- EXEMPLO -----------
 -------------------------------
-Supondo que os jars que a demo depende est„o em um diretÛrio chamado '/openbus-sdk-java/lib':
+Supondo que os jars que a demo depende est√£o em um diret√≥rio chamado '/openbus-sdk-java/lib':
 
-1) java -Djava.endorsed.dirs=/openbus-sdk-java/lib/ -cp $(echo lib/*.jar | tr ' ' ':'):collaboration-service-demo-java-clock-1.0.0.jar tecgraf.openbus.services.collaboration.v1_0.ClockServer localhost 2089 CollaborationService
+1) java -Djava.endorsed.dirs=/openbus-sdk-java/lib/ -cp $(echo lib/*.jar | tr ' ' ':'):openbus-collaboration-demo-java-clock-1.0.0.jar tecgraf.openbus.services.collaboration.v1_0.ClockServer localhost 2089 CollaborationService
 
-2) java -Djava.endorsed.dirs=/openbus-sdk-java/lib/ -cp $(echo lib/*.jar | tr ' ' ':'):collaboration-service-demo-java-clock-1.0.0.jar tecgraf.openbus.services.collaboration.v1_0.ClockClient localhost 2089 CollaborationService
+2) java -Djava.endorsed.dirs=/openbus-sdk-java/lib/ -cp $(echo lib/*.jar | tr ' ' ':'):openbus-collaboration-demo-java-clock-1.0.0.jar tecgraf.openbus.services.collaboration.v1_0.ClockClient localhost 2089 CollaborationService

@@ -4,14 +4,14 @@
 
   <parent>
     <groupId>tecgraf.openbus.collaboration</groupId>
-    <artifactId>collaboration-service-demo-java</artifactId>
+    <artifactId>openbus-collaboration-demo-java</artifactId>
     <version>1.0.0</version>
   </parent>
 
-  <artifactId>collaboration-service-demo-java-clock</artifactId>
+  <artifactId>openbus-collaboration-demo-java-clock</artifactId>
   <packaging>jar</packaging>
 
-  <name>OpenBus - Serviço de Colaboração - Demonstrações - Clock</name>
+  <name>OpenBus - ServiÃ§o de ColaboraÃ§Ã£o - DemonstraÃ§Ãµes - Clock</name>
   <url>http://www.tecgraf.puc-rio.br/openbus</url>
 
   <build>
