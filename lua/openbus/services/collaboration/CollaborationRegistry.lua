@@ -121,15 +121,8 @@ function CollaborationRegistry:registerLogin(loginId, session, key, entity)
   self.login2entity[loginId][entity][key] = session
 end
 
-function CollaborationRegistry:forgetLogin(logindId)
-  local ok, emsg = pcall(self.subscription.forgetLogin,
-                         self.subscription, loginId)
-  if (not ok) then
-    log:exception(msg.UnableToStopWatchingLogin:tag({
-      login = loginId,
-      error = emsg,
-    })) 
-   end
+function CollaborationRegistry:unregisterLogin(loginId, key, entity)
+  self.login2entity[loginId][entity][key] = nil
 end
 
 function CollaborationRegistry:watchLogin(loginId, session, key, entity)
