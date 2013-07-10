@@ -42,6 +42,7 @@
           <compiler>jacorb</compiler>
           <sourceDirectory>../../../idl</sourceDirectory>
           <includeDirs>
+            <includeDir>${scs.idlpath}</includeDir>
             <includeDir>${openbus.idlpath}</includeDir>
           </includeDirs>
         </configuration>
