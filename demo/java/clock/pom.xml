@@ -11,7 +11,7 @@
   <artifactId>openbus-collaboration-demo-java-clock</artifactId>
   <packaging>jar</packaging>
 
-  <name>OpenBus - ServiÃ§o de ColaboraÃ§Ã£o - DemonstraÃ§Ãµes - Clock</name>
+  <name>OpenBus - Serviço de Colaboração - Demonstrações - Clock</name>
   <url>http://www.tecgraf.puc-rio.br/openbus</url>
 
   <build>
