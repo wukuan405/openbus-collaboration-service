@@ -122,7 +122,9 @@ function CollaborationRegistry:registerLogin(loginId, session, key, entity)
 end
 
 function CollaborationRegistry:unregisterLogin(loginId, key, entity)
-  self.login2entity[loginId][entity][key] = nil
+  if (self.login2entity[loginId] and self.login2entity[loginId][entity]) then
+    self.login2entity[loginId][entity][key] = nil
+  end
 end
 
 function CollaborationRegistry:watchLogin(loginId, session, key, entity)
