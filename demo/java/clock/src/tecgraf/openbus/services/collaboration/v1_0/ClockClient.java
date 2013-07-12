@@ -172,7 +172,6 @@ public final class ClockClient {
     final OpenBusContext context =
       (OpenBusContext) orb.resolve_initial_references("OpenBusContext");
 
-    // criando o serviço a ser ofertado
     // - ativando o POA
     final POA poa = POAHelper.narrow(orb.resolve_initial_references("RootPOA"));
     poa.the_POAManager().activate();

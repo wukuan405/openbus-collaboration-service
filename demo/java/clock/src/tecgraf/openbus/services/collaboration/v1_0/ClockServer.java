@@ -150,7 +150,6 @@ public final class ClockServer {
     final OpenBusContext context =
       (OpenBusContext) orb.resolve_initial_references("OpenBusContext");
 
-    // criando o serviço a ser ofertado
     // - ativando o POA
     final POA poa = POAHelper.narrow(orb.resolve_initial_references("RootPOA"));
     poa.the_POAManager().activate();
@@ -257,7 +256,7 @@ public final class ClockServer {
             ServiceProperty[] properties = new ServiceProperty[1];
             properties[0] =
               new ServiceProperty("openbus.offer.entity",
-                "CollaborationService");
+                CollaborationServiceName.value);
             services = context.getOfferRegistry().findServices(properties);
 
             // analiza as ofertas encontradas
