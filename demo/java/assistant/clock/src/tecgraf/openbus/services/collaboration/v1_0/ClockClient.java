@@ -168,8 +168,6 @@ public final class ClockClient {
           }
         }
         assist.shutdown();
-        orb.shutdown(true);
-        orb.destroy();
       }
     };
     Runtime.getRuntime().addShutdownHook(shutdown);
