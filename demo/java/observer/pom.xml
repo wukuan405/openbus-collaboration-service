@@ -40,6 +40,11 @@
 
         <configuration>
           <compiler>jacorb</compiler>
+          <sourceDirectory>idl</sourceDirectory>
+        </configuration>
+
+        <configuration>
+          <compiler>jacorb</compiler>
           <sourceDirectory>../../../idl</sourceDirectory>
           <includeDirs>
             <includeDir>${scs.idlpath}</includeDir>
