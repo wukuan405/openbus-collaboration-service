@@ -329,7 +329,7 @@ public final class ClockServer {
         Any event = orb.create_any();
 
         // cria um evento com data e hora atuais
-        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss.SSS");
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy kk:mm:ss.SSS");
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         event.insert_string(formatter.format(calendar.getTime()));
