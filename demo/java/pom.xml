@@ -20,6 +20,7 @@
 
   <modules>
     <module>clock</module>
+    <module>observer</module>
     <module>assistant</module>
   </modules>
 
