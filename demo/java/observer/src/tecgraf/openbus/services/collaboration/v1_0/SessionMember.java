@@ -38,7 +38,7 @@ import tecgraf.openbus.exception.AlreadyLoggedIn;
 
 /**
  * Adiciona um membro à sessão do serviço de colaboração
- * 
+ *
  * @author Tecgraf
  */
 public final class SessionMember {
@@ -59,7 +59,7 @@ public final class SessionMember {
 
   /**
    * Função principal.
-   * 
+   *
    * @param args argumentos.
    * @throws InvalidName
    * @throws AdapterInactive
@@ -182,7 +182,6 @@ public final class SessionMember {
     final OpenBusContext context =
       (OpenBusContext) orb.resolve_initial_references("OpenBusContext");
 
-    // criando o serviço a ser ofertado
     // - ativando o POA
     final POA poa = POAHelper.narrow(orb.resolve_initial_references("RootPOA"));
     poa.the_POAManager().activate();
@@ -273,7 +272,7 @@ public final class SessionMember {
        * Cria o componente do membro de uma sessão de colaboração. O componente
        * possui a faceta CollaborationSessionMember que permite que os outros
        * membros da sessão possam interagir com ele através dessa faceta.
-       * 
+       *
        * @return O contexto do componente SCS.
        * @throws SCSException Falha na criação do serviço
        */
@@ -289,7 +288,7 @@ public final class SessionMember {
 
       /**
        * Cria um contexto de componente SCS.
-       * 
+       *
        * @param componentName o nome do componente
        * @param componentVersion a versão do componente
        * @return O contexto do componente SCS.

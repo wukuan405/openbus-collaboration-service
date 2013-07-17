@@ -35,7 +35,7 @@ import tecgraf.openbus.exception.AlreadyLoggedIn;
 
 /**
  * Cria a sessão do serviço de colaboração e adiciona um observador
- * 
+ *
  * @author Tecgraf
  */
 public final class SessionObserver {
@@ -56,7 +56,7 @@ public final class SessionObserver {
 
   /**
    * Função principal.
-   * 
+   *
    * @param args argumentos.
    * @throws InvalidName
    * @throws AdapterInactive
@@ -174,7 +174,6 @@ public final class SessionObserver {
     final OpenBusContext context =
       (OpenBusContext) orb.resolve_initial_references("OpenBusContext");
 
-    // criando o serviço a ser ofertado
     // - ativando o POA
     final POA poa = POAHelper.narrow(orb.resolve_initial_references("RootPOA"));
     poa.the_POAManager().activate();
@@ -263,7 +262,7 @@ public final class SessionObserver {
 
       /**
        * Cria um observador de sessão de colaboração.
-       * 
+       *
        * @return o observador // * @throws ApplicationException se houver falha
        *         na criação do observador de // * sessão.
        */
