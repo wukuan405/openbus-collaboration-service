@@ -263,8 +263,7 @@ public final class SessionObserver {
       /**
        * Cria um observador de sessão de colaboração.
        *
-       * @return o observador // * @throws ApplicationException se houver falha
-       *         na criação do observador de // * sessão.
+       * @return o observador.
        */
       public CollaborationObserver makeCollaborationSessionObserver() {
         Servant servant = new CollaborationSessionObserverImpl();
