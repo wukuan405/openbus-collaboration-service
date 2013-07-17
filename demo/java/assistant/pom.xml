@@ -16,5 +16,6 @@
 
   <modules>
     <module>clock</module>
+    <module>observer</module>
   </modules>
 </project>
