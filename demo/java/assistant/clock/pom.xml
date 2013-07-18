@@ -6,7 +6,6 @@
     <groupId>tecgraf.openbus.collaboration</groupId>
     <artifactId>openbus-collaboration-demo-java-assistant</artifactId>
     <version>1.0.0</version>
-    <relativePath>../../pom.xml</relativePath>
   </parent>
 
   <artifactId>openbus-collaboration-demo-java-assistant-clock</artifactId>
