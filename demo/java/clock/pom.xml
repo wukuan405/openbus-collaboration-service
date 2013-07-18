@@ -6,6 +6,7 @@
     <groupId>tecgraf.openbus.collaboration</groupId>
     <artifactId>openbus-collaboration-demo-java</artifactId>
     <version>1.0.0</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
 
   <artifactId>openbus-collaboration-demo-java-clock</artifactId>
@@ -13,42 +14,6 @@
 
   <name>OpenBus - Serviço de Colaboração - Demonstrações - Clock</name>
   <url>http://www.tecgraf.puc-rio.br/openbus</url>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>idlj-maven-plugin</artifactId>
-        <version>1.1</version>
-
-        <dependencies>
-          <dependency>
-            <groupId>org.jacorb</groupId>
-            <artifactId>jacorb-idl-compiler</artifactId>
-            <version>${jacorb.version}</version>
-          </dependency> 
-        </dependencies>
-        
-        <executions>
-          <execution>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-          </execution>
-        </executions>
-
-        <configuration>
-          <compiler>jacorb</compiler>
-          <sourceDirectory>../../../idl</sourceDirectory>
-          <includeDirs>
-            <includeDir>${scs.idlpath}</includeDir>
-            <includeDir>${openbus.idlpath}</includeDir>
-          </includeDirs>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 
   <dependencies>
     <dependency>
@@ -75,6 +40,12 @@
       <version>${jacorb.version}</version>
       <scope>runtime</scope>
     </dependency> 
+
+    <dependency>
+      <groupId>tecgraf.openbus.collaboration</groupId>
+      <artifactId>openbus-collaboration-idl</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
 </project>
 

@@ -42,7 +42,7 @@
           <compiler>jacorb</compiler>
           <sourceDirectory>idl</sourceDirectory>
           <includeDirs>
-            <includeDir>../../../../idl</includeDir>
+            <includeDir>../../../idl</includeDir>
             <includeDir>${scs.idlpath}</includeDir>
             <includeDir>${openbus.idlpath}</includeDir>
           </includeDirs>
@@ -76,6 +76,12 @@
       <version>${jacorb.version}</version>
       <scope>runtime</scope>
     </dependency> 
+
+    <dependency>
+      <groupId>tecgraf.openbus.collaboration</groupId>
+      <artifactId>openbus-collaboration-idl</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
 </project>
 
