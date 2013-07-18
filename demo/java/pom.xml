@@ -19,6 +19,7 @@
   </properties>
 
   <modules>
+    <module>idl</module>
     <module>clock</module>
     <module>observer</module>
     <module>assistant</module>
@@ -62,20 +63,8 @@
       </dependency>
 
       <dependency>
-        <groupId>tecgraf.openbus</groupId>
-        <artifactId>openbus-idl-jacorb</artifactId>
-        <version>${openbus.version}</version>
-      </dependency>
-
-      <dependency>
         <groupId>tecgraf.scs</groupId>
         <artifactId>scs-core</artifactId>
-        <version>${scs.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>tecgraf.scs</groupId>
-        <artifactId>scs-idl-jacorb</artifactId>
         <version>${scs.version}</version>
       </dependency>
 
