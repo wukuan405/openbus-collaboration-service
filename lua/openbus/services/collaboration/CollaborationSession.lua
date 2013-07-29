@@ -66,10 +66,9 @@ function CollaborationSession:addMember(name, member, owner)
       name = name
     })
   end
-  local ior = tostring(member)
   if (not owner) then
     owner = self.registry:callerId()
-    self.registry.dbSession:addMember(self.id, name, ior, owner)
+    self.registry.dbSession:addMember(self.id, name, tostring(member), owner)
     self:notifyObservers("memberAdded", name, member)
     self.registry:watchLogin(owner, self, name, "members")
     log:action(msg.addMember:tag({
@@ -80,7 +79,7 @@ function CollaborationSession:addMember(name, member, owner)
   end
   self.members[name] = {
     sessionId = self.id,
-    ior = ior,
+    proxy = member,
     owner = owner
   }
 end
@@ -107,7 +106,7 @@ end
 function CollaborationSession:getMember(name)
   local member = self.members[name]
   if (member) then
-    return self.registry.conn.orb:newproxy(member.ior)
+    return member.proxy
   end
   return nil
 end
@@ -117,7 +116,7 @@ function CollaborationSession:getMembers()
   for name, member in pairs(self.members) do
     seq[#seq+1] = {
       name = name,
-      member = self.registry.conn.orb:newproxy(member.ior)
+      member = member.proxy
     }
   end
   return seq
