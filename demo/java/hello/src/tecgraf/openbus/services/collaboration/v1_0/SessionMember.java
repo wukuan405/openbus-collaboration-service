@@ -320,25 +320,9 @@ public final class SessionMember {
               CollaborationSessionHelper.narrow(orb.string_to_object(breader
                 .readLine()));
             breader.close();
+            collaborationSession.addMember(componentName,
+              createCollaborationSessionMember());
 
-            // se adiciona como membro da sessão de colaboração
-            CollaborationMember newMember =
-              new CollaborationMember(componentName,
-                createCollaborationSessionMember());
-            collaborationSession.addMember(newMember.name, newMember.member);
-
-            // diz 'hello' para todos os outros membros da sessão
-            tecgraf.openbus.services.collaboration.v1_0.CollaborationMember[] collaborationMember =
-              collaborationSession.getMembers();
-            for (CollaborationMember m : collaborationMember) {
-              if (!m.name.equals(componentName)) {
-                org.omg.CORBA.Object object =
-                  m.member.getFacet(CollaborationSessionMemberHelper.id());
-                CollaborationSessionMember collaborationSessionMember =
-                  CollaborationSessionMemberHelper.narrow(object);
-                collaborationSessionMember.sayHello(newMember);
-              }
-            }
             failed = false;
             synchronized (options.lock) {
               options.disabled = true;

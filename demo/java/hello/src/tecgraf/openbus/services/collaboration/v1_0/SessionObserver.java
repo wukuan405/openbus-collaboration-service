@@ -41,7 +41,7 @@ import tecgraf.openbus.exception.AlreadyLoggedIn;
 
 /**
  * Cria a sessão do serviço de colaboração e adiciona um observador
- * 
+ *
  * @author Tecgraf
  */
 public final class SessionObserver {
@@ -65,7 +65,7 @@ public final class SessionObserver {
 
   /**
    * Função principal.
-   * 
+   *
    * @param args argumentos.
    * @throws InvalidName
    * @throws AdapterInactive
@@ -144,6 +144,7 @@ public final class SessionObserver {
       }
     };
     run.start();
+
     // - criando thread para parar e destruir o ORB ao fim da execução do processo
     final Thread shutdown = new Thread() {
       @Override
@@ -272,11 +273,12 @@ public final class SessionObserver {
 
       /**
        * Cria um observador de sessão de colaboração.
-       * 
+       *
        * @return o observador.
        */
       public CollaborationObserver makeCollaborationSessionObserver() {
-        Servant servant = new CollaborationSessionObserverImpl();
+        Servant servant =
+          new CollaborationSessionObserverImpl(collaborationSession);
         try {
           return CollaborationObserverHelper.narrow(poa
             .servant_to_reference(servant));
@@ -311,7 +313,7 @@ public final class SessionObserver {
        * Cria o componente do membro de uma sessão de colaboração. O componente
        * possui a faceta CollaborationSessionMember que permite que os outros
        * membros da sessão possam interagir com ele através dessa faceta.
-       * 
+       *
        * @return O contexto do componente SCS.
        * @throws SCSException Falha na criação do serviço
        */
@@ -327,7 +329,7 @@ public final class SessionObserver {
 
       /**
        * Cria um contexto de componente SCS.
-       * 
+       *
        * @param componentName o nome do componente
        * @param componentVersion a versão do componente
        * @return O contexto do componente SCS.

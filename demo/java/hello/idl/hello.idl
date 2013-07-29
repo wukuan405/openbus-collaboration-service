@@ -1,8 +1,6 @@
 #ifndef __TECGRAF_OPENBUS_COLLABORATION_DEMO_HELLO_IDL__
 #define __TECGRAF_OPENBUS_COLLABORATION_DEMO_HELLO_IDL__
 
-#include "collaboration.idl"
-
 /**
  * \brief Módulo dos sistemas e aplicações do Tecgraf.
  */
@@ -32,8 +30,7 @@ module v1_0 {
     const string CollaborationSessionMemberFacet = "SessionMember";
 
     interface CollaborationSessionMember {
-      void sayHello(in CollaborationMember newMember);
-      void reply(in Identifier name);
+      void sayHello(in string name);
     };
 }; // version
 

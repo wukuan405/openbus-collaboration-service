@@ -1,6 +1,6 @@
-A demo Hello tenta demonstrar o uso das facetas específicas dos membros da sessão de
-colaboração através da troca de messagens entre cada um dos membros da sessão. A
-criação da sessão e o monitoramento da entrada e saída de membros da sessão é feita
+A demo Hello Observer tenta demonstrar o uso das facetas específicas dos membros da
+sessão de colaboração através da troca de messagens entre cada um dos membros da sessão.
+A criação da sessão e o monitoramento da entrada e saída de membros da sessão é feita
 pelo observador. O observador só funciona após conseguir se conectar no barramento,
 realizar o login, encontrar a oferta do serviço de colaboração, e criar uma sessão
 no serviço de colaboração. Caso o login seja perdido, sua callback de login inválido
@@ -66,6 +66,6 @@ A demo deve ser executada na seguinte ordem:
 -------------------------------
 Supondo que os jars que a demo depende estão em um diretório chamado '/openbus-sdk-java/lib':
 
-1) java -Djava.endorsed.dirs=/openbus-sdk-java/lib/ -cp $(echo lib/*.jar | tr ' ' ':'):openbus-collaboration-demo-java-hello-1.0.0.jar tecgraf.openbus.services.collaboration.v1_0.SessionObserver localhost 2089 CollaborationService
+1) java -Djava.endorsed.dirs=/openbus-sdk-java/lib/ -cp $(echo lib/*.jar | tr ' ' ':'):openbus-collaboration-demo-java-hello-observer-1.0.0.jar -Djacorb.isLocalHistoricalInterceptors=true tecgraf.openbus.services.collaboration.v1_0.SessionObserver localhost 2089 CollaborationService
 
-2) java -Djava.endorsed.dirs=/openbus-sdk-java/lib/ -cp $(echo lib/*.jar | tr ' ' ':'):openbus-collaboration-demo-java-hello-1.0.0.jar tecgraf.openbus.services.collaboration.v1_0.SessionMember localhost 2089 CollaborationService
+2) java -Djava.endorsed.dirs=/openbus-sdk-java/lib/ -cp $(echo lib/*.jar | tr ' ' ':'):openbus-collaboration-demo-java-hello-observer-1.0.0.jar tecgraf.openbus.services.collaboration.v1_0.SessionMember localhost 2089 CollaborationService
