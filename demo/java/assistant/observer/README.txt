@@ -64,6 +64,6 @@ A demo deve ser executada na seguinte ordem:
 -------------------------------
 Supondo que os jars que a demo depende estão em um diretório chamado '/openbus-sdk-java/lib':
 
-1) java -Djava.endorsed.dirs=/openbus-sdk-java/lib/ -cp $(echo lib/*.jar | tr ' ' ':'):openbus-collaboration-demo-java-observer-1.0.0.jar tecgraf.openbus.services.collaboration.v1_0.SessionObserver localhost 2089 CollaborationService
+1) java -Djava.endorsed.dirs=/openbus-sdk-java/lib/ -cp $(echo lib/*.jar | tr ' ' ':'):openbus-collaboration-demo-java-assistant-observer-1.0.0.jar tecgraf.openbus.services.collaboration.v1_0.SessionObserver localhost 2089 CollaborationService
 
-2) java -Djava.endorsed.dirs=/openbus-sdk-java/lib/ -cp $(echo lib/*.jar | tr ' ' ':'):openbus-collaboration-demo-java-observer-1.0.0.jar tecgraf.openbus.services.collaboration.v1_0.SessionMember localhost 2089 CollaborationService
+2) java -Djava.endorsed.dirs=/openbus-sdk-java/lib/ -cp $(echo lib/*.jar | tr ' ' ':'):openbus-collaboration-demo-java-assistant-observer-1.0.0.jar tecgraf.openbus.services.collaboration.v1_0.SessionMember localhost 2089 CollaborationService
