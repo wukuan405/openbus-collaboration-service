@@ -9,7 +9,7 @@ local putsInstall = os.getenv("PUTS").."/install"
 
 function setup()
   local orb = openbus:initORB()
-  orb:loadidlfile(putsInstall.."/idl/collaboration-service-1.0/collaboration.idl")
+  orb:loadidlfile(putsInstall.."/idl/collaboration-service-1.0.0/collaboration.idl")
   local busCtx = orb.OpenBusContext
   local conn = busCtx:createConnection(bushost, busport)
   conn:loginByPassword(user, password)
