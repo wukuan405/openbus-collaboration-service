@@ -1,14 +1,16 @@
 A demo Clock tenta demonstrar um serviço de relógio que prove a data e hora atuais
-a cada intervalo de tempo a todos os clientes que se conectarem ao serviço colaborativo.
-O servidor só funciona após conseguir conectar no barramento, realizar o login,
-encontrar a oferta do serviço de colaboração, e criar uma sessão no serviço de
-colaboração. Caso o login seja perdido, sua callback de login inválido tenta
-refazer esse processo por um número máximo de tentativas.
+a cada intervalo de tempo a todos os consumidores de eventos que se conectarem ao
+serviço colaborativo. O produtor de eventos só funciona após conseguir conectar 
+no barramento, realizar o login, encontrar a oferta do serviço de colaboração,
+e criar uma sessão no serviço de colaboração. Caso o login seja perdido, sua
+callback de login inválido tenta refazer esse processo por um número máximo de
+tentativas.
 
-O cliente, por sua vez, após conseguir se conectar no barramento, realizar o login,
-e encontrar a oferta do serviço de colaboração, tenta acessar a sessão criada pelo
-servidor utilizando um arquivo com o ID da sessão de colaboração. Se não conseguir
-após um número de tentativas, falha com uma mensagem de erro.
+O consumidores de eventos, por sua vez, após conseguir se conectar no barramento,
+realizar o login, e encontrar a oferta do serviço de colaboração, tenta acessar a
+sessão criada pelo produtor de eventos utilizando um arquivo com o ID da sessão de
+colaboração. Se não conseguir após um número de tentativas, falha com uma mensagem
+de erro.
 
 ------------------------------
 -------- DEPENDÊNCIAS---------
@@ -55,8 +57,8 @@ Cliente
 
 A demo deve ser executada na seguinte ordem:
 
-1) Servidor
-2) Cliente
+1) Produtor de eventos (publisher)
+2) Consumidor de eventos (subscriber)
 
 
 -------------------------------
@@ -64,6 +66,6 @@ A demo deve ser executada na seguinte ordem:
 -------------------------------
 Supondo que os jars que a demo depende estão em um diretório chamado '/openbus-sdk-java/lib':
 
-1) java -Djava.endorsed.dirs=/openbus-sdk-java/lib/ -cp $(echo lib/*.jar | tr ' ' ':'):openbus-collaboration-demo-java-clock-1.0.0.jar tecgraf.openbus.services.collaboration.v1_0.ClockServer localhost 2089 CollaborationService
+1) java -Djava.endorsed.dirs=/openbus-sdk-java/lib/ -cp $(echo lib/*.jar | tr ' ' ':'):openbus-collaboration-demo-java-clock-1.0.0.jar tecgraf.openbus.services.collaboration.v1_0.ClockPublisher localhost 2089 CollaborationService
 
-2) java -Djava.endorsed.dirs=/openbus-sdk-java/lib/ -cp $(echo lib/*.jar | tr ' ' ':'):openbus-collaboration-demo-java-clock-1.0.0.jar tecgraf.openbus.services.collaboration.v1_0.ClockClient localhost 2089 CollaborationService
+2) java -Djava.endorsed.dirs=/openbus-sdk-java/lib/ -cp $(echo lib/*.jar | tr ' ' ':'):openbus-collaboration-demo-java-clock-1.0.0.jar tecgraf.openbus.services.collaboration.v1_0.ClockSubscriber localhost 2089 CollaborationService
