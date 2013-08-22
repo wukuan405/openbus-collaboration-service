@@ -28,121 +28,184 @@ lib dl
 
 project lua
   : requirements <include>$(puts_install)/include/lua5.1.3
-    <search>$(puts_install)/lib
 ;
 
-lib lua5.1 ;
+lib lua5.1 
+  :
+  : <search>$(puts_install)/lib
+    <link>static:<file>$(puts_install)/lib/liblua5.1.a
+;
 
 project e2fsprogs
   : requirements <include>$(puts_install)/include/e2fsprogs-1.40.8/uuid
-    <search>$(puts_install)/lib
 ;
 
-lib uuid ;
+lib uuid 
+  :
+  : <search>$(puts_install)/lib
+    <link>static:<file>$(puts_install)/lib/libuuid.a
+;
 
 alias e2fsprogs : uuid ; 
 
 project luuid
   : requirements <include>$(puts_install)/include/luuid
-    <search>$(puts_install)/lib
 ;
 
-lib luuid ;
+lib luuid 
+  :
+  : <search>$(puts_install)/lib
+    <link>static:<file>$(puts_install)/lib/libluuid.a
+;
 
 project openssl
   : requirements <include>$(puts_install)/include
-    <search>$(puts_install)/lib
 ;
 
-lib crypto ;
+lib crypto 
+  :
+  : <search>$(puts_install)/lib
+    <link>static:<file>$(puts_install)/lib/libcrypto.a
+;
 
 alias openssl : crypto ;
 
 project lce
   : requirements <include>$(puts_install)/include/lce
-    <search>$(puts_install)/lib
 ;
 
-lib lce ;
+lib lce 
+  :
+  : <search>$(puts_install)/lib
+    <link>static:<file>$(puts_install)/lib/liblce.a
+;
 
 project luafilesystem
   : requirements <include>$(puts_install)/include/luafilesystem
-    <search>$(puts_install)/lib
 ;
 
-lib lfs ;
+lib lfs 
+  :
+  : <search>$(puts_install)/lib
+    <link>static:<file>$(puts_install)/lib/liblfs.a
+;
 
 project luavararg
   : requirements <include>$(puts_install)/include/luavararg
-    <search>$(puts_install)/lib
 ;
 
-lib luavararg ;
+lib luavararg 
+  :
+  : <search>$(puts_install)/lib
+    <link>static:<file>$(puts_install)/lib/libluavararg.a
+;
 
 project luastruct
   : requirements <include>$(puts_install)/include/luastruct
-    <search>$(puts_install)/lib
 ;
 
-lib luastruct ;
+lib luastruct 
+  :
+  : <search>$(puts_install)/lib
+    <link>static:<file>$(puts_install)/lib/libluastruct.a
+;
 
 project luasocket
   : requirements <include>$(puts_install)/include/luasocket2
-    <search>$(puts_install)/lib
 ;
 
 lib luasocket2 
   :
-  : <name>luasocket
+  : <name>luasocket <search>$(puts_install)/lib
+    <link>static:<file>$(puts_install)/lib/libluasocket.a
 ;
 
 project loop
   : requirements <include>$(puts_install)/include/loop
 ;
 
-lib loop ;
+lib loop
+  :
+  : <search>$(puts_install)/lib
+    <link>static:<file>$(puts_install)/lib/libloop.a
+;
 
-lib luacoroutine ;
+lib luacoroutine 
+  :
+  : <search>$(puts_install)/lib
+    <link>static:<file>$(puts_install)/lib/libluacoroutine.a
+;
 
-lib luacothread ;
+lib luacothread
+  :
+  : <search>$(puts_install)/lib
+    <link>static:<file>$(puts_install)/lib/libluacothread.a
+;
 
-lib luainspector ;
+lib luainspector
+  :
+  : <search>$(puts_install)/lib
+    <link>static:<file>$(puts_install)/lib/libluainspector.a
+;
 
-lib luatuple ;
+lib luatuple 
+  :
+  : <search>$(puts_install)/lib
+    <link>static:<file>$(puts_install)/lib/libluatuple.a
+;
 
 project oil
   : requirements <include>$(puts_install)/include/oil
-    <search>$(puts_install)/lib
 ;
 
-lib luaidl ;
+lib luaidl 
+  :
+  : <search>$(puts_install)/lib
+    <link>static:<file>$(puts_install)/lib/libluaidl.a
+;
 
-lib oil ;
+lib oil
+  :
+  : <search>$(puts_install)/lib
+    <link>static:<file>$(puts_install)/lib/liboil.a
+;
 
 project luascs
   : requirements <include>$(puts_install)/include/scs/lua
-    <search>$(puts_install)/lib
 ;
 
-lib luascs ;
+lib luascs 
+  :
+  : <search>$(puts_install)/lib
+    <link>static:<file>$(puts_install)/lib/libluascs.a
+;
 
 project luaopenbus
   : requirements <include>$(puts_install)/include/openbus/lua
-    <search>$(puts_install)/lib
 ;
 
-lib luaopenbus ;
+lib luaopenbus 
+  : 
+  : <search>$(puts_install)/lib
+    <link>static:<file>$(puts_install)/lib/libluaopenbus.a
+;
 
 project sqlite
   : requirements <include>$(puts_install)/include/sqlite3
-    <search>$(puts_install)/lib
 ;
 
-lib sqlite3 ;
+lib sqlite3 
+  :
+  : <search>$(puts_install)/lib
+    <link>static:<file>$(puts_install)/lib/libsqlite3.a
+;
 
 project luasqlite
   : requirements <include>$(puts_install)/include/lsqlite3
-    <search>$(puts_install)/lib
 ;
 
-lib lsqlite3 ;
+lib lsqlite3 
+  :
+  : <search>$(puts_install)/lib
+    <link>static:<file>$(puts_install)/lib/liblsqlite3.a
+;
