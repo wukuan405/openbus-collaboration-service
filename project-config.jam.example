@@ -38,7 +38,7 @@ project lua
 lib lua5.1 
   :
   : <search>$(install)/lib
-    <link>static:<file>$(install)/lib/liblua5.1.a
+    <target-os>darwin,<link>static:<file>$(install)/lib/liblua5.1.a
 ;
 
 project e2fsprogs
@@ -48,7 +48,7 @@ project e2fsprogs
 lib uuid 
   :
   : <search>$(install)/lib
-    <link>static:<file>$(install)/lib/libuuid.a
+    <target-os>darwin,<link>static:<file>$(install)/lib/libuuid.a
 ;
 
 alias e2fsprogs : uuid ; 
@@ -60,7 +60,7 @@ project luuid
 lib luuid 
   :
   : <search>$(install)/lib
-    <link>static:<file>$(install)/lib/libluuid.a
+    <target-os>darwin,<link>static:<file>$(install)/lib/libluuid.a
 ;
 
 project openssl
@@ -70,7 +70,7 @@ project openssl
 lib crypto 
   :
   : <search>$(install)/lib
-    <link>static:<file>$(install)/lib/libcrypto.a
+    <target-os>darwin,<link>static:<file>$(install)/lib/libcrypto.a
 ;
 
 alias openssl : crypto ;
@@ -82,7 +82,7 @@ project lce
 lib lce 
   :
   : <search>$(install)/lib
-    <link>static:<file>$(install)/lib/liblce.a
+    <target-os>darwin,<link>static:<file>$(install)/lib/liblce.a
 ;
 
 project luafilesystem
@@ -92,7 +92,7 @@ project luafilesystem
 lib lfs 
   :
   : <search>$(install)/lib
-    <link>static:<file>$(install)/lib/liblfs.a
+    <target-os>darwin,<link>static:<file>$(install)/lib/liblfs.a
 ;
 
 project luavararg
@@ -102,7 +102,7 @@ project luavararg
 lib luavararg 
   :
   : <search>$(install)/lib
-    <link>static:<file>$(install)/lib/libluavararg.a
+    <target-os>darwin,<link>static:<file>$(install)/lib/libluavararg.a
 ;
 
 project luastruct
@@ -112,7 +112,7 @@ project luastruct
 lib luastruct 
   :
   : <search>$(install)/lib
-    <link>static:<file>$(install)/lib/libluastruct.a
+    <target-os>darwin,<link>static:<file>$(install)/lib/libluastruct.a
 ;
 
 project luasocket
@@ -122,7 +122,7 @@ project luasocket
 lib luasocket2 
   :
   : <name>luasocket <search>$(install)/lib
-    <link>static:<file>$(install)/lib/libluasocket.a
+    <target-os>darwin,<link>static:<file>$(install)/lib/libluasocket.a
 ;
 
 project loop
@@ -132,31 +132,31 @@ project loop
 lib loop
   :
   : <search>$(install)/lib
-    <link>static:<file>$(install)/lib/libloop.a
+    <target-os>darwin,<link>static:<file>$(install)/lib/libloop.a
 ;
 
 lib luacoroutine 
   :
   : <search>$(install)/lib
-    <link>static:<file>$(install)/lib/libluacoroutine.a
+    <target-os>darwin,<link>static:<file>$(install)/lib/libluacoroutine.a
 ;
 
 lib luacothread
   :
   : <search>$(install)/lib
-    <link>static:<file>$(install)/lib/libluacothread.a
+    <target-os>darwin,<link>static:<file>$(install)/lib/libluacothread.a
 ;
 
 lib luainspector
   :
   : <search>$(install)/lib
-    <link>static:<file>$(install)/lib/libluainspector.a
+    <target-os>darwin,<link>static:<file>$(install)/lib/libluainspector.a
 ;
 
 lib luatuple 
   :
   : <search>$(install)/lib
-    <link>static:<file>$(install)/lib/libluatuple.a
+    <target-os>darwin,<link>static:<file>$(install)/lib/libluatuple.a
 ;
 
 project oil
@@ -166,13 +166,13 @@ project oil
 lib luaidl 
   :
   : <search>$(install)/lib
-    <link>static:<file>$(install)/lib/libluaidl.a
+    <target-os>darwin,<link>static:<file>$(install)/lib/libluaidl.a
 ;
 
 lib oil
   :
   : <search>$(install)/lib
-    <link>static:<file>$(install)/lib/liboil.a
+    <target-os>darwin,<link>static:<file>$(install)/lib/liboil.a
 ;
 
 project luascs
@@ -182,7 +182,7 @@ project luascs
 lib luascs 
   :
   : <search>$(install)/lib
-    <link>static:<file>$(install)/lib/libluascs.a
+    <target-os>darwin,<link>static:<file>$(install)/lib/libluascs.a
 ;
 
 project luaopenbus
@@ -192,7 +192,7 @@ project luaopenbus
 lib luaopenbus 
   : 
   : <search>$(install)/lib
-    <link>static:<file>$(install)/lib/libluaopenbus.a
+    <target-os>darwin,<link>static:<file>$(install)/lib/libluaopenbus.a
 ;
 
 project sqlite
@@ -202,7 +202,7 @@ project sqlite
 lib sqlite3 
   :
   : <search>$(install)/lib
-    <link>static:<file>$(install)/lib/libsqlite3.a
+    <target-os>darwin,<link>static:<file>$(install)/lib/libsqlite3.a
 ;
 
 project luasqlite
@@ -212,5 +212,5 @@ project luasqlite
 lib lsqlite3 
   :
   : <search>$(install)/lib
-    <link>static:<file>$(install)/lib/liblsqlite3.a
+    <target-os>darwin,<link>static:<file>$(install)/lib/liblsqlite3.a
 ;
