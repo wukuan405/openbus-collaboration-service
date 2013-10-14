@@ -8,10 +8,10 @@
     <version>1.0.0</version>
   </parent>
 
-  <artifactId>openbus-collaboration-demo-clock</artifactId>
+  <artifactId>openbus-collaboration-demo-event</artifactId>
   <packaging>jar</packaging>
 
-  <name>OpenBus - Serviço de Colaboração - Demonstrações - Clock</name>
+  <name>OpenBus - Serviço de Colaboração - Demonstrações - Event</name>
   <url>http://www.tecgraf.puc-rio.br/openbus</url>
 
   <dependencies>
