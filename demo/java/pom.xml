@@ -21,9 +21,9 @@
   <modules>
     <module>idl</module>
     <module>util</module>
-    <module>clock</module>
+    <module>event</module>
+    <module>membership</module>
     <module>observer</module>
-    <module>hello</module>
   </modules>
 
   <build>
