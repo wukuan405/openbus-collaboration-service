@@ -26,14 +26,20 @@ import tecgraf.openbus.services.collaboration.v1_0.CollaborationRegistryHelper;
 import tecgraf.openbus.services.collaboration.v1_0.CollaborationSession;
 
 /**
- * Produtor de eventos do demo Clock
+ * Produtor de eventos do demo Event
  * 
  * @author Tecgraf
  */
 public final class ClockPublisher {
 
+  /** Tratador de exceção do demo */
   private static DemoExceptionHandler handler;
 
+  /**
+   * Inicializa o ORB e realiza algumas configurações do demo.
+   * 
+   * @return o ORB.
+   */
   private static ORB initORB() {
     final ORB orb = ORBInitializer.initORB();
     // - criando thread para parar e destruir o ORB ao fim da execução do processo 
@@ -56,6 +62,24 @@ public final class ClockPublisher {
     return orb;
   }
 
+  /**
+   * A função principal.
+   * <p>
+   * Nesta função, o publicador irá:
+   * <ol>
+   * <li>inicializar o ORB</li>
+   * <li>construir uma conexão com o barramento OpenBus</li>
+   * <li>autenticar-se junto ao barramento</li>
+   * <li>buscar pelo serviço de colaboração</li>
+   * <li>verificar se encontrou uma referência válida do serviço</li>
+   * <li>solicitar a criação de uma sessão de colaboração</li>
+   * <li>salvar o IOR da sessão em um arquivo local</li>
+   * <li>publicar eventos no canal de eventos</li>
+   * </ol>
+   * 
+   * @param args argumentos de linha de comando
+   * @throws InvalidName
+   */
   public static void main(String[] args) throws InvalidName {
     DemoParams params = Utils.retrieveParams(args);
     handler = new DemoExceptionHandler(params);

@@ -29,14 +29,22 @@ import tecgraf.openbus.services.collaboration.v1_0.CollaborationSession;
 import tecgraf.openbus.services.collaboration.v1_0.CollaborationSessionHelper;
 
 /**
- * Cria a sessão do serviço de colaboração e adiciona um observador
+ * Observador do demo Observer
+ * <p>
+ * Adiciona um observador na sessão de colaboração.
  * 
  * @author Tecgraf
  */
 public final class Observer {
 
+  /** Tratador de exceção do demo */
   private static DemoExceptionHandler handler;
 
+  /**
+   * Inicializa o ORB e realiza algumas configurações do demo.
+   * 
+   * @return o ORB
+   */
   private static ORB initORB() {
     final ORB orb = ORBInitializer.initORB();
     // - criando thread para parar e destruir o ORB ao fim da execução do processo 
@@ -60,6 +68,13 @@ public final class Observer {
     return orb;
   }
 
+  /**
+   * Constrói o observador da sessão de colaboração.
+   * 
+   * @param orb o ORB ao qual o observador deve estar associado
+   * @param destroyed atributo para indicar se a sessão foi destruída
+   * @return o observador.
+   */
   private static CollaborationObserver buildObserver(ORB orb,
     AtomicBoolean destroyed) {
     try {
@@ -76,6 +91,24 @@ public final class Observer {
     }
   }
 
+  /**
+   * A função principal.
+   * <p>
+   * Nesta função, o observador irá:
+   * <ol>
+   * <li>inicializar o ORB</li>
+   * <li>construir uma conexão com o barramento OpenBus</li>
+   * <li>autenticar-se junto ao barramento</li>
+   * <li>recuperar a sessão de colaboração através do IOR lido do arquivo</li>
+   * <li>verificar se encontrou uma referência válida da sessão</li>
+   * <li>cadastrar um observador na sessão de colaboração</li>
+   * <li>observar a sessão de colaboração enquanto a sessão não é destruída</li>
+   * <li>desconectar do barramento</li>
+   * </ol>
+   * 
+   * @param args argumentos de linha de comando
+   * @throws InvalidName
+   */
   public static void main(String[] args) throws InvalidName {
     DemoParams params = Utils.retrieveParams(args);
     handler = new DemoExceptionHandler(params);

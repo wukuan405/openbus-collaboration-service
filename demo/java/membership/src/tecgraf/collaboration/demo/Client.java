@@ -22,10 +22,21 @@ import tecgraf.openbus.services.collaboration.v1_0.CollaborationSessionHelper;
 import demo.Hello;
 import demo.HelloHelper;
 
+/**
+ * Cliente do demo Membership.
+ * 
+ * @author Tecgraf
+ */
 public class Client {
 
+  /** Tratador de exceção do demo */
   private static DemoExceptionHandler handler;
 
+  /**
+   * Inicializa o ORB e realiza algumas configurações do demo.
+   * 
+   * @return o ORB
+   */
   private static ORB initORB() {
     final ORB orb = ORBInitializer.initORB();
     // - criando thread para parar e destruir o ORB ao fim da execução do processo 
@@ -49,6 +60,23 @@ public class Client {
     return orb;
   }
 
+  /**
+   * A função principal.
+   * <p>
+   * Nesta função, o cliente irá:
+   * <ol>
+   * <li>inicializar o ORB</li>
+   * <li>construir uma conexão com o barramento OpenBus</li>
+   * <li>autenticar-se junto ao barramento</li>
+   * <li>recuperar a sessão de colaboração através do IOR lido do arquivo</li>
+   * <li>verificar se encontrou uma referência válida da sessão</li>
+   * <li>iterar sobre os membros da sessão chamando {@link Hello#sayHello()}</li>
+   * <li>desconectar do barramento</li>
+   * </ol>
+   * 
+   * @param args argumentos de linha de comando
+   * @throws InvalidName
+   */
   public static void main(String[] args) throws InvalidName {
     DemoParams params = Utils.retrieveParams(args);
     handler = new DemoExceptionHandler(params);

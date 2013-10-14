@@ -25,14 +25,22 @@ import tecgraf.openbus.services.collaboration.v1_0.CollaborationSession;
 import tecgraf.openbus.services.collaboration.v1_0.CollaborationSessionHelper;
 
 /**
- * Adiciona um membro à sessão do serviço de colaboração
+ * Cliente do demo Observer.
+ * <p>
+ * Adiciona membros à sessão do serviço de colaboração
  * 
  * @author Tecgraf
  */
 public final class Client {
 
+  /** Tratador de exceção do demo */
   private static DemoExceptionHandler handler;
 
+  /**
+   * Inicializa o ORB e realiza algumas configurações do demo.
+   * 
+   * @return o ORB
+   */
   private static ORB initORB() {
     final ORB orb = ORBInitializer.initORB();
     // - criando thread para parar e destruir o ORB ao fim da execução do processo 
@@ -56,6 +64,12 @@ public final class Client {
     return orb;
   }
 
+  /**
+   * Constrói um membro simples para ser incluído na sessão de colaboração.
+   * 
+   * @param orb o ORB ao qual o membro deve estar associado.
+   * @return o membro.
+   */
   private static IComponent buildSessionMember(ORB orb) {
     try {
       POA poa = POAHelper.narrow(orb.resolve_initial_references("RootPOA"));
@@ -72,6 +86,24 @@ public final class Client {
     }
   }
 
+  /**
+   * A função principal.
+   * <p>
+   * Nesta função, o cliente irá:
+   * <ol>
+   * <li>inicializar o ORB</li>
+   * <li>construir uma conexão com o barramento OpenBus</li>
+   * <li>autenticar-se junto ao barramento</li>
+   * <li>recuperar a sessão de colaboração através do IOR lido do arquivo</li>
+   * <li>verificar se encontrou uma referência válida da sessão</li>
+   * <li>cadastrar um conjunto de membros na sessão de colaboração</li>
+   * <li>descadastrar o mesmo conjunto de membros da sessão de colaboração</li>
+   * <li>desconectar do barramento</li>
+   * </ol>
+   * 
+   * @param args argumentos de linha de comando
+   * @throws InvalidName
+   */
   public static void main(String[] args) throws InvalidName {
     DemoParams params = Utils.retrieveParams(args);
     handler = new DemoExceptionHandler(params);

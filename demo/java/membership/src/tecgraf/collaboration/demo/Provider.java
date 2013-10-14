@@ -27,10 +27,21 @@ import tecgraf.openbus.services.collaboration.v1_0.CollaborationRegistryHelper;
 import tecgraf.openbus.services.collaboration.v1_0.CollaborationSession;
 import demo.HelloHelper;
 
+/**
+ * Provedor do demo Membership.
+ * 
+ * @author Tecgraf
+ */
 public class Provider {
 
+  /** Tratador de exceção do demo */
   private static DemoExceptionHandler handler;
 
+  /**
+   * Inicializa o ORB e realiza algumas configurações do demo.
+   * 
+   * @return o ORB
+   */
   private static ORB initORB() {
     final ORB orb = ORBInitializer.initORB();
     // - disparando a thread para que o ORB atenda requisições
@@ -62,6 +73,13 @@ public class Provider {
     return orb;
   }
 
+  /**
+   * Constrói o membro a ser adicionada à sessão de colaboração.
+   * 
+   * @param orb o ORB ao qual o membro deve estar associado.
+   * @param context o contexto OpenBus.
+   * @return o membro.
+   */
   private static IComponent buildSessionMember(ORB orb, OpenBusContext context) {
     try {
       POA poa = POAHelper.narrow(orb.resolve_initial_references("RootPOA"));
@@ -79,6 +97,24 @@ public class Provider {
     }
   }
 
+  /**
+   * A função principal.
+   * <p>
+   * Nesta função, o provedor irá:
+   * <ol>
+   * <li>inicializar o ORB</li>
+   * <li>construir uma conexão com o barramento OpenBus</li>
+   * <li>autenticar-se junto ao barramento</li>
+   * <li>buscar pelo serviço de colaboração</li>
+   * <li>verificar se encontrou uma referência válida do serviço</li>
+   * <li>solicitar a criação de uma sessão de colaboração</li>
+   * <li>criar e cadastrar um membro na sessão</li>
+   * <li>salvar o IOR da sessão em um arquivo local</li>
+   * </ol>
+   * 
+   * @param args argumentos de linha de comando
+   * @throws InvalidName
+   */
   public static void main(String[] args) throws InvalidName {
     DemoParams params = Utils.retrieveParams(args);
     handler = new DemoExceptionHandler(params);
