@@ -4,11 +4,11 @@
 
   <parent>
     <groupId>tecgraf.openbus.collaboration</groupId>
-    <artifactId>openbus-collaboration-demo-java</artifactId>
+    <artifactId>openbus-collaboration-demo</artifactId>
     <version>1.0.0</version>
   </parent>
 
-  <artifactId>openbus-collaboration-demo-java-clock</artifactId>
+  <artifactId>openbus-collaboration-demo-clock</artifactId>
   <packaging>jar</packaging>
 
   <name>OpenBus - Serviço de Colaboração - Demonstrações - Clock</name>
@@ -28,9 +28,9 @@
     </dependency>
 
     <dependency>
-      <groupId>tecgraf.openbus</groupId>
-      <artifactId>openbus-sdk-demo-util</artifactId>
-      <version>${openbus.version}</version>
+      <groupId>tecgraf.openbus.collaboration</groupId>
+      <artifactId>openbus-collaboration-demo-util</artifactId>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>
