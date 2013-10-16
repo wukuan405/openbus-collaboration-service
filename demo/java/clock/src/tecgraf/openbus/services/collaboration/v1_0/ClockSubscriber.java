@@ -32,11 +32,11 @@ import tecgraf.openbus.demo.util.Utils;
 import tecgraf.openbus.exception.AlreadyLoggedIn;
 
 /**
- * Cliente do demo Clock
+ * Consumidor de eventos do demo Clock
  *
  * @author Tecgraf
  */
-public final class ClockClient {
+public final class ClockSubscriber {
 
   private static String host;
   private static int port;

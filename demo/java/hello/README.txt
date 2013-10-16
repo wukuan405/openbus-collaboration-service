@@ -30,11 +30,6 @@ SessionMember
 1) host do barramento
 2) porta do barramento
 3) nome de entidade
-4) senha (opcional - se não for fornecida, será usado o nome de entidade)
-5) arquivo contendo o ID da sessão de colaboração (opcional - se não for fornecido, será utilizado 'hello_session.dat')
-6) tempo de espera entre cada tentativa de acesso ao barramento (em segundos e opcional - se não for fornecido, será 1)
-7) número máximo de tentativas de acesso ao barramento (opcional - se não for fornecido, será 10)
-
 
 ------------------------------
 ---------- EXECUÇÃO ----------
@@ -42,12 +37,12 @@ SessionMember
 
 A demo deve ser executada da seguinte forma:
 
-1) SessionMember
-
+1) Provider
+2) Client
 
 -------------------------------
 ----------- EXEMPLO -----------
 -------------------------------
 Supondo que os jars que a demo depende estão em um diretório chamado '/openbus-sdk-java/lib':
 
-2) java -Djava.endorsed.dirs=/openbus-sdk-java/lib/ -cp $(echo lib/*.jar | tr ' ' ':'):openbus-collaboration-demo-java-hello-1.0.0.jar tecgraf.openbus.services.collaboration.v1_0.SessionMember localhost 2089 CollaborationService
+2) java -Djava.endorsed.dirs=/openbus-sdk-java/lib/ -cp $(echo lib/*.jar | tr ' ' ':'):openbus-collaboration-demo-java-hello-1.0.0.jar tecgraf.openbus.services.collaboration.v1_0.SessionMember localhost 2089 SessionMember

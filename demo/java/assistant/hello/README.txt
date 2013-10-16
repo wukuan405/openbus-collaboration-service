@@ -50,4 +50,4 @@ A demo deve ser executada da seguinte forma:
 -------------------------------
 Supondo que os jars que a demo depende estão em um diretório chamado '/openbus-sdk-java/lib':
 
-2) java -Djava.endorsed.dirs=/openbus-sdk-java/lib/ -cp $(echo lib/*.jar | tr ' ' ':'):openbus-collaboration-demo-java-assistant-hello-1.0.0.jar tecgraf.openbus.services.collaboration.v1_0.SessionMember localhost 2089 CollaborationService
+2) java -Djava.endorsed.dirs=/openbus-sdk-java/lib/ -cp $(echo lib/*.jar | tr ' ' ':'):openbus-collaboration-demo-java-assistant-hello-1.0.0.jar tecgraf.openbus.services.collaboration.v1_0.SessionMember localhost 2089 SessionMember
