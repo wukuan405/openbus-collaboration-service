@@ -24,8 +24,6 @@
     <module>clock</module>
     <module>observer</module>
     <module>hello</module>
-    <module>hello_observer</module>
-    <module>assistant</module>
   </modules>
 
   <build>
