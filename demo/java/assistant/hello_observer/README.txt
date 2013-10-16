@@ -1,14 +1,16 @@
-A demo Observer tenta demonstrar, através do uso do mecanismo de observação, o
-monitoramento da entrada e saída de membros de uma sessão do serviço de coloaboração.
-O observador da sessão só funciona após conseguir se conectar no barramento,
+A demo Hello Observer tenta demonstrar o uso das facetas específicas dos membros da
+sessão de colaboração através da troca de messagens entre cada um dos membros da sessão.
+A criação da sessão e o monitoramento da entrada e saída de membros da sessão é feita
+pelo observador. O observador só funciona após conseguir se conectar no barramento,
 realizar o login, encontrar a oferta do serviço de colaboração, e criar uma sessão
 no serviço de colaboração. Caso o login seja perdido, sua callback de login inválido
 tenta refazer esse processo por um número máximo de tentativas.
 
-O membro da sessão, por sua vez, após conseguir se conectar no barramento, realizar o
-login, e encontrar a oferta do serviço de colaboração, tenta acessar a sessão criada
-pelo observador da sessão utilizando um arquivo com o ID da sessão de colaboração.
-Se não conseguir após um número de tentativas, falha com uma mensagem de erro.
+Cada um dos membros da sessão, por sua vez, após conseguir se conectar no barramento,
+realizar o login, e encontrar a oferta do serviço de colaboração, tenta acessar a
+sessão criada pelo observador da sessão utilizando um arquivo com o ID da sessão de
+colaboração. Se não conseguir após um número de tentativas, falha com uma mensagem
+de erro.
 
 ------------------------------
 -------- DEPENDÊNCIAS---------
@@ -35,7 +37,7 @@ SessionObserver
 2) porta do barramento
 3) nome de entidade
 4) senha (opcional - se não for fornecida, será utilizado o nome de entidade)
-5) arquivo onde será gravado o ID da sessão de colaboração (opcional - se não for fornecido, será utilizado 'observer_session.dat')
+5) arquivo onde será gravado o ID da sessão de colaboração (opcional - se não for fornecido, será utilizado 'hello_session.dat')
 6) tempo de espera entre cada tentativa de acesso ao barramento (em segundos e opcional - se não for fornecido, será 1)
 7) número máximo de tentativas de acesso ao barramento (opcional - se não for fornecido, será 10)
 
@@ -44,7 +46,7 @@ SessionMember
 2) porta do barramento
 3) nome de entidade
 4) senha (opcional - se não for fornecida, será usado o nome de entidade)
-5) arquivo contendo o ID da sessão de colaboração (opcional - se não for fornecido, será utilizado 'observer_session.dat')
+5) arquivo contendo o ID da sessão de colaboração (opcional - se não for fornecido, será utilizado 'hello_session.dat')
 6) tempo de espera entre cada tentativa de acesso ao barramento (em segundos e opcional - se não for fornecido, será 1)
 7) número máximo de tentativas de acesso ao barramento (opcional - se não for fornecido, será 10)
 
@@ -64,6 +66,6 @@ A demo deve ser executada na seguinte ordem:
 -------------------------------
 Supondo que os jars que a demo depende estão em um diretório chamado '/openbus-sdk-java/lib':
 
-1) java -Djava.endorsed.dirs=/openbus-sdk-java/lib/ -cp $(echo lib/*.jar | tr ' ' ':'):openbus-collaboration-demo-java-observer-1.0.0.jar tecgraf.openbus.services.collaboration.v1_0.SessionObserver localhost 2089 CollaborationService
+1) java -Djava.endorsed.dirs=/openbus-sdk-java/lib/ -cp $(echo lib/*.jar | tr ' ' ':'):openbus-collaboration-demo-java-assistant-hello-observer-1.0.0.jar -Djacorb.isLocalHistoricalInterceptors=true tecgraf.openbus.services.collaboration.v1_0.SessionObserver localhost 2089 CollaborationService
 
-2) java -Djava.endorsed.dirs=/openbus-sdk-java/lib/ -cp $(echo lib/*.jar | tr ' ' ':'):openbus-collaboration-demo-java-observer-1.0.0.jar tecgraf.openbus.services.collaboration.v1_0.SessionMember localhost 2089 CollaborationService
+2) java -Djava.endorsed.dirs=/openbus-sdk-java/lib/ -cp $(echo lib/*.jar | tr ' ' ':'):openbus-collaboration-demo-java-assistant-hello-observer-1.0.0.jar tecgraf.openbus.services.collaboration.v1_0.SessionMember localhost 2089 CollaborationService

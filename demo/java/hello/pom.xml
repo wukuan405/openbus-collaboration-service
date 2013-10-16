@@ -1,0 +1,82 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>tecgraf.openbus.collaboration</groupId>
+    <artifactId>openbus-collaboration-demo-java</artifactId>
+    <version>1.0.0</version>
+  </parent>
+
+  <artifactId>openbus-collaboration-demo-java-hello</artifactId>
+  <packaging>jar</packaging>
+
+  <name>OpenBus - Serviço de Colaboração - Demonstrações - Hello</name>
+  <url>http://www.tecgraf.puc-rio.br/openbus</url>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>idlj-maven-plugin</artifactId>
+        <version>1.1</version>
+
+        <dependencies>
+          <dependency>
+            <groupId>org.jacorb</groupId>
+            <artifactId>jacorb-idl-compiler</artifactId>
+            <version>${jacorb.version}</version>
+          </dependency> 
+        </dependencies>
+        
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+          </execution>
+        </executions>
+
+        <configuration>
+          <compiler>jacorb</compiler>
+          <sourceDirectory>idl</sourceDirectory>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>tecgraf.openbus</groupId>
+      <artifactId>openbus-sdk-core</artifactId>
+      <version>${openbus.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>tecgraf.scs</groupId>
+      <artifactId>scs-core</artifactId>
+      <version>${scs.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>tecgraf.openbus</groupId>
+      <artifactId>openbus-sdk-demo-util</artifactId>
+      <version>${openbus.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jacorb</groupId>
+      <artifactId>jacorb</artifactId>
+      <version>${jacorb.version}</version>
+      <scope>runtime</scope>
+    </dependency> 
+
+    <dependency>
+      <groupId>tecgraf.openbus.collaboration</groupId>
+      <artifactId>openbus-collaboration-idl</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
+</project>
+

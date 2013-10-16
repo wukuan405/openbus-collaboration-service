@@ -30,7 +30,7 @@ slf4j-jdk14-1.6.4.jar
 --------- ARGUMENTOS ---------
 ------------------------------
 
-Servidor
+SessionObserver
 1) host do barramento
 2) porta do barramento
 3) nome de entidade
@@ -39,7 +39,7 @@ Servidor
 6) tempo de espera entre cada tentativa de acesso ao barramento (em segundos e opcional - se não for fornecido, será 1)
 7) número máximo de tentativas de acesso ao barramento (opcional - se não for fornecido, será 10)
 
-Cliente
+SessionMember
 1) host do barramento
 2) porta do barramento
 3) nome de entidade
@@ -64,6 +64,6 @@ A demo deve ser executada na seguinte ordem:
 -------------------------------
 Supondo que os jars que a demo depende estão em um diretório chamado '/openbus-sdk-java/lib':
 
-1) java -Djava.endorsed.dirs=/openbus-sdk-java/lib/ -cp $(echo lib/*.jar | tr ' ' ':'):openbus-collaboration-demo-java-observer-1.0.0.jar tecgraf.openbus.services.collaboration.v1_0.SessionObserver localhost 2089 CollaborationService
+1) java -Djava.endorsed.dirs=/openbus-sdk-java/lib/ -cp $(echo lib/*.jar | tr ' ' ':'):openbus-collaboration-demo-java-assistant-observer-1.0.0.jar tecgraf.openbus.services.collaboration.v1_0.SessionObserver localhost 2089 CollaborationService
 
-2) java -Djava.endorsed.dirs=/openbus-sdk-java/lib/ -cp $(echo lib/*.jar | tr ' ' ':'):openbus-collaboration-demo-java-observer-1.0.0.jar tecgraf.openbus.services.collaboration.v1_0.SessionMember localhost 2089 CollaborationService
+2) java -Djava.endorsed.dirs=/openbus-sdk-java/lib/ -cp $(echo lib/*.jar | tr ' ' ':'):openbus-collaboration-demo-java-assistant-observer-1.0.0.jar tecgraf.openbus.services.collaboration.v1_0.SessionMember localhost 2089 CollaborationService

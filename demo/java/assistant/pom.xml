@@ -17,5 +17,7 @@
   <modules>
     <module>clock</module>
     <module>observer</module>
+    <module>hello</module>
+    <module>hello_observer</module>
   </modules>
 </project>

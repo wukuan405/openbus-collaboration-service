@@ -32,7 +32,7 @@ slf4j-jdk14-1.6.4.jar
 --------- ARGUMENTOS ---------
 ------------------------------
 
-Servidor
+SessionObserver
 1) host do barramento
 2) porta do barramento
 3) nome de entidade
@@ -41,7 +41,7 @@ Servidor
 6) tempo de espera entre cada tentativa de acesso ao barramento (em segundos e opcional - se não for fornecido, será 1)
 7) número máximo de tentativas de acesso ao barramento (opcional - se não for fornecido, será 10)
 
-Cliente
+SessionMember
 1) host do barramento
 2) porta do barramento
 3) nome de entidade
