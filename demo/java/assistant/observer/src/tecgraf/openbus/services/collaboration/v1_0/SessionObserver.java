@@ -17,6 +17,7 @@ import org.omg.PortableServer.POAPackage.ServantNotActive;
 import org.omg.PortableServer.POAPackage.WrongPolicy;
 
 import scs.core.exception.SCSException;
+import tecgraf.collaboration.demo.util.Utils;
 import tecgraf.openbus.assistant.Assistant;
 import tecgraf.openbus.assistant.AssistantParams;
 import tecgraf.openbus.core.v2_0.services.ServiceFailure;
@@ -26,12 +27,11 @@ import tecgraf.openbus.core.v2_0.services.access_control.UnknownBusCode;
 import tecgraf.openbus.core.v2_0.services.access_control.UnverifiedLoginCode;
 import tecgraf.openbus.core.v2_0.services.offer_registry.ServiceOfferDesc;
 import tecgraf.openbus.core.v2_0.services.offer_registry.ServiceProperty;
-import tecgraf.openbus.demo.util.Utils;
 import tecgraf.openbus.exception.AlreadyLoggedIn;
 
 /**
  * Cria a sessão do serviço de colaboração e adiciona um observador
- *
+ * 
  * @author Tecgraf
  */
 public final class SessionObserver {
@@ -56,7 +56,7 @@ public final class SessionObserver {
 
   /**
    * Função principal.
-   *
+   * 
    * @param args argumentos.
    * @throws InvalidName
    * @throws AdapterInactive
@@ -199,7 +199,7 @@ public final class SessionObserver {
 
   /**
    * Cria um observador de sessão de colaboração.
-   *
+   * 
    * @return o observador
    */
   public static CollaborationObserver makeCollaborationSessionObserver() {
@@ -209,8 +209,7 @@ public final class SessionObserver {
         .servant_to_reference(servant));
     }
     catch (ServantNotActive e) {
-      System.err
-        .println("observador da sessão de colaboração não está ativo");
+      System.err.println("observador da sessão de colaboração não está ativo");
     }
     catch (WrongPolicy e) {
       System.err

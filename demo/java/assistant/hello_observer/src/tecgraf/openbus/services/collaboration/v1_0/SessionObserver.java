@@ -23,6 +23,7 @@ import scs.core.ComponentId;
 import scs.core.IComponent;
 import scs.core.IComponentHelper;
 import scs.core.exception.SCSException;
+import tecgraf.collaboration.demo.util.Utils;
 import tecgraf.openbus.assistant.Assistant;
 import tecgraf.openbus.assistant.AssistantParams;
 import tecgraf.openbus.core.v2_0.services.ServiceFailure;
@@ -32,12 +33,11 @@ import tecgraf.openbus.core.v2_0.services.access_control.UnknownBusCode;
 import tecgraf.openbus.core.v2_0.services.access_control.UnverifiedLoginCode;
 import tecgraf.openbus.core.v2_0.services.offer_registry.ServiceOfferDesc;
 import tecgraf.openbus.core.v2_0.services.offer_registry.ServiceProperty;
-import tecgraf.openbus.demo.util.Utils;
 import tecgraf.openbus.exception.AlreadyLoggedIn;
 
 /**
  * Cria a sessão do serviço de colaboração e adiciona um observador
- *
+ * 
  * @author Tecgraf
  */
 public final class SessionObserver {
@@ -65,7 +65,7 @@ public final class SessionObserver {
 
   /**
    * Função principal.
-   *
+   * 
    * @param args argumentos.
    * @throws InvalidName
    * @throws AdapterInactive
@@ -198,8 +198,8 @@ public final class SessionObserver {
           createCollaborationSession();
         }
         catch (FileNotFoundException e) {
-          System.err.println(String.format(
-            "erro ao escrever no arquivo '%s'", file));
+          System.err.println(String.format("erro ao escrever no arquivo '%s'",
+            file));
           System.exit(1);
           return;
         }
@@ -210,7 +210,7 @@ public final class SessionObserver {
 
   /**
    * Cria um observador de sessão de colaboração.
-   *
+   * 
    * @return o observador.
    */
   public static CollaborationObserver makeCollaborationSessionObserver() {
@@ -221,8 +221,7 @@ public final class SessionObserver {
         .servant_to_reference(servant));
     }
     catch (ServantNotActive e) {
-      System.err
-        .println("observador da sessão de colaboração não está ativo");
+      System.err.println("observador da sessão de colaboração não está ativo");
     }
     catch (WrongPolicy e) {
       System.err
@@ -250,13 +249,13 @@ public final class SessionObserver {
    * Cria o componente do membro de uma sessão de colaboração. O componente
    * possui a faceta CollaborationSessionMember que permite que os outros
    * membros da sessão possam interagir com ele através dessa faceta.
-   *
+   * 
    * @return O contexto do componente SCS.
    * @throws SCSException Falha na criação do serviço
    */
-  private static IComponent createCollaborationSessionMember() throws SCSException {
-    ComponentContext component =
-      createComponentContext(componentName, "1.0.0");
+  private static IComponent createCollaborationSessionMember()
+    throws SCSException {
+    ComponentContext component = createComponentContext(componentName, "1.0.0");
     component.addFacet(CollaborationSessionMemberFacet.value,
       CollaborationSessionMemberHelper.id(),
       new CollaborationSessionMemberImpl(componentName));
@@ -266,7 +265,7 @@ public final class SessionObserver {
 
   /**
    * Cria um contexto de componente SCS.
-   *
+   * 
    * @param componentName o nome do componente
    * @param componentVersion a versão do componente
    * @return O contexto do componente SCS.
@@ -280,8 +279,7 @@ public final class SessionObserver {
     byte patch = tmp.length >= 3 ? parseByte(tmp[2]) : 0;
     ComponentId componentId =
       new ComponentId(componentName, major, minor, patch, "Java");
-    ComponentContext component =
-      new ComponentContext(orb, poa, componentId);
+    ComponentContext component = new ComponentContext(orb, poa, componentId);
     return component;
   }
 
@@ -301,8 +299,7 @@ public final class SessionObserver {
         // analiza as ofertas encontradas
         for (ServiceOfferDesc offerDesc : services) {
           org.omg.CORBA.Object collaborationRegistryObj =
-            offerDesc.service_ref
-              .getFacet(CollaborationRegistryHelper.id());
+            offerDesc.service_ref.getFacet(CollaborationRegistryHelper.id());
           if (collaborationRegistryObj == null) {
             System.out
               .println("o serviço encontrado não provê a faceta ofertada");
@@ -336,9 +333,8 @@ public final class SessionObserver {
       }
       // bus core
       catch (ServiceFailure e) {
-        System.err.println(String
-          .format("falha severa no barramento em %s:%s : %s", host, port,
-            e.message));
+        System.err.println(String.format(
+          "falha severa no barramento em %s:%s : %s", host, port, e.message));
       }
       catch (TRANSIENT e) {
         System.err.println(String.format(

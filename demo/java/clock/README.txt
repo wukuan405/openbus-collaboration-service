@@ -6,10 +6,10 @@ e criar uma sessão no serviço de colaboração. Caso o login seja perdido, sua
 callback de login inválido tenta refazer esse processo por um número máximo de
 tentativas.
 
-O consumidores de eventos, por sua vez, após conseguir se conectar no barramento,
-realizar o login, e encontrar a oferta do serviço de colaboração, tenta acessar a
+Os consumidores de eventos, por sua vez, após conseguirem se conectar no barramento,
+realizam o login, e encontram a oferta do serviço de colaboração, tentam acessar a
 sessão criada pelo produtor de eventos utilizando um arquivo com o ID da sessão de
-colaboração. Se não conseguir após um número de tentativas, falha com uma mensagem
+colaboração. Se não conseguirem após um número de tentativas, falha com uma mensagem
 de erro.
 
 ------------------------------

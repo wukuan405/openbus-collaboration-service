@@ -4,11 +4,11 @@
 
   <parent>
     <groupId>tecgraf.openbus.collaboration</groupId>
-    <artifactId>openbus-collaboration-demo-java-assistant</artifactId>
+    <artifactId>openbus-collaboration-demo-assistant</artifactId>
     <version>1.0.0</version>
   </parent>
 
-  <artifactId>openbus-collaboration-demo-java-assistant-hello-observer</artifactId>
+  <artifactId>openbus-collaboration-demo-assistant-hello-observer</artifactId>
   <packaging>jar</packaging>
 
   <name>OpenBus - Serviço de Colaboração - Demonstrações - Assistant - Hello Observer</name>
@@ -60,9 +60,9 @@
     </dependency>
 
     <dependency>
-      <groupId>tecgraf.openbus</groupId>
-      <artifactId>openbus-sdk-demo-util</artifactId>
-      <version>${openbus.version}</version>
+      <groupId>tecgraf.openbus.collaboration</groupId>
+      <artifactId>openbus-collaboration-demo-util</artifactId>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>

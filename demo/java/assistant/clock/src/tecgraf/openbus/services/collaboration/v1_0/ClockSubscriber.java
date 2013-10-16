@@ -17,6 +17,7 @@ import org.omg.PortableServer.POAPackage.ServantNotActive;
 import org.omg.PortableServer.POAPackage.WrongPolicy;
 
 import scs.core.exception.SCSException;
+import tecgraf.collaboration.demo.util.Utils;
 import tecgraf.openbus.assistant.Assistant;
 import tecgraf.openbus.assistant.AssistantParams;
 import tecgraf.openbus.core.v2_0.services.ServiceFailure;
@@ -24,12 +25,11 @@ import tecgraf.openbus.core.v2_0.services.access_control.InvalidRemoteCode;
 import tecgraf.openbus.core.v2_0.services.access_control.NoLoginCode;
 import tecgraf.openbus.core.v2_0.services.access_control.UnknownBusCode;
 import tecgraf.openbus.core.v2_0.services.access_control.UnverifiedLoginCode;
-import tecgraf.openbus.demo.util.Utils;
 import tecgraf.openbus.exception.AlreadyLoggedIn;
 
 /**
  * Consumidor de eventos do demo Clock
- *
+ * 
  * @author Tecgraf
  */
 public final class ClockSubscriber {
@@ -54,7 +54,7 @@ public final class ClockSubscriber {
 
   /**
    * Função principal.
-   *
+   * 
    * @param args argumentos.
    * @throws InvalidName
    * @throws AdapterInactive

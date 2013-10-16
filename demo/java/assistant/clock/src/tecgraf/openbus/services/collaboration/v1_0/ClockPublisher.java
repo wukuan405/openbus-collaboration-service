@@ -18,6 +18,7 @@ import org.omg.PortableServer.POAHelper;
 import org.omg.PortableServer.POAManagerPackage.AdapterInactive;
 
 import scs.core.exception.SCSException;
+import tecgraf.collaboration.demo.util.Utils;
 import tecgraf.openbus.assistant.Assistant;
 import tecgraf.openbus.assistant.AssistantParams;
 import tecgraf.openbus.core.v2_0.services.ServiceFailure;
@@ -27,12 +28,11 @@ import tecgraf.openbus.core.v2_0.services.access_control.UnknownBusCode;
 import tecgraf.openbus.core.v2_0.services.access_control.UnverifiedLoginCode;
 import tecgraf.openbus.core.v2_0.services.offer_registry.ServiceOfferDesc;
 import tecgraf.openbus.core.v2_0.services.offer_registry.ServiceProperty;
-import tecgraf.openbus.demo.util.Utils;
 import tecgraf.openbus.exception.AlreadyLoggedIn;
 
 /**
  * Produtor de eventos do demo Clock
- *
+ * 
  * @author Tecgraf
  */
 public final class ClockPublisher {
@@ -54,7 +54,7 @@ public final class ClockPublisher {
 
   /**
    * Função principal.
-   *
+   * 
    * @param args argumentos.
    * @throws InvalidName
    * @throws AdapterInactive
