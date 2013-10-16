@@ -8,10 +8,10 @@
     <version>1.0.0</version>
   </parent>
 
-  <artifactId>openbus-collaboration-demo-hello</artifactId>
+  <artifactId>openbus-collaboration-demo-membership</artifactId>
   <packaging>jar</packaging>
 
-  <name>OpenBus - Serviço de Colaboração - Demonstrações - Hello</name>
+  <name>OpenBus - Serviço de Colaboração - Demonstrações - Membership</name>
   <url>http://www.tecgraf.puc-rio.br/openbus</url>
 
   <build>

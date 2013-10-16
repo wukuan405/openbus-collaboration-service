@@ -4,11 +4,6 @@ import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import tecgraf.openbus.CallerChain;
-import tecgraf.openbus.core.v2_0.services.access_control.LoginInfo;
-import tecgraf.openbus.core.v2_0.services.offer_registry.ServiceOfferDesc;
-import tecgraf.openbus.core.v2_0.services.offer_registry.ServiceProperty;
-
 /**
  * Classe utilitária para os demos Java.
  * 
@@ -16,6 +11,9 @@ import tecgraf.openbus.core.v2_0.services.offer_registry.ServiceProperty;
  */
 public class Utils {
 
+  /**
+   * Texto explicativo de uso do demo.
+   */
   public static final String usage =
     "Usage: 'demo' <host> <port> <entity> [password] %s\n"
       + "  - host = é o host do barramento\n"
@@ -23,24 +21,17 @@ public class Utils {
       + "  - entity = é a entidade a ser autenticada\n"
       + "  - password = senha (opcional) %s";
 
-  public static final String clientUsage =
-    "Usage: 'demo' <host> <port> <entity> [password] %s\n"
-      + "  - host = é o host do barramento\n"
-      + "  - port = é a porta do barramento\n"
-      + "  - entity = é a entidade a ser autenticada\n"
-      + "  - password = senha (opcional) %s";
-
-  public static final String serverUsage =
-    "Usage: 'demo' <host> <port> <entity> <privatekeypath> %s\n"
-      + "  - host = é o host do barramento\n"
-      + "  - port = é a porta do barramento\n"
-      + "  - entity = é a entidade a ser autenticada\n"
-      + "  - privatekeypath = é o caminho da chave privada de autenticação da entidade %s";
-
+  /**
+   * Erro a ser apresentado quando ocorrer mau uso do parâmetro "port"
+   */
   public static final String port = "Valor de <port> deve ser um número";
-  public static final String keypath =
-    "<privatekeypath> deve apontar para uma chave válida.";
 
+  /**
+   * Método auxiliar para extrair os parâmetros de entrada do demo.
+   * 
+   * @param args argumentos passados por linha de comando.
+   * @return os parâmetros a serem utilizados no demo.
+   */
   static public DemoParams retrieveParams(String[] args) {
     DemoParams params = new DemoParams();
     // verificando parametros de entrada
@@ -72,26 +63,11 @@ public class Utils {
     return params;
   }
 
-  static public String chain2str(CallerChain chain) {
-    StringBuffer buffer = new StringBuffer();
-    for (LoginInfo loginInfo : chain.originators()) {
-      buffer.append(loginInfo.entity);
-      buffer.append("->");
-    }
-    buffer.append(chain.caller().entity);
-    return buffer.toString();
-  }
-
-  static public String getProperty(ServiceOfferDesc offer, String prop) {
-    ServiceProperty[] properties = offer.properties;
-    for (int i = 0; i < properties.length; i++) {
-      if (properties[i].name.equals(prop)) {
-        return properties[i].value;
-      }
-    }
-    return null;
-  }
-
+  /**
+   * Método utilitário para configurar o nível de log da API do OpenBus
+   * 
+   * @param level o nível de log.
+   */
   public static void setLogLevel(Level level) {
     Logger logger = Logger.getLogger("tecgraf.openbus");
     logger.setLevel(level);
@@ -101,6 +77,11 @@ public class Utils {
     logger.addHandler(handler);
   }
 
+  /**
+   * Método utilitário para configurar o nível de log do JacORB
+   * 
+   * @param level o nível de log.
+   */
   public static void setJacorbLogLevel(Level level) {
     Logger logger = Logger.getLogger("jacorb");
     logger.setLevel(level);
@@ -110,10 +91,19 @@ public class Utils {
     logger.addHandler(handler);
   }
 
+  /**
+   * Classe utilitária para estruturar os parâmetros de entrada do demo.
+   * 
+   * @author Tecgraf
+   */
   public static class DemoParams {
+    /** host */
     public String host = "localhost";
+    /** porta */
     public int port = 2089;
+    /** entidade */
     public String entity = "entity";
+    /** senha */
     public String password = this.entity;
   }
 

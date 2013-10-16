@@ -24,14 +24,20 @@ import tecgraf.openbus.services.collaboration.v1_0.EventConsumer;
 import tecgraf.openbus.services.collaboration.v1_0.EventConsumerHelper;
 
 /**
- * Consumidor de eventos do demo Clock
+ * Consumidor de eventos do demo Event
  * 
  * @author Tecgraf
  */
 public final class ClockSubscriber {
 
+  /** Tratador de exceção do demo */
   private static DemoExceptionHandler handler;
 
+  /**
+   * Inicializa o ORB e realiza algumas configurações do demo.
+   * 
+   * @return o ORB
+   */
   private static ORB initORB() {
     final ORB orb = ORBInitializer.initORB();
     // - criando thread para parar e destruir o ORB ao fim da execução do processo 
@@ -54,6 +60,13 @@ public final class ClockSubscriber {
     return orb;
   }
 
+  /**
+   * Constrói um consumidor de eventos.
+   * 
+   * @param orb o ORB no qual o consumidor deve ser cadastrado
+   * @param context o contexto do OpenBus
+   * @return o consumidor de eventos.
+   */
   private static EventConsumer buildEventConsumer(ORB orb,
     OpenBusContext context) {
     try {
@@ -69,6 +82,24 @@ public final class ClockSubscriber {
     }
   }
 
+  /**
+   * A função principal.
+   * <p>
+   * Nesta função, o consumidor de eventos irá:
+   * <ol>
+   * <li>inicializar o ORB</li>
+   * <li>construir uma conexão com o barramento OpenBus</li>
+   * <li>autenticar-se junto ao barramento</li>
+   * <li>recuperar a sessão de colaboração através do IOR lido do arquivo</li>
+   * <li>verificar se encontrou uma referência válida da sessão</li>
+   * <li>inscrever um consumidor de eventos no canal de eventos da sessão</li>
+   * <li>após 15 segundos irá se desconectar do barramento, interrompendo o
+   * consumo dos eventos</li>
+   * </ol>
+   * 
+   * @param args argumentos de linha de comando
+   * @throws InvalidName
+   */
   public static void main(String[] args) throws InvalidName {
     DemoParams params = Utils.retrieveParams(args);
     handler = new DemoExceptionHandler(params);

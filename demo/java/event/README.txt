@@ -1,16 +1,8 @@
-A demo Clock tenta demonstrar um serviço de relógio que prove a data e hora atuais
-a cada intervalo de tempo a todos os consumidores de eventos que se conectarem ao
-serviço colaborativo. O produtor de eventos só funciona após conseguir conectar 
-no barramento, realizar o login, encontrar a oferta do serviço de colaboração,
-e criar uma sessão no serviço de colaboração. Caso o login seja perdido, sua
-callback de login inválido tenta refazer esse processo por um número máximo de
-tentativas.
-
-Os consumidores de eventos, por sua vez, após conseguirem se conectar no barramento,
-realizam o login, e encontram a oferta do serviço de colaboração, tentam acessar a
-sessão criada pelo produtor de eventos utilizando um arquivo com o ID da sessão de
-colaboração. Se não conseguirem após um número de tentativas, falha com uma mensagem
-de erro.
+A demo "event" procura demosntrar o uso da funcionalidade de canal de evento de
+uma sessão de colaboração. Neste demo teremos 2 atores principais:
+ - publicador: responsável por criar uma sessão de colaboração e gerar eventos 
+               no canal desta mesma sessão gerada
+ - consumidor: responsável por consumir os eventos enviados pelo canal 
 
 ------------------------------
 -------- DEPENDÊNCIAS---------
@@ -20,10 +12,10 @@ As dependências de software são fornecidas já compiladas, em conjunto com a demo
 
 ant-1.8.2.jar
 ant-launcher-1.8.2.jar
-jacorb-3.1.jar
-openbus-sdk-core-2.0.0.0.jar
-openbus-sdk-demo-util-2.0.0.0.jar
-openbus-sdk-legacy-2.0.0.0.jar
+jacorb-3.3.jar
+openbus-sdk-core-2.0.0.1.jar
+openbus-sdk-demo-util-2.0.0.1.jar
+openbus-sdk-legacy-2.0.0.1.jar
 scs-core-1.2.1.1.jar
 slf4j-api-1.6.4.jar
 slf4j-jdk14-1.6.4.jar
@@ -37,18 +29,12 @@ Servidor
 2) porta do barramento
 3) nome de entidade
 4) senha (opcional - se não for fornecida, será utilizado o nome de entidade)
-5) arquivo onde será gravado o ID da sessão de colaboração (opcional - se não for fornecido, será utilizado 'clock_session.dat')
-6) tempo de espera entre cada tentativa de acesso ao barramento (em segundos e opcional - se não for fornecido, será 1)
-7) número máximo de tentativas de acesso ao barramento (opcional - se não for fornecido, será 10)
 
 Cliente
 1) host do barramento
 2) porta do barramento
 3) nome de entidade
 4) senha (opcional - se não for fornecida, será usado o nome de entidade)
-5) arquivo contendo o ID da sessão de colaboração (opcional - se não for fornecido, será utilizado 'clock_session.dat')
-6) tempo de espera entre cada tentativa de acesso ao barramento (em segundos e opcional - se não for fornecido, será 1)
-7) número máximo de tentativas de acesso ao barramento (opcional - se não for fornecido, será 10)
 
 
 ------------------------------
@@ -66,6 +52,6 @@ A demo deve ser executada na seguinte ordem:
 -------------------------------
 Supondo que os jars que a demo depende estão em um diretório chamado '/openbus-sdk-java/lib':
 
-1) java -Djava.endorsed.dirs=/openbus-sdk-java/lib/ -cp $(echo lib/*.jar | tr ' ' ':'):openbus-collaboration-demo-java-clock-1.0.0.jar tecgraf.openbus.services.collaboration.v1_0.ClockPublisher localhost 2089 ClockPublisher
+1) java -Djava.endorsed.dirs=/openbus-sdk-java/lib/ -cp $(echo lib/*.jar | tr ' ' ':'):openbus-collaboration-demo-java-event-1.0.0.jar tecgraf.collaboration.demo.ClockPublisher localhost 2089 ClockPublisher
 
-2) java -Djava.endorsed.dirs=/openbus-sdk-java/lib/ -cp $(echo lib/*.jar | tr ' ' ':'):openbus-collaboration-demo-java-clock-1.0.0.jar tecgraf.openbus.services.collaboration.v1_0.ClockSubscriber localhost 2089 ClockSubscriber
+2) java -Djava.endorsed.dirs=/openbus-sdk-java/lib/ -cp $(echo lib/*.jar | tr ' ' ':'):openbus-collaboration-demo-java-event-1.0.0.jar tecgraf.collaboration.demo.ClockSubscriber localhost 2089 ClockSubscriber

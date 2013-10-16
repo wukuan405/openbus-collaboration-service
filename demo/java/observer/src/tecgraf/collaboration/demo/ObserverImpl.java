@@ -23,6 +23,11 @@ public class ObserverImpl extends CollaborationObserverPOA {
   /** Indicador se a sesão foi destruída */
   private AtomicBoolean destroyed;
 
+  /**
+   * Construtor.
+   * 
+   * @param destroyed atributo para indicar se a sessão foi destruída.
+   */
   public ObserverImpl(AtomicBoolean destroyed) {
     this.destroyed = destroyed;
   }

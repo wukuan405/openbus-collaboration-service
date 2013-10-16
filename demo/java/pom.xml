@@ -14,7 +14,7 @@
     <java.version>1.6</java.version>
     <openbus.version>2.0.0-SNAPSHOT</openbus.version>
     <scs.version>1.2.1.1</scs.version>
-    <jacorb.version>3.1</jacorb.version>
+    <jacorb.version>3.3</jacorb.version>
     <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
   </properties>
 

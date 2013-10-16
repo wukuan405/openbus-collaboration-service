@@ -4,10 +4,12 @@ import tecgraf.openbus.CallerChain;
 import tecgraf.openbus.Connection;
 import tecgraf.openbus.OpenBusContext;
 import tecgraf.openbus.core.v2_0.services.access_control.LoginInfo;
+import demo.Hello;
 import demo.HelloPOA;
 
 /**
- * Implementação do componente CollaborationSessionMember
+ * Implementação do serviço {@link Hello} que será incluído na sessão de
+ * colaboração.
  * 
  * @author Tecgraf
  */

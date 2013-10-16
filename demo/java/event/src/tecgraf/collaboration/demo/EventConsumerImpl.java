@@ -1,6 +1,7 @@
 package tecgraf.collaboration.demo;
 
 import org.omg.CORBA.Any;
+import org.omg.CORBA.TCKind;
 
 import tecgraf.openbus.CallerChain;
 import tecgraf.openbus.OpenBusContext;
@@ -38,8 +39,14 @@ public class EventConsumerImpl extends EventConsumerPOA {
     if (callerChain.originators().length > 0) {
       caller = callerChain.originators()[0];
     }
-    String ev = event.extract_string();
-    System.out.println(String.format("Received event from %s: %s",
-      caller.entity, ev));
+    if (event.type().kind() == TCKind.tk_string) {
+      String ev = event.extract_string();
+      System.out.println(String.format("Received event from %s: %s",
+        caller.entity, ev));
+    }
+    else {
+      System.err.println(String.format(
+        "Received an unexcepted event type from %s", caller.entity));
+    }
   }
 }
