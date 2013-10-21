@@ -17,7 +17,6 @@ local CollaborationObserverInterface = idl.types.CollaborationObserver
 local EventConsumerInterface = idl.types.EventConsumer
 local CollaborationRegistryInterface = idl.types.CollaborationRegistry
 local CollaborationRegistryFacetName = idl.const.CollaborationRegistryFacet
-local CollaborationServiceName = idl.const.CollaborationServiceName
 local InvalidLoginsRepId = busIdl.types.services.access_control.InvalidLogins
 
 local CollaborationRegistry = {
@@ -25,36 +24,40 @@ local CollaborationRegistry = {
   __objkey = CollaborationRegistryFacetName,
 }
 
+local function tryToDestroySession(login2entity, login, session)
+  if (#session:getMembers() == 0 and 
+     (session.creator==login.id or not login2entity[session.creator]))
+  then
+    session:destroy()
+  end
+end
+
 local function registerOnInvalidLogin(registry)
-  local login2session = registry.login2session
+  local login2entity = registry.login2entity
   registry.observer = {
     entityLogout = function(_, login)
-      local sessions = login2session[login.id]
-      if (not sessions) then
+      local entities = login2entity[login.id]
+      if (not entities) then
          --[DOUBT] assert?
         log:unexpected(msg.GotUnsolicitedLogoutNotification:tag({
           login = login.id,
           entity = login.entity,
         }))
       else
-        for session, _ in pairs(sessions) do
-          if (registry.sessions[session]) then            
-            for name, _ in pairs(sessions[session].members) do
-              session:removeMember(name)
-            end
-            for cookie, _ in pairs(sessions[session].observers) do
-              session:unsubscribeObserver(cookie)
-            end
-            for cookie, _ in pairs(sessions[session].consumers) do
-              session.channel:unsubscribe(cookie)
-            end
-            sessions[session] = nil
-            if (#session:getMembers() < 1) then
-              session:destroy()
-            end
-          end
+        for key, session in pairs(entities.consumers) do
+          session.channel:unsubscribe(key)
         end
-        login2session[login.id] = nil
+        for key, session in pairs(entities.observers) do
+          session:unsubscribeObserver(key)
+        end
+        for key, session in pairs(entities.members) do
+          session:removeMember(key)
+          tryToDestroySession(login2entity, login, session)
+        end
+        for key, session in pairs(entities.sessions) do
+          tryToDestroySession(login2entity, login, session)
+        end
+        login2entity[login.id] = nil
         local ok, emsg = pcall(registry.subscription.forgetLogin, 
                                registry.subscription, login.id)
         if (not ok) then
@@ -69,7 +72,7 @@ local function registerOnInvalidLogin(registry)
 
   local conn = registry.conn
   conn.onInvalidLogin = function()
-    conn:loginByCertificate(CollaborationServiceName, registry.prvKey)
+    conn:loginByCertificate(registry.entity, registry.prvKey)
     local rgs = conn.orb.OpenBusContext:getOfferRegistry()
     local ok, emsg = pcall(rgs.registerService, rgs,registry.context.IComponent,
                            {})
@@ -84,7 +87,7 @@ local function registerOnInvalidLogin(registry)
       registry.observer)
     registry.subscription = subscription
     local loginSeq = {}
-    for login, _ in pairs(registry.login2session) do
+    for login, _ in pairs(registry.login2entity) do
       loginSeq[#loginSeq+1] = login
     end
     local ok, emsg = pcall(subscription.watchLogins, subscription, loginSeq)
@@ -106,35 +109,26 @@ local function registerOnInvalidLogin(registry)
   conn.onInvalidLogin()
 end
 
-function CollaborationRegistry:registerLogin(loginId, session, key, group)
-  if (self.login2session[loginId] == nil) then
-    self.login2session[loginId] = {}
-  end
-  if (self.login2session[loginId][session] == nil) then
-    self.login2session[loginId][session] = {
+function CollaborationRegistry:registerLogin(loginId, session, key, entity)
+  if (self.login2entity[loginId] == nil) then
+    self.login2entity[loginId] = {
+      sessions = {},
       members = {},
-      observers = {},
-      consumers = {}
+      consumers = {},
+      observers = {}      
     }
   end
-  if (group ~= nil) then
-    self.login2session[loginId][session][group][key] = true
+  self.login2entity[loginId][entity][key] = session
+end
+
+function CollaborationRegistry:unregisterLogin(loginId, key, entity)
+  if (self.login2entity[loginId] and self.login2entity[loginId][entity]) then
+    self.login2entity[loginId][entity][key] = nil
   end
 end
 
-function CollaborationRegistry:forgetLogin(logindId)
-  local ok, emsg = pcall(self.subscription.forgetLogin,
-                         self.subscription, loginId)
-  if (not ok) then
-    log:exception(msg.UnableToStopWatchingLogin:tag({
-      login = loginId,
-      error = emsg,
-    })) 
-   end
-end
-
-function CollaborationRegistry:watchLogin(loginId, session, key, group)
-  self:registerLogin(loginId, session, key, group)
+function CollaborationRegistry:watchLogin(loginId, session, key, entity)
+  self:registerLogin(loginId, session, key, entity)
   local ok, emsg = pcall(self.subscription.watchLogin,self.subscription,loginId)
   if (not ok) then
     sysex.NO_PERMISSION({ 
@@ -152,10 +146,11 @@ function CollaborationRegistry:__init(o)
   self.conn = o.conn
   self.orb = self.conn.orb
   self.prvKey = o.prvKey
+  self.entity = o.entity
   self.dbSession = dbSession({
     dbPath = o.dbPath
   })
-  self.login2session = {}
+  self.login2entity = {}
   self.sessions = {}
 
   for sessionId, creator in pairs(self.dbSession:getSessions()) do
@@ -164,7 +159,7 @@ function CollaborationRegistry:__init(o)
       creator = creator,
       registry = self
     })
-    self:registerLogin(creator, session)
+    self:registerLogin(creator, session, session, "sessions")
     log:admin(msg.recoverySession:tag({
       sessionId = sessionId,
       creator = creator

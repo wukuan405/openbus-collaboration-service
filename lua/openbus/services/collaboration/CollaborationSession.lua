@@ -29,13 +29,13 @@ function CollaborationSession:__init()
   registry.sessions[self] = true
   if (self.persist) then
     dbSession:addSession(self.id, self.creator)
-    self.registry:watchLogin(self.creator, self)
+    self.registry:watchLogin(self.creator, self, self.id, "sessions")
   end
 end
 
 function CollaborationSession:notifyObservers(action, ...)
-  for _, observer in pairs(self.observers) do
-    Async:call(observer, action, ...)
+  for _, o in pairs(self.observers) do
+    Async:call(o.observer, action, ...)
   end
 end
 
@@ -47,12 +47,13 @@ function CollaborationSession:destroy()
     self:removeMember(name)
   end
   self:notifyObservers("destroyed")
-  for cookie, observer in pairs(self.observers) do
+  for cookie, _ in pairs(self.observers) do
     self:unsubscribeObserver(cookie)
   end
   self.channel:destroy()
   self.registry.dbSession:delSession(self.id)
   self.registry.sessions[self] = nil
+  self.registry:unregisterLogin(self.creator, self.id, "sessions")
   self.registry.orb:deactivate(self)
   log:action(msg.delSession:tag({
     sessionId = self.id
@@ -65,10 +66,9 @@ function CollaborationSession:addMember(name, member, owner)
       name = name
     })
   end
-  local ior = tostring(member)
   if (not owner) then
     owner = self.registry:callerId()
-    self.registry.dbSession:addMember(self.id, name, ior, owner)
+    self.registry.dbSession:addMember(self.id, name, tostring(member), owner)
     self:notifyObservers("memberAdded", name, member)
     self.registry:watchLogin(owner, self, name, "members")
     log:action(msg.addMember:tag({
@@ -79,7 +79,7 @@ function CollaborationSession:addMember(name, member, owner)
   end
   self.members[name] = {
     sessionId = self.id,
-    ior = ior,
+    proxy = member,
     owner = owner
   }
 end
@@ -88,12 +88,14 @@ function CollaborationSession:removeMember(name)
   if (self.members[name] == nil) then
     return false
   end
+  local owner = self.members[name].owner
   local res = self.registry.dbSession:delMember(self.id, name)
   if (not res) then
     return false
   end
   self.members[name] = nil
   self:notifyObservers("memberRemoved", name)
+  self.registry:unregisterLogin(owner, name, "members")
   log:action(msg.delMember:tag({
     sessionId = self.id,
     name = name
@@ -104,7 +106,7 @@ end
 function CollaborationSession:getMember(name)
   local member = self.members[name]
   if (member) then
-    return self.registry.conn.orb:newproxy(member.ior)
+    return member.proxy
   end
   return nil
 end
@@ -114,7 +116,7 @@ function CollaborationSession:getMembers()
   for name, member in pairs(self.members) do
     seq[#seq+1] = {
       name = name,
-      member = self.registry.conn.orb:newproxy(member.ior)
+      member = member.proxy
     }
   end
   return seq
@@ -122,17 +124,21 @@ end
 
 function CollaborationSession:subscribeObserver(observer, cookie)
   local ior = tostring(observer)
+  local callerId
   if (not cookie) then
-    local callerId = self.registry:callerId()
+    callerId = self.registry:callerId()
     cookie = self.registry.dbSession:addObserver(self.id, ior, callerId)
-    self.registry:watchLogin(callerId, self, cookie,"observers")
+    self.registry:watchLogin(callerId, self, cookie, "observers")
     log:action(msg.subscribeObserver:tag({
       sessionId = self.id,
       ior = ior,
       owner = callerId
     }))
   end
-  self.observers[cookie] = observer
+  self.observers[cookie] = {
+    owner = callerId,
+    observer = observer
+  }
   return cookie
 end
 
@@ -144,6 +150,7 @@ function CollaborationSession:unsubscribeObserver(cookie)
   if (not res) then
     return false
   end
+  self.registry:unregisterLogin(self.observers[cookie].owner,cookie,"observers")
   self.observers[cookie] = nil
   log:action(msg.unsubscribeObserver:tag({
     sessionId = self.id,

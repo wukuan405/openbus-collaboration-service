@@ -19,16 +19,18 @@ function EventChannel:__init()
 end
 
 function EventChannel:destroy()
-  for cookie, consumer in pairs(self.consumers) do
+  for cookie, _ in pairs(self.consumers) do
     self:unsubscribe(cookie)
   end
+  self.consumers = nil
   self.registry.orb:deactivate(self)
 end
 
 function EventChannel:subscribe(consumer, cookie)
   local ior = tostring(consumer)
+  local callerId
   if (not cookie) then
-    local callerId = self.registry:callerId()
+    callerId = self.registry:callerId()
     cookie = self.dbSession:addConsumer(self.session.id, ior, callerId)
     self.registry:watchLogin(callerId, self.session, cookie, "consumers")
     log:action(msg.subscribeConsumer:tag({
@@ -37,7 +39,10 @@ function EventChannel:subscribe(consumer, cookie)
       owner = callerId
     }))
   end
-  self.consumers[cookie] = consumer
+  self.consumers[cookie] = {
+    owner = callerId,
+    consumer = consumer
+  }
   return cookie
 end
 
@@ -45,8 +50,9 @@ function EventChannel:unsubscribe(cookie)
   if (self.consumers[cookie] == nil) then
     return false
   end      
+  self.dbSession:delConsumer(self.session.id, cookie)
+  self.registry:unregisterLogin(self.consumers[cookie].owner, cookie, "consumers")
   self.consumers[cookie] = nil
-  local res = self.dbSession:delConsumer(self.session.id, cookie)
   log:action(msg.unsubscribeConsumer:tag({
     sessionId = self.session.id,
     cookie = cookie
@@ -55,8 +61,8 @@ function EventChannel:unsubscribe(cookie)
 end
 
 function EventChannel:push(...)
-  for _, consumer in pairs(self.consumers) do
-    Async:call(consumer, "push", ...)
+  for _, o in pairs(self.consumers) do
+    Async:call(o.consumer, "push", ...)
   end
 end
 

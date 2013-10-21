@@ -9,22 +9,27 @@ local putsInstall = os.getenv("PUTS").."/install"
 
 function setup()
   local orb = openbus:initORB()
-  orb:loadidlfile(putsInstall.."/idl/collaboration-service-1.0/collaboration.idl")
+  orb:loadidlfile(putsInstall.."/idl/collaboration.idl")
   local busCtx = orb.OpenBusContext
   local conn = busCtx:createConnection(bushost, busport)
   conn:loginByPassword(user, password)
   busCtx:setDefaultConnection(conn)
 
   local rgs = busCtx:getOfferRegistry()
-  local offers = rgs:findServices(
+  local props = {
     {
-      {
-        name = "openbus.component.name", 
-        value = "CollaborationService"
-      }
-    })
-
-  local facet = offers[1].service_ref:getFacetByName(CollaborationRegistryFacet)
+      name = "openbus.component.name", 
+      value = "CollaborationService"
+    }
+  }
+  local offers = rgs:findServices(props)
+  while (not (#offers > 0 and not offers[1].service_ref:_non_existent())) do
+    print("Waiting collaboration service...")
+    socket.sleep(1)
+    offers = rgs:findServices(props)
+  end
+  local component = offers[1].service_ref
+  local facet = component:getFacetByName(CollaborationRegistryFacet)
   local registry = facet:__narrow()
 
   return {
@@ -34,6 +39,11 @@ function setup()
     conn = conn,
     rgs = rgs,
     collaborationRegistry = registry,
-    componentCtx = ComponentContext
+    componentCtx = ComponentContext,
+    busCtx = busCtx,
+    bushost = bushost,
+    busport = busport,
+    user = user,
+    password = password
   }
 end

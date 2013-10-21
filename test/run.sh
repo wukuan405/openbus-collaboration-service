@@ -1,7 +1,7 @@
 #!/bin/bash
 
-collaboration_service_pkg="collaboration-service-1.0snapshot"
-openbus_lua_pkg="openbus-lua-2.0.0.0"
+collaboration_service_pkg="collaboration-service-1.0.0snapshot"
+openbus_lua_pkg="openbus-lua-2.0.0snapshot"
 
 puts_install="${PUTS}/install"
 puts_build="${PUTS}/build"
@@ -12,7 +12,7 @@ lua_path="?.lua;${openbus_lua}/test/?.lua;"\
 "${collaboration_service}/lua/?.lua;${collaboration_service}/dist/?.lua"
 lua_cpath="${puts_install}/lib/lib?.so"
 
-cases="interface persistence observer"
+cases="interface persistence observer oninvalid_login"
 
 for case in $cases
 do

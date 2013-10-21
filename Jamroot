@@ -12,7 +12,7 @@ oil.idl2lua parsed.lua
 ;
 
 loop.pre-compile collaborationService.c
-  : [ glob-tree *.lua : test *.luad ] 
+  : [ glob-tree *.lua : test *.luad dist ] 
     parsed.lua
 ;
 
