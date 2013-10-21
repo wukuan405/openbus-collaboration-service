@@ -10,7 +10,7 @@ collaboration_service=${puts_build}/${collaboration_service_pkg}
 openbus_lua=${puts_build}/${openbus_lua_pkg}
 lua_path="?.lua;${openbus_lua}/test/?.lua;"\
 "${collaboration_service}/lua/?.lua;${collaboration_service}/dist/?.lua"
-lua_cpath="${puts_install}/lib/lib?.so"
+lua_cpath="${puts_install}/lib/lib?.so;${puts_install}/lib/lib?.dylib"
 
 cases="interface persistence observer oninvalid_login"
 

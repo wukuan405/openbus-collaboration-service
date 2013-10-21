@@ -60,6 +60,18 @@ function EventChannel:unsubscribe(cookie)
   return true
 end
 
+function EventChannel:getConsumers()
+  local seq = {}
+  for cookie, consumer in pairs(self.consumers) do
+    seq[#seq+1] = {
+      cookie = cookie,
+      owner = consumer.owner,
+      consumer = consumer.consumer
+    }
+  end
+  return seq
+end
+
 function EventChannel:push(...)
   for _, o in pairs(self.consumers) do
     Async:call(o.consumer, "push", ...)
