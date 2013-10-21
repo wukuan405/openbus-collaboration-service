@@ -33,12 +33,6 @@ function CollaborationSession:__init()
   end
 end
 
-function CollaborationSession:notifyObservers(action, ...)
-  for _, o in pairs(self.observers) do
-    Async:call(o.observer, action, ...)
-  end
-end
-
 function CollaborationSession:destroy()
   if (not self.registry.sessions[self]) then
     return
@@ -157,6 +151,24 @@ function CollaborationSession:unsubscribeObserver(cookie)
     cookie = cookie
   }))
   return true
+end
+
+function CollaborationSession:getObservers()
+  local seq = {}
+  for cookie, observer in pairs(self.observers) do
+    seq[#seq+1] = {
+      cookie = cookie,
+      owner = observer.owner,
+      observer = observer.observer
+    }
+  end
+  return seq
+end
+
+function CollaborationSession:notifyObservers(action, ...)
+  for _, o in pairs(self.observers) do
+    Async:call(o.observer, action, ...)
+  end
 end
 
 return {
