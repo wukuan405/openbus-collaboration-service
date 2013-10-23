@@ -31,6 +31,10 @@ function CollaborationSession:__init()
     dbSession:addSession(self.id, self.creator)
     self.registry:watchLogin(self.creator, self, self.id, "sessions")
   end
+  self.ctx = self.registry.orb.OpenBusContext
+  self.async = Async.Async({
+    ctx = self.ctx
+  })
 end
 
 function CollaborationSession:destroy()
@@ -166,8 +170,9 @@ function CollaborationSession:getObservers()
 end
 
 function CollaborationSession:notifyObservers(action, ...)
+  local chain = self.ctx:getCallerChain()
   for _, o in pairs(self.observers) do
-    Async:call(o.observer, action, ...)
+    self.async:call(o.observer, action, chain, ...)
   end
 end
 

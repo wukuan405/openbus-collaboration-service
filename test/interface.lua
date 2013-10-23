@@ -84,7 +84,7 @@ end
 local observer = {}
 function observer:memberAdded(name, member)
 end
-function observer:memberRemover(name)
+function observer:memberRemoved(name)
 end
 function observer:destroyed()
 end
@@ -110,6 +110,8 @@ do
   local cookie = channel:subscribe({
     push = function(self, any)
       pushed = true
+      local chain = env.orb.OpenBusContext:getCallerChain()
+      assert(#chain.originators == 1)
       if (thread) then 
         cothread.next(thread) 
       end

@@ -73,7 +73,7 @@ end
 local observer = {}
 function observer:memberAdded(name, member)
 end
-function observer:memberRemover(name)
+function observer:memberRemoved(name)
 end
 function observer:destroyed()
 end
