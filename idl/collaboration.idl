@@ -39,7 +39,7 @@ const string CollaborationRegistryFacet = "CollaborationRegistry";
 /** \brief Nome da faceta de observação de colaboração. */
 const string CollaborationObserverFacet = "CollaborationObserver";
 
-/** \brief Identificador da inscrição de um observador. */
+/** \brief Identificador da inscrição de um observador de uma colaboração ou de um consumidor de eventos. */
 typedef long Cookie;
 /** \brief Identificador de um membro. */
 typedef string Identifier;
@@ -71,7 +71,7 @@ interface CollaborationObserver {
 		raises (core::v2_0::services::ServiceFailure);
 	
 	/**
-	 * \brief Notifica que colaboração foi finalizada.
+	 * \brief Notifica que a colaboração foi finalizada.
 	 */
 	void destroyed()
 		raises (core::v2_0::services::ServiceFailure);	
@@ -79,6 +79,10 @@ interface CollaborationObserver {
 
 /**
  * \brief Representa um consumidor de eventos.
+ *
+ * Interface a ser implementada pelo consumidor interessado em participar de
+ * canal de eventos(EventChannel).
+ *
  */
 interface EventConsumer {
 	/**
@@ -91,17 +95,18 @@ interface EventConsumer {
 };
 
 /**
- * \brief Representa um canal de eventos.
+ * \brief Representa um canal para a troca de eventos do tipo push.
  */
 interface EventChannel {
 	/**
 	 * \brief Registra um consumidor para consumir eventos deste canal.
 	 *
-	 * \param cosumer o consumidor de eventos.
+	 * \param consumer o consumidor de eventos.
 	 * \return identificador do registro do consumidor.
 	 */
 	Cookie subscribe(in EventConsumer consumer)
 		raises (core::v2_0::services::ServiceFailure);
+
 	/**
 	 * \brief Descadastra um consumidor de eventos deste canal.
 	 *
@@ -111,9 +116,14 @@ interface EventChannel {
 	 */
 	boolean unsubscribe(in Cookie ck)
 		raises (core::v2_0::services::ServiceFailure);
+
 	/**
 	 * \brief Publica um evento no canal.
-	 *
+   *
+	 * Todos os consumidores do canal serão notificados através da execução 
+   * das suas respectivas implementações de EventConsumer::push(in any event).
+   * Sendo o parâmetro event o evento publicado no canal.
+   *
 	 * \param event o evento.
 	 */
 	void push(in any event)
@@ -211,6 +221,14 @@ interface CollaborationRegistry {
 	/**
 	 * \brief Cria uma sessão de colaboração.
 	 *
+   * A sessão deve ser destruída através do método destroy() e é persistida 
+   * enquanto existir ao menos um membro, observador ou consumidor, ou, se o 
+   * criador da sessão  ainda existir.
+   *
+   * A sessão deve ser compartilhada através do compartilhamento da sua 
+   * referência CORBA, que é o retorno do método createCollaborationSession.
+   * O compartilhamento da sessão é uma responsabilidade do usuário.
+   *
 	 * \return a sessão criada.
 	 */
 	CollaborationSession createCollaborationSession()
