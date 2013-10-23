@@ -16,6 +16,10 @@ local EventChannel = oo.class({
 
 function EventChannel:__init()
   self.consumers = {}
+  self.ctx = self.registry.orb.OpenBusContext
+  self.async = Async.Async({
+    ctx = self.ctx
+  })
 end
 
 function EventChannel:destroy()
@@ -73,8 +77,9 @@ function EventChannel:getConsumers()
 end
 
 function EventChannel:push(...)
+  local chain = ctx:getCallerChain()
   for _, o in pairs(self.consumers) do
-    Async:call(o.consumer, "push", ...)
+    self.async:call(o.consumer, "push", chain, ...)
   end
 end
 

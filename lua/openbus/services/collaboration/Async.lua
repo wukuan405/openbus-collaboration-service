@@ -5,9 +5,12 @@ local oo = require "openbus.util.oo"
 local log = require "openbus.util.logger"
 local msg = require "openbus.services.collaboration.messages"
 
-local Async = {}
+local Async = oo.class()
 
-local function job(objref, opname, ...)
+function Async:job(objref, opname, chain, ...)
+  if chain then
+    ctx:joinChain(chain)
+  end
   local ok, errMsg = pcall(objref[opname], objref, ...)
   if not ok then
     --[DOUBT] devo reportar? eu acho que nao
@@ -18,8 +21,14 @@ local function job(objref, opname, ...)
   end
 end
 
-function Async:call(obj, method, ...)
-  openbus.newThread(job, obj, method, ...)
+function Async:__init()
+  ctx = self.ctx
 end
 
-return Async
+function Async:call(obj, method, chain, ...)
+  openbus.newThread(self.job, self, obj, method, chain, ...)
+end
+
+return {
+  Async = Async
+}

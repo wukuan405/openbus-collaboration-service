@@ -59,6 +59,7 @@ do
   oil.sleep(sleep_time)
   assert(#getRows("session") == 1)
   assert(#getRows("member") == 0)
+  env.busCtx:setDefaultConnection(c1)
   c1:logout()
   oil.sleep(sleep_time)
   assert(#getRows("session") == 0)  
