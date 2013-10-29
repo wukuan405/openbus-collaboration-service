@@ -1,6 +1,7 @@
 -- -*- coding: iso-8859-1-unix -*-
 
 require "setup"
+local cothread = require "cothread"
 
 local env = setup()
 env.openbus.newThread(env.orb.run, env.orb)
@@ -35,19 +36,23 @@ local called = {
   memberRemoved = {},
 }
 
+local thread = coroutine.running()
+
 local observer = {}
 function observer:memberAdded(name, member)
   called["memberAdded"][name] = member
+  cothread.next(thread)
 end
 function observer:memberRemoved(name)
   called["memberRemoved"][name] = true
+  cothread.next(thread)
 end
 function observer:destroyed()
   called["destroyed"] = true
+  cothread.next(thread)
 end
 observer = env.orb:newservant(observer, nil, 
                               env.idl.types.CollaborationObserver)
-local sleep_time = 3
 
 do
   local session = env.collaborationRegistry:createCollaborationSession()
@@ -55,19 +60,22 @@ do
   local members = {"m1", "m2", "m3"}
   for _, v in ipairs(members) do 
     session:addMember(v, component.IComponent)
-    -- ugly!
-    oil.sleep(sleep_time)
+    if (not called["memberAdded"][v]) then
+      cothread.suspend()
+    end
     assert(called["memberAdded"][v])
   end
   for _, v in ipairs(members) do
     session:removeMember(v)
-    -- ugly!
-    oil.sleep(sleep_time)
+    if (not called["memberRemoved"][v]) then
+      cothread.suspend()
+    end
     assert(called["memberRemoved"][v])
   end
   session:destroy()
-  -- ugly!
-  oil.sleep(sleep_time)
+  if (not called["destroyed"]) then
+    cothread.suspend()
+  end
   assert(called["destroyed"])
 end
 
