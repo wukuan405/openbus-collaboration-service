@@ -68,5 +68,5 @@ Hostname: $HOSTNAME
 Script de inicialização: $OPENBUS_INIT
 
 Crontab da Máquina $HOSTNAME" |\
-	 mail -s "Falha e reinício do barramento na $HOSTNAME" $EMAIL
+	 mail -s "Falha e reinício do Serviço de Colaboração na $HOSTNAME" $EMAIL
 fi
