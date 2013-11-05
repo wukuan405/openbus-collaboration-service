@@ -11,13 +11,12 @@ function Async:job(objref, opname, chain, ...)
   if chain then
     ctx:joinChain(chain)
   end
-  local ok, errMsg = pcall(objref[opname], objref, ...)
+  local ok, err_msg = pcall(objref[opname], objref, ...)
   if not ok then
-    --[DOUBT] devo reportar? eu acho que nao
-    -- log:exception(msg.AsyncCallError:tag({
-    --   operation = opname,
-    --   error = errMsg
-    -- }))
+    log:exception(msg.AsyncCallError:tag({
+      operation = opname,
+      error = err_msg
+    }))
   end
 end
 
