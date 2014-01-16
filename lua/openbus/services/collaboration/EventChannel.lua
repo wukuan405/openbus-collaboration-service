@@ -6,6 +6,7 @@ local log = require "openbus.util.logger"
 local msg = require "openbus.services.collaboration.messages"
 local idl = require "openbus.services.collaboration.idl"
 local Async = require "openbus.services.collaboration.Async"
+local sysex = require "openbus.util.sysex"
 
 local EventChannelInterface = idl.types.EventChannel
 local EventCondumerInterface = idl.types.EventConsumer
@@ -31,6 +32,9 @@ function EventChannel:destroy()
 end
 
 function EventChannel:subscribe(consumer, cookie)
+  if (consumer == nil) then
+    sysex.BAD_PARAM({completed = "COMPLETED_NO", minor = 0})
+  end
   local ior = tostring(consumer)
   local callerId
   if (not cookie) then
