@@ -50,6 +50,14 @@ end
 
 do
   local session = env.collaborationRegistry:createCollaborationSession()
+  local ret, ex = pcall(session.addMember, session, "m1", nil)
+  assert(ret == false)
+  assert(ex._repid == "IDL:omg.org/CORBA/BAD_PARAM:1.0")
+  session:destroy()
+end
+
+do
+  local session = env.collaborationRegistry:createCollaborationSession()
   local memberName = "Hello"
   session:addMember(memberName, component.IComponent)
   assert(#session:getMembers() == 1)
@@ -100,6 +108,14 @@ do
   cookie = session:subscribeObserver(observer)
   assert(session:unsubscribeObserver(cookie))
   session:destroy()
+end
+
+do
+  local session = env.collaborationRegistry:createCollaborationSession()
+  local channel = session:_get_channel()
+  local ret, ex = pcall(channel.subscribe, channel, nil)
+  assert(ret == false)
+  assert(ex._repid == "IDL:omg.org/CORBA/BAD_PARAM:1.0")
 end
 
 do

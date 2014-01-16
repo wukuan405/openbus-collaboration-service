@@ -79,5 +79,13 @@ do
   assert(called["destroyed"])
 end
 
+do
+  local session = env.collaborationRegistry:createCollaborationSession()
+  local ret, ex = pcall(session.subscribeObserver, session, nil)
+  assert(ret == false)
+  assert(ex._repid == "IDL:omg.org/CORBA/BAD_PARAM:1.0")
+  session:destroy()
+end
+
 env.conn:logout()
 env.orb:shutdown()

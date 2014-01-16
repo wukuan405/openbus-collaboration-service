@@ -8,6 +8,7 @@ local dbSession = require "openbus.services.collaboration.DBSession"
 local idl = require "openbus.services.collaboration.idl"
 local EventChannel = require "openbus.services.collaboration.EventChannel"
 local Async = require "openbus.services.collaboration.Async"
+local sysex = require "openbus.util.sysex"
 
 local CollaborationSessionInterface = idl.types.CollaborationSession
 
@@ -59,6 +60,9 @@ function CollaborationSession:destroy()
 end
 
 function CollaborationSession:addMember(name, member, owner)
+  if (member == nil) then
+    sysex.BAD_PARAM({completed = "COMPLETED_NO", minor = 0})
+  end
   if (self.members[name]) then
     idl.throw.NameInUse({
       name = name
@@ -121,6 +125,9 @@ function CollaborationSession:getMembers()
 end
 
 function CollaborationSession:subscribeObserver(observer, cookie)
+  if (observer == nil) then
+    sysex.BAD_PARAM({completed = "COMPLETED_NO", minor = 0})
+  end
   local ior = tostring(observer)
   local callerId
   if (not cookie) then
