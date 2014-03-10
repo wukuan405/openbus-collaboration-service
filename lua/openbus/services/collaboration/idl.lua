@@ -5,7 +5,7 @@ local error = _G.error
 local ipairs = _G.ipairs
 
 local array = require "table"
-local unpack = array.unpack or _G.unpack
+local unpack = array.unpack
 
 local makeaux = require "openbus.core.idl.makeaux"
 local parsed = require "parsed"

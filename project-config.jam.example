@@ -12,7 +12,7 @@ search-path += bbuild ;
 modules.poke : BOOST_BUILD_PATH : $(search-path) ;
 
 using lua 
-  : $(install)/bin/lua5.1
+  : $(install)/bin/lua52
 ;
 
 using loop
@@ -32,13 +32,13 @@ lib dl
 ;
 
 project lua
-  : requirements <include>$(install)/include/lua5.1.3
+  : requirements <include>$(install)/include/lua5.2.2
 ;
 
-lib lua5.1 
+lib lua52 
   :
   : <search>$(install)/lib
-    <target-os>darwin,<link>static:<file>$(install)/lib/liblua5.1.a
+    <target-os>darwin,<link>static:<file>$(install)/lib/liblua52.a
 ;
 
 project e2fsprogs
@@ -135,22 +135,10 @@ lib loop
     <target-os>darwin,<link>static:<file>$(install)/lib/libloop.a
 ;
 
-lib luacoroutine 
-  :
-  : <search>$(install)/lib
-    <target-os>darwin,<link>static:<file>$(install)/lib/libluacoroutine.a
-;
-
 lib luacothread
   :
   : <search>$(install)/lib
     <target-os>darwin,<link>static:<file>$(install)/lib/libluacothread.a
-;
-
-lib luainspector
-  :
-  : <search>$(install)/lib
-    <target-os>darwin,<link>static:<file>$(install)/lib/libluainspector.a
 ;
 
 lib luatuple 

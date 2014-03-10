@@ -11,9 +11,7 @@
 #include "luasocket.h"
 #include "loop.h"
 #include "luatuple.h"
-#include "luacoroutine.h"
 #include "luacothread.h"
-#include "luainspector.h"
 #include "luaidl.h"
 #include "oil.h"
 #include "luascs.h"
@@ -27,7 +25,7 @@ char const* OPENBUS_PROGNAME = "collaborationService";
 void luapreload_extralibraries(lua_State *L)
 {
 	/* preload binded C libraries */
-	luaL_findtable(L, LUA_GLOBALSINDEX, "package.preload", 1);
+  luaL_getsubtable(L, LUA_REGISTRYINDEX, "_PRELOAD");
 	lua_pushcfunction(L,luaopen_uuid);lua_setfield(L,-2,"uuid");
 	lua_pushcfunction(L,luaopen_lfs);lua_setfield(L,-2,"lfs");
 	lua_pushcfunction(L,luaopen_vararg);lua_setfield(L,-2,"vararg");
@@ -40,9 +38,7 @@ void luapreload_extralibraries(lua_State *L)
 	/* preload script libraries */
 	luapreload_loop(L);
 	luapreload_luatuple(L);
-	luapreload_luacoroutine(L);
 	luapreload_luacothread(L);
-	luapreload_luainspector(L);
 	luapreload_luaidl(L);
 	luapreload_oil(L);
 	luapreload_luascs(L);
