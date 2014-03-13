@@ -6,6 +6,7 @@ local env = setup()
 env.openbus.newThread(env.orb.run, env.orb)
 
 local sqlite = require "lsqlite3"
+local oil = require "oil"
 
 local hello = {}
 function hello:sayHello()
