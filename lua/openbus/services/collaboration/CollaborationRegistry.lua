@@ -27,6 +27,7 @@ local CollaborationRegistry = {
 local function tryToDestroySession(login2entity, login, session)
   if (#session:getMembers() == 0 and 
      (session.creator==login.id or not login2entity[session.creator]) and
+     (#session:getObservers() == 0) and 
      (#session.channel:getConsumers() == 0))
   then
     session:destroy()
@@ -50,6 +51,7 @@ local function registerOnInvalidLogin(registry)
           tryToDestroySession(login2entity, login, session)
         end
         for key, session in pairs(entities.observers) do
+          session:unsubscribeObserver(key)
           tryToDestroySession(login2entity, login, session)
         end
         for key, session in pairs(entities.members) do
