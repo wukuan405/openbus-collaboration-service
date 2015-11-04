@@ -48,7 +48,6 @@ do
   local session = env.collaborationRegistry:createCollaborationSession()
   local sessions = getRows("session")
   assert(#sessions == 1)
-  assert(sessions[1].creator == env.conn.login.id)
   session:destroy()
   assert(#getRows("session") == 0)
 end
