@@ -1,5 +1,6 @@
 -- -*- coding: iso-8859-1-unix -*-
 
+local Publisher = require "loop.object.Publisher"
 local openbus = require "openbus"
 local oo = require "openbus.util.oo"
 local log = require "openbus.util.logger"
@@ -27,6 +28,7 @@ function CollaborationSession:__init()
   })
   self.members = {}
   self.observers = {}
+  self.publisher = Publisher()
   registry.sessions[self] = true
   if (self.persist) then
     dbSession:addSession(self.id, self.creator)
@@ -49,6 +51,7 @@ function CollaborationSession:destroy()
   for cookie, _ in pairs(self.observers) do
     self:unsubscribeObserver(cookie)
   end
+  self.publisher:destroyed()
   self.channel:destroy()
   self.registry.dbSession:delSession(self.id)
   self.registry.sessions[self] = nil

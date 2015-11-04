@@ -68,6 +68,19 @@ local entity = {
     delete = 'DELETE FROM observer WHERE session_id = ? AND id = ?;',
     insert = 'INSERT INTO observer (session_id, ior, owner) VALUES (?, ?, ?);',
     selectAll = 'SELECT id, ior, owner FROM observer WHERE session_id = ?;'
+  },
+  collab = {
+    create = [[
+      CREATE TABLE collab (
+        entity TEXT PRIMARY KEY,
+        session_id TEXT,
+        CONSTRAINT "fk_collab_session" FOREIGN KEY ("session_id")
+        REFERENCES "session" ("objkey") ON DELETE CASCADE
+      );
+    ]],
+    delete = 'DELETE FROM collab WHERE entity = ?;',
+    insert = 'INSERT INTO collab (entity, session_id) VALUES (?, ?);',
+    selectAll = 'SELECT entity, session_id FROM collab;'
   }
 }
 
@@ -84,7 +97,10 @@ local stmts = {
   { stmt = "getConsumersStmt", sql = entity.consumer.selectAll },
   { stmt = "addObserverStmt", sql = entity.observer.insert },
   { stmt = "deleteObserverStmt", sql = entity.observer.delete },
-  { stmt = "getObserversStmt", sql = entity.observer.selectAll }
+  { stmt = "getObserversStmt", sql = entity.observer.selectAll },
+  { stmt = "addCollabStmt", sql = entity.collab.insert },
+  { stmt = "deleteCollabStmt", sql = entity.collab.delete },
+  { stmt = "getCollabsStmt", sql = entity.collab.selectAll }
 }
 
 local function open(filename)
@@ -262,6 +278,31 @@ function DBSession:getObservers(sessionId)
   end
   self.getObserversStmt:reset()
   return observers
+end
+
+function DBSession:addCollab(entity, sessionId)
+  self.addCollabStmt:bind_values(entity, sessionId)
+  self.addCollabStmt:step()
+  self.addCollabStmt:reset()
+end
+
+function DBSession:delCollab(entity)
+  self.deleteCollabStmt:bind_values(entity)
+  local res = self.deleteCollabStmt:step()
+  self.deleteCollabStmt:reset()
+  if (res ~= sqlite.DONE ) then
+    return false
+  end
+  return true
+end
+
+function DBSession:getCollabs()
+  local collabs = {}
+  for row in self.getCollabsStmt:nrows() do
+    collabs[row.entity] = row.session_id
+  end
+  self.getCollabsStmt:reset()
+  return collabs
 end
 
 return DBSession

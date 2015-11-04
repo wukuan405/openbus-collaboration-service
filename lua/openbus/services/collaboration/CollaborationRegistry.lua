@@ -27,7 +27,6 @@ local CollaborationRegistry = {
 local function tryToDestroySession(login2entity, login, session)
   if (#session:getMembers() == 0 and 
      (session.creator==login.id or not login2entity[session.creator]) and
-     (#session:getObservers() == 0) and 
      (#session.channel:getConsumers() == 0))
   then
     session:destroy()
@@ -51,7 +50,6 @@ local function registerOnInvalidLogin(registry)
           tryToDestroySession(login2entity, login, session)
         end
         for key, session in pairs(entities.observers) do
-          session:unsubscribeObserver(key)
           tryToDestroySession(login2entity, login, session)
         end
         for key, session in pairs(entities.members) do
@@ -156,6 +154,7 @@ function CollaborationRegistry:__init(o)
   })
   self.login2entity = {}
   self.sessions = {}
+  self.collabSessions = {} 
 
   for sessionId, creator in pairs(self.dbSession:getSessions()) do
     local session = CollaborationSession.CollaborationSession({
@@ -178,31 +177,32 @@ function CollaborationRegistry:__init(o)
         owner = member.owner,
         sessionId = sessionId
       }))
-      for cookie, observer in pairs(self.dbSession:getObservers(sessionId)) do
-        session:subscribeObserver(
-           self.orb:newproxy(observer.ior, nil, 
-                             CollaborationObserverInterface), cookie)
-        self:registerLogin(observer.owner, session, cookie, "observers")
-        log:admin(msg.recoveryObserver:tag({
-          sessionId = sessionId,
-          cookie = cookie,
-          ior = observer.ior,
-          owner = observer.owner
-        }))
-      end
-      for cookie, consumer in pairs(self.dbSession:getConsumers(sessionId)) do
-        session.channel:subscribe(
-          self.orb:newproxy(consumer.ior, nil, EventConsumerInterface), cookie)
-        self:registerLogin(consumer.owner, session, cookie, "consumers")
-        log:admin(msg.recoveryConsumer:tag({
-          sessionId = sessionId,
-          cookie = cookie,
-          ior = consumer.ior,
-          owner = consumer.owner
-        }))
-      end
+    end
+    for cookie, observer in pairs(self.dbSession:getObservers(sessionId)) do
+      observerServ = self.orb:newproxy(observer.ior, nil, 
+                           CollaborationObserverInterface)
+      session:subscribeObserver(observerServ, cookie)
+      self:registerLogin(observer.owner, session, cookie, "observers")
+      log:admin(msg.recoveryObserver:tag({
+        sessionId = sessionId,
+        cookie = cookie,
+        ior = observer.ior,
+        owner = observer.owner
+      }))
+    end
+    for cookie, consumer in pairs(self.dbSession:getConsumers(sessionId)) do
+      session.channel:subscribe(
+        self.orb:newproxy(consumer.ior, nil, EventConsumerInterface), cookie)
+      self:registerLogin(consumer.owner, session, cookie, "consumers")
+      log:admin(msg.recoveryConsumer:tag({
+        sessionId = sessionId,
+        cookie = cookie,
+        ior = consumer.ior,
+        owner = consumer.owner
+      }))
     end
     self.orb:newservant(session)
+    self.collabSessions[sessionId] = session 
   end
   registerOnInvalidLogin(self)
 end

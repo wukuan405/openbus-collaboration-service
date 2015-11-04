@@ -1,6 +1,7 @@
 -- -*- coding: iso-8859-1-unix -*-
 
 require "setup"
+
 local cothread = require "cothread"
 
 local env = setup()
@@ -36,20 +37,26 @@ local called = {
   memberRemoved = {},
 }
 
-local thread = coroutine.running()
+local thread
 
 local observer = {}
 function observer:memberAdded(name, member)
   called["memberAdded"][name] = member
-  cothread.next(thread)
+  if thread ~= nil then
+    cothread.next(thread)
+  end
 end
 function observer:memberRemoved(name)
   called["memberRemoved"][name] = true
-  cothread.next(thread)
+  if thread ~= nil then
+    cothread.next(thread)
+  end
 end
 function observer:destroyed()
   called["destroyed"] = true
-  cothread.next(thread)
+  if thread ~= nil then
+    cothread.next(thread)
+  end
 end
 observer = env.orb:newservant(observer, nil, 
                               env.idl.types.CollaborationObserver)
@@ -58,23 +65,30 @@ do
   local session = env.collaborationRegistry:createCollaborationSession()
   local cookie = session:subscribeObserver(observer)
   local members = {"m1", "m2", "m3"}
+  --cothread.verbose:level(5)
   for _, v in ipairs(members) do 
     session:addMember(v, component.IComponent)
     if (not called["memberAdded"][v]) then
+      thread = coroutine.running()
       cothread.suspend()
+      thread = nil
     end
     assert(called["memberAdded"][v])
   end
   for _, v in ipairs(members) do
     session:removeMember(v)
     if (not called["memberRemoved"][v]) then
+      thread = coroutine.running()
       cothread.suspend()
+      thread = nil
     end
     assert(called["memberRemoved"][v])
   end
   session:destroy()
   if (not called["destroyed"]) then
+    thread = coroutine.running()
     cothread.suspend()
+    thread = nil
   end
   assert(called["destroyed"])
 end

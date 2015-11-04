@@ -6,13 +6,14 @@ local openbus = require "openbus"
 local oil = require "oil"
 local idl = require "openbus.services.collaboration.idl"
 local CollaborationRegistryFacet = idl.const.CollaborationRegistryFacet
+local SessionRegistryFacet = idl.const.SessionRegistryFacet
 
 function setup()
   local orb = openbus:initORB()
   idl.loadto(orb)
   local busCtx = orb.OpenBusContext
   local conn = busCtx:createConnection(bushost, busport)
-  conn:loginByPassword(user, password)
+  conn:loginByPassword(user, password, "testing")
   busCtx:setDefaultConnection(conn)
 
   local rgs = busCtx:getOfferRegistry()
@@ -29,8 +30,10 @@ function setup()
     offers = rgs:findServices(props)
   end
   local component = offers[1].service_ref
-  local facet = component:getFacetByName(CollaborationRegistryFacet)
-  local registry = facet:__narrow()
+  local facet1 = component:getFacetByName(CollaborationRegistryFacet)
+  local facet2 = component:getFacetByName(SessionRegistryFacet)
+  local registry = facet1:__narrow()
+  local sessionreg = facet2:__narrow()
 
   return {
     orb = orb,
@@ -39,6 +42,7 @@ function setup()
     conn = conn,
     rgs = rgs,
     collaborationRegistry = registry,
+    sessionRegistry = sessionreg,
     componentCtx = ComponentContext,
     busCtx = busCtx,
     bushost = bushost,

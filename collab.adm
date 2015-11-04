@@ -18,9 +18,15 @@ Interface {
   id = "IDL:tecgraf/openbus/services/collaboration/v1_0/CollaborationRegistry:1.0"
 }
 
+Interface {
+  id = "IDL:tecgraf/openbus/services/collaboration/v1_0/SessionRegistry:1.0"
+}
+
+
 Grant {
   id = "CollaborationService",
   interfaces = {
     "IDL:tecgraf/openbus/services/collaboration/v1_0/CollaborationRegistry:1.0",
+    "IDL:tecgraf/openbus/services/collaboration/v1_0/SessionRegistry:1.0",
   }
 }

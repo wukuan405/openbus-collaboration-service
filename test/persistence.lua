@@ -117,6 +117,17 @@ do
   assert(#getRows("consumer") == 0)
 end
 
+do
+  local session = env.collaborationRegistry:createCollaborationSession()
+  env.sessionRegistry:registerSession(session)
+  local collabs = getRows("collab")
+  assert(#collabs == 1)
+  assert(collabs[1].entity == user)
+  session:destroy()
+  assert(#getRows("collab") == 0)
+  local ok, ex = pcall(env.sessionRegistry.removeSession, env.sessionRegistry, user)
+end
+
 db:close()
 env.conn:logout()
 env.orb:shutdown()

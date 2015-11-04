@@ -9,6 +9,9 @@ local msg = require "openbus.services.collaboration.messages"
 local idl = require "openbus.services.collaboration.idl"
 local CollaborationRegistry = 
   require "openbus.services.collaboration.CollaborationRegistry"
+local SessionRegistry = 
+  require "openbus.services.collaboration.SessionRegistry"
+
 
 local function defaultConfig()
   return server.ConfigArgs(
@@ -73,7 +76,10 @@ return function(...)
     orb = orb,
     objkey = config.entity,
     name = config.entity,
-    facets = CollaborationRegistry,
+    facets = {
+        CollaborationRegistry = CollaborationRegistry.CollaborationRegistry,
+        SessionRegistry = SessionRegistry.SessionRegistry,
+    },
     init = function()
       CollaborationRegistry.CollaborationRegistry:__init(
       {
@@ -82,6 +88,16 @@ return function(...)
         dbPath = config.database,
         prvKey = assert(server.readprivatekey(config.privatekey)),
         entity = config.entity,
+      })
+
+      SessionRegistry.SessionRegistry:__init(
+      {
+        conn = conn,
+        busCtx = ctx,
+        dbPath = config.database,
+        prvKey = assert(server.readprivatekey(config.privatekey)),
+        entity = config.entity,
+        collabSessions = CollaborationRegistry.CollaborationRegistry.collabSessions,
       })
     end,
   })

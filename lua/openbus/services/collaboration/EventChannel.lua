@@ -27,7 +27,7 @@ function EventChannel:destroy()
   for cookie, _ in pairs(self.consumers) do
     self:unsubscribe(cookie)
   end
-  self.consumers = nil
+  self.consumers = {}
   self.registry.orb:deactivate(self)
 end
 

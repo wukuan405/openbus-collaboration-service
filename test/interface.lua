@@ -144,5 +144,30 @@ do
   session:destroy()
 end
 
+-- SessionRegistryFacet --
+
+do
+  local session = env.collaborationRegistry:createCollaborationSession()
+  env.sessionRegistry:registerSession(session)
+  local ok, ex = pcall(env.sessionRegistry.findSession, env.sessionRegistry, user)
+  assert(ok)
+  session:destroy()
+  local ok, ex = pcall(env.sessionRegistry.getSession, env.sessionRegistry)
+  assert(not ok)
+  assert(ex._repid == env.idl.types.SessionDoesNotExist)
+  local ok, ex = pcall(env.sessionRegistry.findSession, env.sessionRegistry, user)
+  assert(not ok)
+  assert(ex._repid == env.idl.types.SessionDoesNotExist)
+end
+
+do
+  local session = env.collaborationRegistry:createCollaborationSession()
+  env.sessionRegistry:registerSession(session)
+  local ok, ex = pcall(env.sessionRegistry.getSession, env.sessionRegistry)
+  assert(ok)
+  session:destroy()
+end
+
+
 env.conn:logout()
 env.orb:shutdown()

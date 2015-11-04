@@ -49,11 +49,11 @@ local sleep_time = 3
 
 do
   local c1 = env.busCtx:createConnection(bushost, busport)
-  c1:loginByPassword(env.user, env.password)
+  c1:loginByPassword(env.user, env.password, "testing")
   env.busCtx:setDefaultConnection(c1)
   local session = env.collaborationRegistry:createCollaborationSession()
   local c2 = env.busCtx:createConnection(bushost, busport)
-  c2:loginByPassword(env.user, env.password)
+  c2:loginByPassword(env.user, env.password, "testing")
   env.busCtx:setDefaultConnection(c2)
   local m1 = session:addMember("m1", component.IComponent)
   c2:logout()
@@ -68,11 +68,11 @@ end
 
 do
   local c1 = env.busCtx:createConnection(bushost, busport)
-  c1:loginByPassword(env.user, env.password)
+  c1:loginByPassword(env.user, env.password, "testing")
   env.busCtx:setDefaultConnection(c1)
   local session = env.collaborationRegistry:createCollaborationSession()
   local c2 = env.busCtx:createConnection(bushost, busport)
-  c2:loginByPassword(env.user, env.password)
+  c2:loginByPassword(env.user, env.password, "testing")
   env.busCtx:setDefaultConnection(c2)
   local m1 = session:addMember("m1", component.IComponent)
   env.busCtx:setDefaultConnection(c1)
@@ -89,7 +89,7 @@ end
 
 do
   local c1 = env.busCtx:createConnection(bushost, busport)
-  c1:loginByPassword(env.user, env.password)
+  c1:loginByPassword(env.user, env.password, "testing")
   env.busCtx:setDefaultConnection(c1)
   local s1 = env.collaborationRegistry:createCollaborationSession()
   local s2 = env.collaborationRegistry:createCollaborationSession()
@@ -103,12 +103,12 @@ end
 
 do
   local c1 = env.busCtx:createConnection(bushost, busport)
-  c1:loginByPassword(env.user, env.password)
+  c1:loginByPassword(env.user, env.password, "testing")
   env.busCtx:setDefaultConnection(c1)
   local s1 = env.collaborationRegistry:createCollaborationSession()
   local m1 = s1:addMember("m1", component.IComponent)
   local c2 = env.busCtx:createConnection(bushost, busport)
-  c2:loginByPassword(env.user, env.password)
+  c2:loginByPassword(env.user, env.password, "testing")
   env.busCtx:setDefaultConnection(c2)
   local s2 = env.collaborationRegistry:createCollaborationSession()
   local m2 = s2:addMember("m2", component.IComponent)
@@ -136,7 +136,7 @@ observer = env.orb:newservant(observer, nil,
 
 do
   local c1 = env.busCtx:createConnection(bushost, busport)
-  c1:loginByPassword(env.user, env.password)
+  c1:loginByPassword(env.user, env.password, "testing")
   env.busCtx:setDefaultConnection(c1)
   local s1 = env.collaborationRegistry:createCollaborationSession()
   s1:subscribeObserver(observer)
@@ -156,7 +156,7 @@ end
 
 do
   local c1 = env.busCtx:createConnection(bushost, busport)
-  c1:loginByPassword(env.user, env.password)
+  c1:loginByPassword(env.user, env.password, "testing")
   env.busCtx:setDefaultConnection(c1)
   local s1 = env.collaborationRegistry:createCollaborationSession()
   s1:subscribeObserver(observer)
@@ -170,13 +170,13 @@ end
 
 do
   local c1 = env.busCtx:createConnection(bushost, busport)
-  c1:loginByPassword(env.user, env.password)
+  c1:loginByPassword(env.user, env.password, "testing")
   env.busCtx:setDefaultConnection(c1)
   local s1 = env.collaborationRegistry:createCollaborationSession()
   s1:subscribeObserver(observer)
   s1:subscribeObserver(observer)
   local c2 = env.busCtx:createConnection(bushost, busport)
-  c2:loginByPassword(env.user, env.password)
+  c2:loginByPassword(env.user, env.password, "testing")
   env.busCtx:setDefaultConnection(c2)
   local s2 = env.collaborationRegistry:createCollaborationSession()
   s2:subscribeObserver(observer)
@@ -198,11 +198,11 @@ end
 
 do
   local c1 = env.busCtx:createConnection(bushost, busport)
-  c1:loginByPassword(env.user, env.password)
+  c1:loginByPassword(env.user, env.password, "testing")
   env.busCtx:setDefaultConnection(c1)
   local s1 = env.collaborationRegistry:createCollaborationSession()
   local c2 = env.busCtx:createConnection(bushost, busport)
-  c2:loginByPassword(env.user, env.password)
+  c2:loginByPassword(env.user, env.password, "testing")
   env.busCtx:setDefaultConnection(c2)
   s1:subscribeObserver(observer)
   env.busCtx:setDefaultConnection(c1)
@@ -224,11 +224,11 @@ consumer = env.orb:newservant(consumer, nil, env.idl.types.EventChannel)
 
 do
   local c1 = env.busCtx:createConnection(bushost, busport)
-  c1:loginByPassword(env.user, env.password)
+  c1:loginByPassword(env.user, env.password, "testing")
   env.busCtx:setDefaultConnection(c1)
   local s1 = env.collaborationRegistry:createCollaborationSession()
   local c2 = env.busCtx:createConnection(bushost, busport)
-  c2:loginByPassword(env.user, env.password)
+  c2:loginByPassword(env.user, env.password, "testing")
   env.busCtx:setDefaultConnection(c2)
   local ck1 = s1:_get_channel():subscribe(consumer)
   env.busCtx:setDefaultConnection(c1)

@@ -38,6 +38,8 @@ const string CollaborationServiceName = "CollaborationService";
 const string CollaborationRegistryFacet = "CollaborationRegistry";
 /** \brief Nome da faceta de observação de colaboração. */
 const string CollaborationObserverFacet = "CollaborationObserver";
+/** \brief Nome da faceta de registro de sessão de colaboração. */
+const string SessionRegistryFacet = "SessionRegistry";
 
 /** \brief Identificador da inscrição de um observador de uma colaboração ou de um consumidor de eventos. */
 typedef long Cookie;
@@ -48,6 +50,11 @@ typedef string Identifier;
  * \brief Indica que o nome de membro já esta em uso na sessão de colaboração.
  */
 exception NameInUse { Identifier name; };
+
+/**
+ * \brief Indica que a entidade não possui uma sessão de colaboração registrada.
+ */
+exception SessionDoesNotExist { Identifier entity; };
 
 /**
  * \brief Representa um observador de uma colaboração.
@@ -233,6 +240,64 @@ interface CollaborationRegistry {
 	 */
 	CollaborationSession createCollaborationSession()
 		raises (core::v2_0::services::ServiceFailure);
+};
+
+/**
+ * \brief Interface para registro e busca de sessões de colaboração.
+ */
+interface SessionRegistry {
+
+	/**
+	 * \brief Registra uma sessão de colaboração.
+	 *
+	 * A sessão passada como argumento é registrada tendo como dono a
+	 * entidade que realiza esta chamada. 
+	 *
+	 * \param session sessão a ser registrada.
+	 */
+	void registerSession(in CollaborationSession session)
+		raises (core::v2_0::services::ServiceFailure);
+
+	/**
+	 * \brief Recupera uma sessão de colaboração.
+	 *
+	 * A sessão a ser recuperada deve ter sido registrada pela mesma
+	 * entidade que realiza esta chamada. Caso não exista uma sessão para
+	 * essa entidade, é lançada uma exceção.
+	 *
+	 * \exception SessionDoesNotExist Não existe uma sessão registrada por essa entidade.
+	 */
+	CollaborationSession getSession()
+		raises (core::v2_0::services::ServiceFailure, SessionDoesNotExist);
+
+	/**
+	 * \brief Busca e recupera uma sessão de colaboração.
+	 *
+	 * A sessão a ser recuperada deve ter sido registrada pela entidade
+	 * passada como referência. Caso não exista uma sessão para essa
+	 * entidade, é lançada uma exceção.
+	 *
+	 * \param entity entidade vinculada à sessão procurada.
+	 *
+	 * \exception SessionDoesNotExist Não existe uma sessão registrada por essa entidade.
+	 */
+	CollaborationSession findSession(in string entity)
+		raises (core::v2_0::services::ServiceFailure, SessionDoesNotExist);
+
+	/**
+	 * \brief Remove uma sessão de colaboração.
+	 *
+	 * A sessão a ser removida deve ter sido registrada pela entidade
+	 * passada como referência. Caso não exista uma sessão para essa
+	 * entidade, é lançada uma exceção.
+	 *
+	 * \param entity entidade vinculada à sessão procurada.
+	 *
+	 * \exception SessionDoesNotExist Não existe uma sessão registrada por essa entidade.
+	 */
+	void removeSession(in string entity)
+		raises (core::v2_0::services::ServiceFailure, SessionDoesNotExist);
+		
 };
 
 }; // version
