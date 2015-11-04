@@ -6,11 +6,10 @@ local openbus = require "openbus"
 local oil = require "oil"
 local idl = require "openbus.services.collaboration.idl"
 local CollaborationRegistryFacet = idl.const.CollaborationRegistryFacet
-local putsInstall = os.getenv("PUTS").."/install"
 
 function setup()
   local orb = openbus:initORB()
-  orb:loadidlfile(putsInstall.."/idl/collaboration.idl")
+  idl.loadto(orb)
   local busCtx = orb.OpenBusContext
   local conn = busCtx:createConnection(bushost, busport)
   conn:loginByPassword(user, password)
