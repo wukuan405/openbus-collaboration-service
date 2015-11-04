@@ -7,7 +7,7 @@ local loop_build = [ os.environ LOOP_BUILD ] ;
 local oil_build = [ os.environ OIL_BUILD ] ;
 
 using lua 
-  : $(puts_install)/bin/lua5.1
+  : $(puts_install)/bin/lua52
 ;
 
 using loop
@@ -27,13 +27,13 @@ lib dl
 ;
 
 project lua
-  : requirements <include>$(puts_install)/include/lua5.1.3
+  : requirements <include>$(puts_install)/include/lua5.2.2
 ;
 
-lib lua5.1 
+lib lua52 
   :
   : <search>$(puts_install)/lib
-    <target-os>darwin,<link>static:<file>$(puts_install)/lib/liblua5.1.a
+    <target-os>darwin,<link>static:<file>$(puts_install)/lib/liblua52.a
 ;
 
 project e2fsprogs
@@ -130,22 +130,10 @@ lib loop
     <target-os>darwin,<link>static:<file>$(puts_install)/lib/libloop.a
 ;
 
-lib luacoroutine 
-  :
-  : <search>$(puts_install)/lib
-    <target-os>darwin,<link>static:<file>$(puts_install)/lib/libluacoroutine.a
-;
-
 lib luacothread
   :
   : <search>$(puts_install)/lib
     <target-os>darwin,<link>static:<file>$(puts_install)/lib/libluacothread.a
-;
-
-lib luainspector
-  :
-  : <search>$(puts_install)/lib
-    <target-os>darwin,<link>static:<file>$(puts_install)/lib/libluainspector.a
 ;
 
 lib luatuple 

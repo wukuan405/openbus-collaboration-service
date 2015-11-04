@@ -67,7 +67,6 @@ return function(...)
   
   local orb = conn.orb
   idl.loadto(orb)
-  oil.newthread(orb.run, orb)
   
   local comp = server.newSCS(
   {

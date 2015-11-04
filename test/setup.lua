@@ -3,13 +3,13 @@
 require "openbus.test.configs"
 local ComponentContext = require "scs.core.ComponentContext"
 local openbus = require "openbus"
+local oil = require "oil"
 local idl = require "openbus.services.collaboration.idl"
 local CollaborationRegistryFacet = idl.const.CollaborationRegistryFacet
-local putsInstall = os.getenv("PUTS").."/install"
 
 function setup()
   local orb = openbus:initORB()
-  orb:loadidlfile(putsInstall.."/idl/collaboration.idl")
+  idl.loadto(orb)
   local busCtx = orb.OpenBusContext
   local conn = busCtx:createConnection(bushost, busport)
   conn:loginByPassword(user, password)
@@ -25,7 +25,7 @@ function setup()
   local offers = rgs:findServices(props)
   while (not (#offers > 0 and not offers[1].service_ref:_non_existent())) do
     print("Waiting collaboration service...")
-    socket.sleep(1)
+    oil.sleep(1)
     offers = rgs:findServices(props)
   end
   local component = offers[1].service_ref

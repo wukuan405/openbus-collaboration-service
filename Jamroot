@@ -21,14 +21,14 @@ exe collaboration-service
     src/collaborationservlibs.c 
     src/launcher.c
     /dl//dl 
-    /lua//lua5.1
+    /lua//lua52
     /e2fsprogs//uuid
     /luuid//luuid 
     /openssl//openssl
     /lce//lce 
     /luafilesystem//lfs 
     /luastruct//luastruct 
-    /loop//luatuple /loop//luacoroutine /loop//luacothread /loop//luainspector 
+    /loop//luatuple /loop//luacothread
     /loop//loop 
     /luavararg//luavararg
     /oil//luaidl /oil//oil

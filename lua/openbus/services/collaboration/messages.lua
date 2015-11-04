@@ -2,11 +2,11 @@
 
 local msg = require "openbus.util.messages"
 
-msg.ServiceVersion = "1.0.0.2"
+msg.ServiceVersion = "1.0.0.3"
 
 -- openbus.core.bin.openbus
 msg.CopyrightNotice = "OpenBus Collaboration Service "..
-   msg.ServiceVersion.."  Copyright (C) 2013 Tecgraf, PUC-Rio"
+   msg.ServiceVersion.."  Copyright (C) 2014 Tecgraf, PUC-Rio"
 
 msg.ServiceSuccessfullyStarted = "Servico de colaboracao "..
    msg.ServiceVersion.." iniciado com sucesso"
