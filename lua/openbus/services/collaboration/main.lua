@@ -12,6 +12,11 @@ local CollaborationRegistry =
 local SessionRegistry = 
   require "openbus.services.collaboration.SessionRegistry"
 
+local coreidl = require "openbus.core.idl"
+local BusEntity = coreidl.const.BusEntity
+
+local sysex = require "openbus.util.sysex"
+local NO_PERMISSION = sysex.NO_PERMISSION
 
 local function defaultConfig()
   return server.ConfigArgs(
@@ -99,6 +104,16 @@ return function(...)
         entity = config.entity,
         collabSessions = CollaborationRegistry.CollaborationRegistry.collabSessions,
       })
+    end,
+    shutdown = function(self)
+      local caller = ctx:getCallerChain().caller
+      if caller.entity ~= config.entity and caller.entity ~= BusEntity then
+        NO_PERMISSION{ completed = "COMPLETED_NO" }
+      end
+      self.context:deactivateComponent()
+      conn:logout()
+      orb:shutdown()
+      log:uptime(msg.ServiceTerminated)
     end,
   })
   log:uptime(msg.ServiceSuccessfullyStarted)
