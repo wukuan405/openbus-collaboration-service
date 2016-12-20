@@ -81,7 +81,7 @@ function EventChannel:getConsumers()
 end
 
 function EventChannel:push(...)
-  local chain = ctx:getCallerChain()
+  local chain = self.ctx:getCallerChain()
   for _, o in pairs(self.consumers) do
     self.async:call(o.consumer, "push", chain, ...)
   end
