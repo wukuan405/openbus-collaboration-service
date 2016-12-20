@@ -5,11 +5,14 @@ local oo = require "openbus.util.oo"
 local log = require "openbus.util.logger"
 local msg = require "openbus.services.collaboration.messages"
 
+local coroutine = require "coroutine"
+local cothread = require "cothread"
+
 local Async = oo.class()
 
 function Async:job(objref, opname, chain, ...)
   if chain then
-    ctx:joinChain(chain)
+    self.ctx:joinChain(chain)
   end
   local ok, err_msg = pcall(objref[opname], objref, ...)
   if not ok then
@@ -20,12 +23,9 @@ function Async:job(objref, opname, chain, ...)
   end
 end
 
-function Async:__init()
-  ctx = self.ctx
-end
-
 function Async:call(obj, method, chain, ...)
-  openbus.newThread(self.job, self, obj, method, chain, ...)
+  local thread = coroutine.create(self.job)
+  cothread.last(thread, self, obj, method, chain, ...)
 end
 
 return {
