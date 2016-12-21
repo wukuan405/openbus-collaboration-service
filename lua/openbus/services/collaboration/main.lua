@@ -32,11 +32,14 @@ local function defaultConfig()
     logfile = "",
     oilloglevel = 0,
     oillogfile = "",
+    nodnslookup = false,
+    noipaddress = false,
+    alternateaddr = {},
   })
 end
 
 local function parseConfigFile(config)
-  config:configs("configs", os.getenv("OPENBUS_SESSION_CONFIG") or 
+  config:configs("configs", os.getenv("COLLAB_CONFIG") or 
                  "collab.cfg")
 end
 
@@ -64,11 +67,36 @@ return function(...)
 
   server.setuplog(log, config.loglevel, config.logfile)
   server.setuplog(oillog, config.oilloglevel, config.oillogfile)
+
+  -- validate oil objrefaddr configuration
+  local objrefaddr = {
+    hostname = (not config.nodnslookup),
+    ipaddress = (not config.noipaddress),
+  }
+  local additional = {}
+  for _, address in ipairs(config.alternateaddr) do
+    local host, port = address:match("^([%w%-%_%.]+):(%d+)$")
+    port = tonumber(port)
+    if (host ~= nil) and (port ~= nil) then
+      additional[#additional+1] = { host = host, port = port }
+    else
+      log:misconfig(msg.WrongAlternateAddressSyntax:tag{
+        value = address,
+        expected = "host:port or ip:port",
+      })
+      return 1
+    end
+  end
+  if (#additional > 0) then
+    objrefaddr.additional = additional
+  end
+  log:config(msg.AdditionalInternetAddressConfiguration:tag(objrefaddr))
   
   local ctx = openbus.initORB(
   {
     host = config.host, 
     port = config.port,
+    objrefaddr = objrefaddr,
   }).OpenBusContext
   local conn = ctx:createConnection(config.bushost, config.busport)
   ctx:setDefaultConnection(conn)
@@ -116,5 +144,6 @@ return function(...)
       log:uptime(msg.ServiceTerminated)
     end,
   })
+  comp.IComponent:startup()
   log:uptime(msg.ServiceSuccessfullyStarted)
 end

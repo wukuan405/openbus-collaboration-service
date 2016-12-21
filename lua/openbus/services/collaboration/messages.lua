@@ -26,6 +26,10 @@ Options:
   -oilloglevel <number>      nível de log gerado pelo OiL (debug)
   -oillogfile <path>         arquivo de log gerado pelo OiL (debug)
 
+  -nodnslookup               desativa a busca no DNS por apelidos da máquina para compor as referências IOR
+  -noipaddress               desativa o uso de endereços IP para compor as referências IOR
+  -alternateaddr <address>   endereço de rede (host:port) alternativo para compor as referências IOR
+
   -configs <path>            arquivo de configurações do serviço de colaboração
 ]]
 
