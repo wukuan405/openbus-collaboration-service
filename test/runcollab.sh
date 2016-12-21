@@ -18,6 +18,8 @@ echo "busport = $busport"                         > $COLLAB_CONFIG
 echo "privatekey = \"$OPENBUS_TEMP/collab.key\"" >> $COLLAB_CONFIG
 echo "database = \"$OPENBUS_TEMP/collab.db\""    >> $COLLAB_CONFIG
 
+export DB_SQLITE3=$OPENBUS_TEMP/collab.db #exported due to tests: persistence.lua oninvalid_login.lua
+
 $service -configs $COLLAB_CONFIG 2>&1 &
 pid="$!"
 trap "kill $pid > /dev/null 2>&1" 0
