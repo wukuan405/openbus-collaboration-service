@@ -1,12 +1,14 @@
 -- -*- coding: iso-8859-1-unix -*-
 
 local openbus = require "openbus"
+local cothread = require "cothread"
 local oo = require "openbus.util.oo"
 local busIdl = require "openbus.core.idl"
 local sysex = require "openbus.util.sysex"
 local log = require "openbus.util.logger"
 local msg = require "openbus.services.collaboration.messages"
 local idl = require "openbus.services.collaboration.idl"
+local libidl = require "openbus.idl"
 local CollaborationSession = 
   require "openbus.services.collaboration.CollaborationSession"
 local dbSession = require "openbus.services.collaboration.DBSession"
@@ -75,7 +77,7 @@ local function registerOnInvalidLogin(registry)
   }
 
   local conn = registry.conn
-  conn.onInvalidLogin = function()
+  local task = function()
     conn:loginByCertificate(registry.entity, registry.prvKey)
     local rgs = conn.orb.OpenBusContext:getOfferRegistry()
     local ok, emsg = pcall(rgs.registerService, rgs,registry.context.IComponent,
@@ -98,8 +100,8 @@ local function registerOnInvalidLogin(registry)
     if (not ok) then
        if (emsg._repid ~= InvalidLoginsRepId) then
          sysex.ServiceFailure({
-           message = msg.UnableToWatchMultipleLogins:tag({ 
-             error = emsg 
+           message = msg.UnableToWatchMultipleLogins:tag({
+             error = emsg
            })
          })
        end
@@ -110,7 +112,36 @@ local function registerOnInvalidLogin(registry)
        end
     end
   end
-  conn.onInvalidLogin()
+  task() -- will stop the process if it fails
+
+  local blocked = {}
+  local choosed = false
+  conn.onInvalidLogin = function() -- will retry undefinely
+    local running = cothread.running()
+    if not choosed or choosed == running then
+      choosed = choosed or running
+      while conn.login == nil do
+        local ok, errmsg = pcall(task)
+        if ok or (errmsg._repid == libidl.types.AlreadyLoggedIn) then
+          break
+        else
+          log:exception(errmsg)
+          pcall(conn.logout, conn)
+          openbus.sleep(1)
+        end
+      end
+      for i, thread in ipairs(blocked) do
+        log:action(msg.WakingUpAfterLoginCompleted:tag{thread=tostring(thread)})
+        cothread.last(thread)
+        blocked[i] = nil
+      end
+      choosed = false
+    else
+      log:action(msg.YieldingToWaitLoginBeCompleted:tag{thread=tostring(running)})
+      blocked[#blocked+1] = running
+      cothread.yield()
+    end
+  end
 end
 
 function CollaborationRegistry:registerLogin(loginId, session, key, entity)
