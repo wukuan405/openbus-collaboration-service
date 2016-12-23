@@ -6,12 +6,14 @@ local oo = require "openbus.util.oo"
 local log = require "openbus.util.logger"
 local msg = require "openbus.services.collaboration.messages"
 local dbSession = require "openbus.services.collaboration.DBSession"
-local idl = require "openbus.services.collaboration.idl"
 local EventChannel = require "openbus.services.collaboration.EventChannel"
 local Async = require "openbus.services.collaboration.Async"
 local sysex = require "openbus.util.sysex"
+local BAD_PARAM = sysex.BAD_PARAM
 
+local idl = require "openbus.services.collaboration.idl"
 local CollaborationSessionInterface = idl.types.CollaborationSession
+local NameInUse = idl.throw.NameInUse
 
 local CollaborationSession = oo.class({ 
   __type = CollaborationSessionInterface,
@@ -64,10 +66,10 @@ end
 
 function CollaborationSession:addMember(name, member, owner)
   if (member == nil) then
-    sysex.BAD_PARAM({completed = "COMPLETED_NO", minor = 0})
+    BAD_PARAM({completed = "COMPLETED_NO", minor = 0})
   end
   if (self.members[name]) then
-    idl.throw.NameInUse({
+    NameInUse({
       name = name
     })
   end
@@ -129,7 +131,7 @@ end
 
 function CollaborationSession:subscribeObserver(observer, cookie)
   if (observer == nil) then
-    sysex.BAD_PARAM({completed = "COMPLETED_NO", minor = 0})
+    BAD_PARAM({completed = "COMPLETED_NO", minor = 0})
   end
   local ior = tostring(observer)
   local callerId

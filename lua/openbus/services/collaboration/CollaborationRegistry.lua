@@ -2,24 +2,32 @@
 
 local openbus = require "openbus"
 local cothread = require "cothread"
-local oo = require "openbus.util.oo"
-local busIdl = require "openbus.core.idl"
-local sysex = require "openbus.util.sysex"
+
+local sysex = require "openbus.util.sysex"  -- CORBA system exceptions
+local NO_PERMISSION = sysex.NO_PERMISSION
+
+local coreidl = require "openbus.core.idl"  -- OpenBus types
+local InvalidLoginsType = coreidl.types.services.access_control.InvalidLogins
+local ServiceFailure = coreidl.throw.services.ServiceFailure
+
+local libidl = require "openbus.idl"        -- OpenBus Lib types
+local AlreadyLoggedIn = libidl.types.AlreadyLoggedIn
+
 local log = require "openbus.util.logger"
 local msg = require "openbus.services.collaboration.messages"
-local idl = require "openbus.services.collaboration.idl"
-local libidl = require "openbus.idl"
 local CollaborationSession = 
   require "openbus.services.collaboration.CollaborationSession"
 local dbSession = require "openbus.services.collaboration.DBSession"
 local uuid = require "uuid"
 
+local collabidl = require "openbus.services.collaboration.idl"
+local collabtypes = collabidl.types
+local collabconst = collabidl.const
 local MemberInterface = "::scs::core::IComponent"
-local CollaborationObserverInterface = idl.types.CollaborationObserver
-local EventConsumerInterface = idl.types.EventConsumer
-local CollaborationRegistryInterface = idl.types.CollaborationRegistry
-local CollaborationRegistryFacetName = idl.const.CollaborationRegistryFacet
-local InvalidLoginsRepId = busIdl.types.services.access_control.InvalidLogins
+local CollaborationObserverInterface = collabtypes.CollaborationObserver
+local EventConsumerInterface = collabtypes.EventConsumer
+local CollaborationRegistryInterface = collabtypes.CollaborationRegistry
+local CollaborationRegistryFacetName = collabconst.CollaborationRegistryFacet
 
 local CollaborationRegistry = {
   __type = CollaborationRegistryInterface,
@@ -83,7 +91,7 @@ local function registerOnInvalidLogin(registry)
     local ok, emsg = pcall(rgs.registerService, rgs,registry.context.IComponent,
                            {})
     if (not ok) then
-      sysex.ServiceFailure({
+      ServiceFailure({
         message = msg.UnableToRegisterService:tag({
           error = emsg
         })
@@ -98,8 +106,8 @@ local function registerOnInvalidLogin(registry)
     end
     local ok, emsg = pcall(subscription.watchLogins, subscription, loginSeq)
     if (not ok) then
-       if (emsg._repid ~= InvalidLoginsRepId) then
-         sysex.ServiceFailure({
+       if (emsg._repid ~= InvalidLoginsType) then
+         ServiceFailure({
            message = msg.UnableToWatchMultipleLogins:tag({
              error = emsg
            })
@@ -122,7 +130,7 @@ local function registerOnInvalidLogin(registry)
       choosed = choosed or running
       while conn.login == nil do
         local ok, errmsg = pcall(task)
-        if ok or (errmsg._repid == libidl.types.AlreadyLoggedIn) then
+        if ok or (errmsg._repid == AlreadyLoggedIn) then
           break
         else
           log:exception(errmsg)
@@ -166,7 +174,7 @@ function CollaborationRegistry:watchLogin(loginId, session, key, entity)
   self:registerLogin(loginId, session, key, entity)
   local ok, emsg = pcall(self.subscription.watchLogin,self.subscription,loginId)
   if (not ok) then
-    sysex.NO_PERMISSION({ 
+    NO_PERMISSION({
       minor = InvalidLoginMinorCode 
     })
     log:exception(msg.UnableToWatchLogin:tag({

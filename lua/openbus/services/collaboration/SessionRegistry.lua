@@ -1,23 +1,12 @@
 -- -*- coding: iso-8859-1-unix -*-
 
 local openbus = require "openbus"
-local oo = require "openbus.util.oo"
-local busIdl = require "openbus.core.idl"
 local sysex = require "openbus.util.sysex"
-local log = require "openbus.util.logger"
-local msg = require "openbus.services.collaboration.messages"
-local idl = require "openbus.services.collaboration.idl"
 local dbSession = require "openbus.services.collaboration.DBSession"
-local uuid = require "uuid"
-local CollaborationSession = 
-  require "openbus.services.collaboration.CollaborationSession"
 
-local MemberInterface = "::scs::core::IComponent"
-local CollaborationObserverInterface = idl.types.CollaborationObserver
-local EventConsumerInterface = idl.types.EventConsumer
+local idl = require "openbus.services.collaboration.idl"
 local SessionRegistryInterface = idl.types.SessionRegistry
 local SessionRegistryFacetName = idl.const.SessionRegistryFacet
-local InvalidLoginsRepId = busIdl.types.services.access_control.InvalidLogins
 
 -- Observador de sessão que possui a mesma interface do observador de
 -- colaboração e sobreescreve o método destroyed para que a sessão seja
