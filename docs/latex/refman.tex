@@ -1,0 +1,88 @@
+\documentclass[a4paper]{book}
+\usepackage{makeidx}
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{ifthen}
+\usepackage[table]{xcolor}
+\usepackage{textcomp}
+\usepackage{alltt}
+\usepackage{ifpdf}
+\ifpdf
+\usepackage[pdftex,
+            pagebackref=true,
+            colorlinks=true,
+            linkcolor=blue,
+            unicode
+           ]{hyperref}
+\else
+\usepackage[ps2pdf,
+            pagebackref=true,
+            colorlinks=true,
+            linkcolor=blue,
+            unicode
+           ]{hyperref}
+\usepackage{pspicture}
+\fi
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage{mathptmx}
+\usepackage[scaled=.90]{helvet}
+\usepackage{courier}
+\usepackage{sectsty}
+\usepackage[titles]{tocloft}
+\usepackage{doxygen}
+\lstset{language=C++,inputencoding=utf8,basicstyle=\footnotesize,breaklines=true,breakatwhitespace=true,tabsize=4,numbers=left }
+\makeindex
+\setcounter{tocdepth}{3}
+\renewcommand{\footrulewidth}{0.4pt}
+\renewcommand{\familydefault}{\sfdefault}
+\hfuzz=15pt
+\setlength{\emergencystretch}{15pt}
+\hbadness=750
+\tolerance=750
+\begin{document}
+\hypersetup{pageanchor=false,citecolor=blue}
+\begin{titlepage}
+\vspace*{7cm}
+\begin{center}
+{\Large \-Collaboration \-Service \-I\-D\-L \\[1ex]\large 1.\-1.\-0 }\\
+\vspace*{1cm}
+{\large \-Gerado por Doxygen 1.7.6.1}\\
+\vspace*{0.5cm}
+{\small Quarta, 10 de Maio de 2017 21:31:18}\\
+\end{center}
+\end{titlepage}
+\clearemptydoublepage
+\pagenumbering{roman}
+\tableofcontents
+\clearemptydoublepage
+\pagenumbering{arabic}
+\hypersetup{pageanchor=true,citecolor=blue}
+\chapter{\-Documentação da \-I\-D\-L}
+\label{index}\hypertarget{index}{}\input{index}
+\chapter{\-Namespaces}
+\input{namespaces}
+\chapter{Índice dos \-Componentes}
+\input{annotated}
+\chapter{\-Namespaces}
+\input{namespacetecgraf}
+\input{namespacetecgraf_1_1openbus}
+\input{namespacetecgraf_1_1openbus_1_1services}
+\input{namespacetecgraf_1_1openbus_1_1services_1_1collaboration}
+\input{namespacetecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0}
+\chapter{\-Classes}
+\input{structtecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0_1_1CollaborationMember}
+\input{interfacetecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0_1_1CollaborationObserver}
+\input{interfacetecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0_1_1CollaborationRegistry}
+\input{interfacetecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0_1_1CollaborationSession}
+\input{interfacetecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0_1_1EventChannel}
+\input{interfacetecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0_1_1EventConsumer}
+\input{exceptiontecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0_1_1NameInUse}
+\input{exceptiontecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0_1_1SessionDoesNotExist}
+\input{interfacetecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0_1_1SessionRegistry}
+\printindex
+\end{document}

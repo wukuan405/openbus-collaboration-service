@@ -1,0 +1,72 @@
+\hypertarget{interfacetecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0_1_1CollaborationObserver}{\section{\-Referência da \-Interface tecgraf\-:\-:openbus\-:\-:services\-:\-:collaboration\-:\-:v1\-\_\-0\-:\-:\-Collaboration\-Observer}
+\label{interfacetecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0_1_1CollaborationObserver}\index{tecgraf\-::openbus\-::services\-::collaboration\-::v1\-\_\-0\-::\-Collaboration\-Observer@{tecgraf\-::openbus\-::services\-::collaboration\-::v1\-\_\-0\-::\-Collaboration\-Observer}}
+}
+
+
+\-Representa um observador de uma colaboração.  
+
+
+
+
+{\ttfamily import \char`\"{}collaboration.\-idl\char`\"{};}
+
+\subsection*{\-Métodos \-Públicos}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{interfacetecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0_1_1CollaborationObserver_a43a313920a1c86e2398bc5bd3c1b1271}{member\-Added} (in \hyperlink{namespacetecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0_a75ab61291da492f86a7ea465804c7e45}{\-Identifier} name, in\-::scs\-::core\-::\-I\-Component member)  raises (core\-::v2\-\_\-0\-::services\-::\-Service\-Failure)
+\begin{DoxyCompactList}\small\item\em \-Notifica que uma membro foi incluído na colaboração. \end{DoxyCompactList}\item 
+void \hyperlink{interfacetecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0_1_1CollaborationObserver_afe5fd43d4597bcb051b8ae2416c920e0}{member\-Removed} (in \hyperlink{namespacetecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0_a75ab61291da492f86a7ea465804c7e45}{\-Identifier} name)  raises (core\-::v2\-\_\-0\-::services\-::\-Service\-Failure)
+\begin{DoxyCompactList}\small\item\em \-Notifica que uma membro foi removido na colaboração. \end{DoxyCompactList}\item 
+\hypertarget{interfacetecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0_1_1CollaborationObserver_aeab90a28e890c294302c96214baeda8c}{void \hyperlink{interfacetecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0_1_1CollaborationObserver_aeab90a28e890c294302c96214baeda8c}{destroyed} ()  raises (core\-::v2\-\_\-0\-::services\-::\-Service\-Failure)}\label{interfacetecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0_1_1CollaborationObserver_aeab90a28e890c294302c96214baeda8c}
+
+\begin{DoxyCompactList}\small\item\em \-Notifica que a colaboração foi finalizada. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Descrição \-Detalhada}
+\-Representa um observador de uma colaboração. 
+
+\-Definição na linha 62 do arquivo collaboration.\-idl.
+
+
+
+\subsection{\-Métodos}
+\hypertarget{interfacetecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0_1_1CollaborationObserver_a43a313920a1c86e2398bc5bd3c1b1271}{\index{tecgraf\-::openbus\-::services\-::collaboration\-::v1\-\_\-0\-::\-Collaboration\-Observer@{tecgraf\-::openbus\-::services\-::collaboration\-::v1\-\_\-0\-::\-Collaboration\-Observer}!member\-Added@{member\-Added}}
+\index{member\-Added@{member\-Added}!tecgraf::openbus::services::collaboration::v1_0::CollaborationObserver@{tecgraf\-::openbus\-::services\-::collaboration\-::v1\-\_\-0\-::\-Collaboration\-Observer}}
+\subsubsection[{member\-Added}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf tecgraf\-::openbus\-::services\-::collaboration\-::v1\-\_\-0\-::\-Collaboration\-Observer\-::member\-Added} (
+\begin{DoxyParamCaption}
+\item[{in {\bf \-Identifier}}]{name, }
+\item[{in\-::scs\-::core\-::\-I\-Component}]{member}
+\end{DoxyParamCaption}
+)  raises (core\-::v2\-\_\-0\-::services\-::\-Service\-Failure)}}\label{interfacetecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0_1_1CollaborationObserver_a43a313920a1c86e2398bc5bd3c1b1271}
+
+
+\-Notifica que uma membro foi incluído na colaboração. 
+
+
+\begin{DoxyParams}{\-Parâmetros}
+{\em name} & nome do membro incluído. \\
+\hline
+{\em member} & o membro incluído. \\
+\hline
+\end{DoxyParams}
+\hypertarget{interfacetecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0_1_1CollaborationObserver_afe5fd43d4597bcb051b8ae2416c920e0}{\index{tecgraf\-::openbus\-::services\-::collaboration\-::v1\-\_\-0\-::\-Collaboration\-Observer@{tecgraf\-::openbus\-::services\-::collaboration\-::v1\-\_\-0\-::\-Collaboration\-Observer}!member\-Removed@{member\-Removed}}
+\index{member\-Removed@{member\-Removed}!tecgraf::openbus::services::collaboration::v1_0::CollaborationObserver@{tecgraf\-::openbus\-::services\-::collaboration\-::v1\-\_\-0\-::\-Collaboration\-Observer}}
+\subsubsection[{member\-Removed}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf tecgraf\-::openbus\-::services\-::collaboration\-::v1\-\_\-0\-::\-Collaboration\-Observer\-::member\-Removed} (
+\begin{DoxyParamCaption}
+\item[{in {\bf \-Identifier}}]{name}
+\end{DoxyParamCaption}
+)  raises (core\-::v2\-\_\-0\-::services\-::\-Service\-Failure)}}\label{interfacetecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0_1_1CollaborationObserver_afe5fd43d4597bcb051b8ae2416c920e0}
+
+
+\-Notifica que uma membro foi removido na colaboração. 
+
+
+\begin{DoxyParams}{\-Parâmetros}
+{\em name} & nome do membro removido. \\
+\hline
+\end{DoxyParams}
+
+
+\-A documentação para esta interface foi gerada a partir do seguinte arquivo\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/build/amadeubarbosa/openbus-\/collaboration-\/service/idl/collaboration.\-idl\end{DoxyCompactItemize}
