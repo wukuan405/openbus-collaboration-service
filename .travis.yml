@@ -26,13 +26,11 @@ script:
   - cd docs
   - doxygen collab.dox
 
-# Generate and deploy documentation
-after_success:
-  - cd "$TRAVIS_BUILD_DIR"
-  - cd docs
-  - git add --all
-  - git config --global push.default simple
-  - git config --global user.name 'Amadeu Andrade Barbosa Junior'
-  - git config --global user.email 'amadeu@tecgraf.puc-rio.br'
-  - git commit -m "Deploying by Travis CI - build $TRAVIS_BUILD_NUMBER"
-  - git push -f -q https://amadeubarbosa:$GITHUB_API_KEY@$GH_REPO_REF HEAD:master
+# Deploy using travis builtin GitHub Pages support
+deploy:
+  provider: pages
+  skip_cleanup: true
+  local_dir: docs/html
+  github_token: $GITHUB_API_KEY
+  on:
+    branch: master
