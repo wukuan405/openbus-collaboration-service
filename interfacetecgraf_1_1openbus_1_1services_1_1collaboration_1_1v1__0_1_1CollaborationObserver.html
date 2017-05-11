@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>Collaboration Service IDL: Referência da Interface tecgraf::openbus::services::collaboration::v1_0::CollaborationObserver</title>
+
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+
+
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">Collaboration Service IDL
+   &#160;<span id="projectnumber">1.1.0</span>
+   </div>
+   
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- Gerado por Doxygen 1.7.6.1 -->
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Página&#160;Principal</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
+      <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
+      <li><a href="files.html"><span>Arquivos</span></a></li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="annotated.html"><span>Lista&#160;de&#160;Componentes</span></a></li>
+      <li><a href="functions.html"><span>Componentes&#160;Membros</span></a></li>
+    </ul>
+  </div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><a class="el" href="namespacetecgraf.html">tecgraf</a>      </li>
+      <li class="navelem"><a class="el" href="namespacetecgraf_1_1openbus.html">openbus</a>      </li>
+      <li class="navelem"><a class="el" href="namespacetecgraf_1_1openbus_1_1services.html">services</a>      </li>
+      <li class="navelem"><a class="el" href="namespacetecgraf_1_1openbus_1_1services_1_1collaboration.html">collaboration</a>      </li>
+      <li class="navelem"><a class="el" href="namespacetecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0.html">v1_0</a>      </li>
+      <li class="navelem"><a class="el" href="interfacetecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0_1_1CollaborationObserver.html">CollaborationObserver</a>      </li>
+    </ul>
+  </div>
+</div>
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Métodos Públicos</a>  </div>
+  <div class="headertitle">
+<div class="title">Referência da Interface tecgraf::openbus::services::collaboration::v1_0::CollaborationObserver</div>  </div>
+</div><!--header-->
+<div class="contents">
+<!-- doxytag: class="tecgraf::openbus::services::collaboration::v1_0::CollaborationObserver" -->
+<p>Representa um observador de uma colaboração.  
+ <a href="interfacetecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0_1_1CollaborationObserver.html#details">Mais...</a></p>
+
+<p><code>import &quot;<a class="el" href="collaboration_8idl_source.html">collaboration.idl</a>&quot;;</code></p>
+
+<p><a href="interfacetecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0_1_1CollaborationObserver-members.html">Lista de todos os Membros.</a></p>
+<table class="memberdecls">
+<tr><td colspan="2"><h2><a name="pub-methods"></a>
+Métodos Públicos</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacetecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0_1_1CollaborationObserver.html#a43a313920a1c86e2398bc5bd3c1b1271">memberAdded</a> (in <a class="el" href="namespacetecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0.html#a75ab61291da492f86a7ea465804c7e45">Identifier</a> name, in::scs::core::IComponent member)  raises (core::v2_0::services::ServiceFailure)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Notifica que uma membro foi incluído na colaboração.  <a href="#a43a313920a1c86e2398bc5bd3c1b1271"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacetecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0_1_1CollaborationObserver.html#afe5fd43d4597bcb051b8ae2416c920e0">memberRemoved</a> (in <a class="el" href="namespacetecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0.html#a75ab61291da492f86a7ea465804c7e45">Identifier</a> name)  raises (core::v2_0::services::ServiceFailure)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Notifica que uma membro foi removido na colaboração.  <a href="#afe5fd43d4597bcb051b8ae2416c920e0"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aeab90a28e890c294302c96214baeda8c"></a><!-- doxytag: member="tecgraf::openbus::services::collaboration::v1_0::CollaborationObserver::destroyed" ref="aeab90a28e890c294302c96214baeda8c" args="()" -->
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacetecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0_1_1CollaborationObserver.html#aeab90a28e890c294302c96214baeda8c">destroyed</a> ()  raises (core::v2_0::services::ServiceFailure)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Notifica que a colaboração foi finalizada. <br/></td></tr>
+</table>
+<hr/><a name="details" id="details"></a><h2>Descrição Detalhada</h2>
+<div class="textblock"><p>Representa um observador de uma colaboração. </p>
+
+<p>Definição na linha <a class="el" href="collaboration_8idl_source.html#l00083">83</a> do arquivo <a class="el" href="collaboration_8idl_source.html">collaboration.idl</a>.</p>
+</div><hr/><h2>Métodos</h2>
+<a class="anchor" id="a43a313920a1c86e2398bc5bd3c1b1271"></a><!-- doxytag: member="tecgraf::openbus::services::collaboration::v1_0::CollaborationObserver::memberAdded" ref="a43a313920a1c86e2398bc5bd3c1b1271" args="(in Identifier name, in::scs::core::IComponent member)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="interfacetecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0_1_1CollaborationObserver.html#a43a313920a1c86e2398bc5bd3c1b1271">tecgraf::openbus::services::collaboration::v1_0::CollaborationObserver::memberAdded</a> </td>
+          <td>(</td>
+          <td class="paramtype">in <a class="el" href="namespacetecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0.html#a75ab61291da492f86a7ea465804c7e45">Identifier</a>&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">in::scs::core::IComponent&#160;</td>
+          <td class="paramname"><em>member</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>  raises (core::v2_0::services::ServiceFailure)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Notifica que uma membro foi incluído na colaboração. </p>
+<dl class="params"><dt><b>Parâmetros:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">name</td><td>nome do membro incluído. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">member</td><td>o membro incluído. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="afe5fd43d4597bcb051b8ae2416c920e0"></a><!-- doxytag: member="tecgraf::openbus::services::collaboration::v1_0::CollaborationObserver::memberRemoved" ref="afe5fd43d4597bcb051b8ae2416c920e0" args="(in Identifier name)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="interfacetecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0_1_1CollaborationObserver.html#afe5fd43d4597bcb051b8ae2416c920e0">tecgraf::openbus::services::collaboration::v1_0::CollaborationObserver::memberRemoved</a> </td>
+          <td>(</td>
+          <td class="paramtype">in <a class="el" href="namespacetecgraf_1_1openbus_1_1services_1_1collaboration_1_1v1__0.html#a75ab61291da492f86a7ea465804c7e45">Identifier</a>&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td>  raises (core::v2_0::services::ServiceFailure)</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Notifica que uma membro foi removido na colaboração. </p>
+<dl class="params"><dt><b>Parâmetros:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>nome do membro removido. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/>A documentação para esta interface foi gerada a partir do seguinte arquivo:<ul>
+<li>/home/travis/build/amadeubarbosa/openbus-collaboration-service/idl/<a class="el" href="collaboration_8idl_source.html">collaboration.idl</a></li>
+</ul>
+</div><!-- contents -->
+
+
+<hr class="footer"/><address class="footer"><small>
+Gerado em Quinta, 11 de Maio de 2017 06:36:08 para Collaboration Service IDL por &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.7.6.1
+</small></address>
+
+</body>
+</html>
