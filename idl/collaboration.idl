@@ -1,8 +1,29 @@
 /**
- * \mainpage Documentação da IDL
+ * \mainpage Documentação do Serviço de Colaboração
+ * 
+ * O Serviço de Colaboração fornece sessões de colaboração (\ref tecgraf::openbus::services::collaboration::v1_0::CollaborationSession) cujo ciclo de vida é de responsabilidade da aplicação que a cria através do método \ref tecgraf::openbus::services::collaboration::v1_0::CollaborationRegistry::createCollaborationSession().
+ *
+ * A interface \ref tecgraf::openbus::services::collaboration::v1_0::CollaborationRegistry só disponibiliza a criação de sessões, portanto atua como uma fábrica.
+ *  
+ * A partir de uma sessão, a aplicação pode registrar essa sessão no Registro de Sessões (\ref tecgraf::openbus::services::collaboration::v1_0::SessionRegistry) para que outras aplicações encontrem a mesma sessão.
+ *
+ * O método \ref tecgraf::openbus::services::collaboration::v1_0::SessionRegistry::getSession() do Registro de Sessões permite que outras aplicações encontrem uma sessão registrada previamente. As sessões servem a dois propósitos principais:
+ * \par [Chamadas a serviços entre membros] 
+ * As aplicações que se cadastram como membro da sessão podem executar serviços dos membros pois cada membro precisa fornecer um componente \ref scs::core::IComponent. Essa interface permite identificá-lo \ref scs::core::IComponent::getComponentId() ou obter serviços pelo método \ref scs::core::IComponent::getFacet().
+ * \par [Troca de dados por eventos] 
+ * As aplicações também podem realizar integrações orientadas a dados através do uso canal de eventos \ref tecgraf::openbus::services::collaboration::v1_0::EventChannel contido na \ref tecgraf::openbus::services::collaboration::v1_0::CollaborationSession para publicar eventos de qualquer tipo (\ref CORBA::any). O Serviço de Colaboração receberá o dado por sua implementação de tecgraf::openbus::services::collaboration::v1_0::EventChannel::push() e realizará um broadcast para todos interessados. As aplicações interessadas em receber os eventos devem implementar a interface \ref tecgraf::openbus::services::collaboration::v1_0::EventConsumer para receber os eventos através da sua implementação do método \ref tecgraf::openbus::services::collaboration::v1_0::EventConsumer::push().
+ * 
+ * Além disso, a Sessão de Colaboração permite o cadastro de observadores \ref tecgraf::openbus::services::collaboration::v1_0::CollaborationObserver que recebem notificações da entrada e saída de membros e da destruição da sessão. Os membros são adicionados ou removidos a partir da referência para \ref tecgraf::openbus::services::collaboration::v1_0::CollaborationSession.
+ *
+ * Por outro lado, qualquer aplicação (já que todas precisam estar logadas com o mesmo usuário) pode solicitar a remoção da sessão do Registro de Sessão pelo método \ref tecgraf::openbus::services::collaboration::v1_0::SessionRegistry::removeSession(). Isso não significa, porém, que a sessão tenha sido destruída, pois podem ainda haver membros na sessão (ou seja, outras aplicações ainda estão utilizando a mesma sessão).
+ * 
+ * Para destruir uma sessão é preciso que não haja mais membros e então seja executado o método \ref tecgraf::openbus::services::collaboration::v1_0::CollaborationSession::destroy().
+ * 
+ * \par [Limitações]
+ * Atualmente cada sessão está associada à apenas um único usuário identificado por seu login no OpenBus. Várias aplicações conectadas com o mesmo usuário podem utilizar serviços de membros ou trocar dados. Mas elas não podem fazer isso por logins de usuários diferentes. Não existe suporte portanto a colaboração entre usuários diferentes. Isso dependeria de um controle de autorização e acesso que ainda não foi projetado.
  */
-#ifndef __TECGRAF_OPENBUS_CORE_CREDENTIAL_IDL__
-#define __TECGRAF_OPENBUS_CORE_CREDENTIAL_IDL__
+#ifndef __TECGRAF_OPENBUS_SERVICES_COLLABORATION_V10_IDL__
+#define __TECGRAF_OPENBUS_SERVICES_COLLABORATION_V10_IDL__
 
 #include "scs.idl"
 #include "core.idl"
@@ -63,8 +84,8 @@ interface CollaborationObserver {
 	/**
 	 * \brief Notifica que uma membro foi incluído na colaboração.
 	 *
-	 * \param name nome do membro incluído.
-	 * \param member o membro incluído.
+	 * \param [in] name nome do membro incluído.
+	 * \param [in] member o membro incluído.
 	 */
 	void memberAdded(in Identifier name, in ::scs::core::IComponent member)
 		raises (core::v2_0::services::ServiceFailure);
