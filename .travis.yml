@@ -10,7 +10,7 @@ branches:
 # Environment variables
 env:
   global:
-    - GH_REPO_REF: github.com/amadeubarbosa/openbus-collaboration-service.git
+    - GH_REPO_REF: github.com/wukuan405/openbus-collaboration-service.git
 
 # Install dependencies
 addons:
